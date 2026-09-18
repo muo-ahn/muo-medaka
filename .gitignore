@@ -1,0 +1,28 @@
+# OMC / agent runtime state
+.omc/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Environment / secrets
+.env
+.env.local
+*.key
+
+# Data caches (full texts, downloaded PDFs) - not committed
+data/cache/
+data/fulltext/
+*.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
