@@ -1,0 +1,441 @@
+# Prior literature, mechanism links, and the comparative layer.
+# PRD §15 Phase 2 (literature backfill), §10 (human ortholog layer).
+#
+# The laboratory mutants below are linked to breeder traits with
+# `putatively_same_as`, never merged into them. PRD §8: until someone shows the
+# breeder strain and the lab mutant carry the same genetic background, they stay
+# separate entities joined by an evidenced claim.
+
+claims:
+  # ===========================================================================
+  # albino -- the well-sourced answer the seed paper's broken citation obscures
+  # ===========================================================================
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: Gene, name: tyr}
+    interpretation: >-
+      This, not oca2, is the documented medaka albino gene. Insertion, somatic
+      excision reversion and transgenic rescue all converge, which is about as
+      complete as a causal case gets for a classical mutant.
+    evidence:
+      - paper: koga1995
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          Insertion of a novel transposable element into the tyrosinase gene is
+          responsible for an albino mutation in medaka.
+      - paper: tsutsumi2006
+        experiment_type: somatic reversion analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Colour reversion of albino medaka is associated with spontaneous somatic
+          excision of the Tol-1 element from the tyrosinase gene.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: GeneticVariant, name: tyr Tol-1 transposon insertion}
+    evidence:
+      - paper: koga1995
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          The Tol-1 transposable element insertion in tyrosinase causes the medaka
+          albino mutation.
+      - paper: tsutsumi2006
+        experiment_type: somatic reversion analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Excision of the element restores pigmentation, confirming the insertion
+          as the lesion.
+
+  # ===========================================================================
+  # Laboratory mutants
+  # ===========================================================================
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: guanineless}
+    object: {label: Gene, name: pnp4a}
+    evidence:
+      - paper: kimura2017
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          pnp4a is the causal gene of the medaka iridophore mutant guanineless.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: few melanophore}
+    object: {label: Gene, name: kitlga}
+    evidence:
+      - paper: otsuki2020
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          kit-ligand a is the gene responsible for the medaka pigment cell mutant
+          few melanophore. The mutant shows reduced melanophores with no detectable
+          alteration in iris iridophores.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: leucophore free}
+    object: {label: Gene, name: sox5}
+    evidence:
+      - paper: nagao2014
+        experiment_type: mutant characterization
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Sox5 acts as a fate switch between the xanthophore and leucophore
+          lineages in medaka pigment cell development.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: fused centrum}
+    object: {label: Gene, name: wnt4b}
+    interpretation: >-
+      Recorded on fused centrum, where the evidence actually applies. The seed
+      paper attaches this citation to daruma instead; keeping the two separate is
+      what makes that mis-attribution visible rather than inherited.
+    evidence:
+      - paper: inohaya2010
+        experiment_type: mutant characterization
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Production of Wnt4b by floor plate cells is essential for segmental
+          patterning of the vertebral column; its loss produces the fused centrum
+          (fsc) mutant.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: panda (pa) lab mutant}
+    object: {label: Gene, name: mpv17}
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    evidence:
+      - paper: koda2024
+        experiment_type: positional cloning
+        level: UNKNOWN
+        finding: >-
+          A newly described medaka iridophore mutant named panda (pa) is attributed
+          to mpv17. Preprint only, not peer reviewed, so the evidence level is left
+          UNKNOWN rather than assigned from the claim's own wording.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: Da mutant}
+    object: {label: Gene, name: zic1}
+    evidence:
+      - paper: ohtsuka2004
+        experiment_type: positional cloning
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1 and zic4 were identified within the Double anal fin (Da) locus and
+          implicated in dorsoventral patterning of the trunk-tail region.
+      - paper: kawanishi2013
+        experiment_type: expression analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Da is an enhancer mutant: zic1/zic4 expression is lost specifically in
+          the dorsal half of the somites, establishing them as dorsal-module
+          selector genes.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: Da mutant}
+    object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
+    evidence:
+      - paper: moriyama2012
+        experiment_type: mutant mapping
+        level: CAUSAL_VARIANT
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer region causes
+          mesoderm-specific loss of their transcription.
+
+  # ===========================================================================
+  # Breeder trait <-> laboratory mutant. PRD §8
+  # ===========================================================================
+  - predicate: putatively_same_as
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: OrnamentalTrait, name: Da mutant}
+    interpretation: >-
+      The best-supported breeder/lab identification in the dataset: same locus,
+      same insertion, and the insertion is present in every hikari individual
+      genotyped. Still recorded as putative rather than merged, because nobody has
+      shown the ornamental hikari strains and the laboratory Da line share a
+      genetic background beyond this one lesion.
+    review_reasons: [BREEDER_ACADEMIC_LINK]
+    evidence:
+      - paper: kon2026
+        experiment_type: variant genotyping
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          The hikari GWAS peak coincides with the zic1/zic4 locus, and the
+          insertion known from the Da mutant was confirmed in all 35 hikari
+          individuals.
+      - paper: moriyama2012
+        experiment_type: mutant mapping
+        level: CAUSAL_VARIANT
+        finding: >-
+          The Da lesion is a transposon insertion in the zic1/zic4 enhancer.
+
+  - predicate: putatively_same_as
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: OrnamentalTrait, name: fused centrum}
+    interpretation: >-
+      Phenotypically similar and often conflated, but the genetics do not line up.
+      Recorded so the conflation is answerable rather than repeated.
+    review_reasons: [BREEDER_ACADEMIC_LINK, CONTRADICTORY_EVIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: UNKNOWN
+        section: Table 1
+        finding: >-
+          The seed paper's Table 1 treats the wnt4b/fused centrum result as
+          daruma's reported locus, implying the two are the same thing.
+      - paper: kon2026
+        experiment_type: variant calling
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        section: Results
+        finding: >-
+          The reported wnt4b mutation was found in at least two daruma individuals
+          but does not appear to be the major cause; wnt4b is on chr16 while the
+          daruma peak is on chr4.
+
+  - predicate: putatively_same_as
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: OrnamentalTrait, name: few melanophore}
+    interpretation: >-
+      Deliberately NOT asserted. Both involve melanophore loss and both sit near
+      pigment-cell genes, but they map to different genes (slc45a2 against kitlga).
+      The claim exists only to record that the question was asked and answered
+      negatively.
+    review_reasons: [BREEDER_ACADEMIC_LINK]
+    evidence:
+      - paper: kon2026
+        experiment_type: locus comparison
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        finding: >-
+          yellow maps to the chr12 slc45a2 region, while few melanophore is caused
+          by kitlga on chr6. Shared loss of melanophores does not imply a shared
+          genetic basis.
+
+  # ===========================================================================
+  # Gene -> mechanism. PRD §4
+  # ===========================================================================
+  - predicate: participates_in
+    subject: {label: Gene, name: adcy5}
+    object: {label: BiologicalMechanism, name: cAMP signaling}
+    evidence:
+      - paper: zhang2022
+        experiment_type: comparative functional analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          Adcy3a and Adcy5 are required for melanosome dispersion and melanocyte
+          stripe formation in zebrafish.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: adcy5}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: kon2026
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Deletion of adcy5 exon 8 increases black body colour in medaka.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: zic1}
+    object: {label: BiologicalMechanism, name: dorsoventral patterning}
+    evidence:
+      - paper: kawanishi2013
+        experiment_type: expression analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1/zic4 act as selector genes for the dorsal module of the teleost
+          trunk.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: zic4}
+    object: {label: BiologicalMechanism, name: dorsoventral patterning}
+    evidence:
+      - paper: ohtsuka2004
+        experiment_type: expression analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1 and zic4 function in dorsoventral patterning of the trunk-tail
+          region.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: kcnq5a}
+    object: {label: BiologicalMechanism, name: bioelectric fin size regulation}
+    interpretation: >-
+      Inferred from the zebrafish precedent, not demonstrated in medaka. The
+      evidence edge below is about kcnk5b; no medaka experiment supports this yet.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: candidate gene reasoning
+        level: UNKNOWN
+        section: Discussion
+        finding: >-
+          kcnq5a is nominated for hirenaga and swallow by analogy with bioelectric
+          fin size control; no functional test in medaka is reported.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: kcnk5b}
+    object: {label: BiologicalMechanism, name: bioelectric fin size regulation}
+    evidence:
+      - paper: perathoner2014
+        experiment_type: mutant characterization
+        level: CAUSAL_VARIANT
+        species: Danio rerio
+        finding: >-
+          The zebrafish longfin mutant is caused by kcnk5b; bioelectric signalling
+          regulates fin size.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: slc45a2}
+    object: {label: BiologicalMechanism, name: melanogenesis}
+    evidence:
+      - paper: fukamachi2001
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: Mutations in slc45a2 reduce melanin content in medaka.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: tyr}
+    object: {label: BiologicalMechanism, name: melanogenesis}
+    evidence:
+      - paper: koga1995
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          Disruption of tyrosinase, the rate-limiting enzyme of melanin synthesis,
+          causes the medaka albino mutation.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: uvrag}
+    object: {label: BiologicalMechanism, name: melanogenesis}
+    evidence:
+      - paper: yang2018
+        experiment_type: functional analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          UVRAG is central to autophagy-dependent melanogenesis. Shown outside
+          medaka; the medaka uvrag has not been tested.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: pnp4a}
+    object: {label: BiologicalMechanism, name: iridophore development}
+    evidence:
+      - paper: kimura2017
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: pnp4a is causal for the medaka iridophore mutant guanineless.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: kitlga}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: otsuki2020
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          kitlga loss produces the few melanophore pigment cell mutant.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: sox5}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: nagao2014
+        experiment_type: mutant characterization
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          Sox5 switches pigment cell fate between xanthophore and leucophore
+          lineages.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: bmp5}
+    object: {label: BiologicalMechanism, name: skeletal system development}
+    evidence:
+      - paper: kon2026
+        experiment_type: GO term annotation
+        level: UNKNOWN
+        section: Results
+        finding: >-
+          bmp5 was nominated for deme via the GO term skeletal system development
+          (GO:0001501). This is an annotation, not a medaka experiment.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: and2}
+    object: {label: BiologicalMechanism, name: bioelectric fin size regulation}
+    interpretation: >-
+      A weak edge, kept because it is the only mechanism link the actinodin
+      nomination offers. Actinotrichia are structural, so the bioelectric framing
+      may be the wrong mechanism entirely for reallongfin.
+    review_reasons: [NEW_RELATION_TYPE_NEEDED]
+    evidence:
+      - paper: zhangj2010
+        experiment_type: functional analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          Actinodin proteins build the actinotrichia of the fin fold; their loss
+          accompanies the fin-to-limb transition. Shown outside medaka.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: lmbr1}
+    object: {label: BiologicalMechanism, name: skeletal system development}
+    evidence:
+      - paper: letelier2018
+        experiment_type: functional analysis
+        level: OBSERVATIONAL
+        review_reasons: [FULLTEXT_UNAVAILABLE]
+        finding: >-
+          A conserved Shh cis-regulatory module at lmbr1 underlies a common
+          developmental origin of unpaired and paired fins. Which species the
+          functional work was done in was not verified from the full text, so the
+          level is held at OBSERVATIONAL rather than assumed.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: nodorsalfin}
+    object: {label: Gene, name: lmbr1}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: UNKNOWN
+        section: Table 1
+        finding: >-
+          Table 1 lists lmbr1 as nodorsalfin's reported locus, citing Letelier et
+          al. 2018. nodorsalfin was not GWAS-analysed in this study.
+
+  # ===========================================================================
+  # Comparative layer. PRD §10
+  # ===========================================================================
+  # A human phenotype attaches to the HUMAN gene, and the only bridge to medaka is
+  # ortholog_of. The vocabulary enforces this: no predicate accepts a
+  # HumanPhenotype object from a medaka subject.
+  - predicate: ortholog_of
+    subject: {label: Gene, name: adcy5}
+    object: {label: HumanGene, name: ADCY5}
+    evidence:
+      - paper: kon2026
+        experiment_type: sequence comparison
+        level: OBSERVATIONAL
+        section: Results
+        finding: >-
+          The orochi deletion maps to the C1b-alpha2 domain, corresponding to human
+          ADCY5 residues 690-696.
+
+  - predicate: human_gene_associated_with
+    subject: {label: HumanGene, name: ADCY5}
+    object: {label: HumanPhenotype, name: ADCY5-related dyskinesia}
+    interpretation: >-
+      Supplementary biology for understanding the orochi mechanism. This is NOT a
+      statement that medaka hyper-melanism and human dyskinesia correspond; the
+      shared element is the protein domain.
+    evidence:
+      - paper: carapito2015
+        experiment_type: human genetics
+        level: CAUSAL_VARIANT
+        species: Homo sapiens
+        finding: >-
+          A de novo ADCY5 mutation causes early-onset autosomal dominant chorea and
+          dystonia; disease mutations cluster in the coiled-coil and C1b domains.

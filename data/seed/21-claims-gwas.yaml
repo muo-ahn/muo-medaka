@@ -1,0 +1,960 @@
+# GWAS results from Kon et al. 2026. PRD §15 Phase 1.
+#
+# EVIDENCE LEVELS. Only one assignment in this file is FUNCTIONAL_VALIDATION
+# (adcy5/orochi, genome-edited phenocopy). Gene nominations argued from a GO term
+# inside a multi-megabase interval are QTL_GWAS_ASSOCIATION, not FINE_MAPPING:
+# the peak is what was mapped, the gene is a guess inside it. FINE_MAPPING is
+# reserved for the cases where the paper also found a specific co-segregating
+# sequence variant.
+#
+# CONTRADICTIONS. Three claims below carry evidence on both sides, and in each
+# case both sides come from this same paper - its Table 1 and its Results
+# disagree. PRD §9: both are kept.
+
+claims:
+  # ===========================================================================
+  # orochi -- the only functionally validated result in the paper
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: orochi}
+    object: {label: Locus, name: orochi chr21 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        strain: 86 ornamental medaka strains
+        finding: >-
+          Genome-wide significant association on chromosome 21, 4,494,031-7,110,016,
+          from 16 orochi individuals; best P = 6.28E-25; 70 genes in the interval.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: orochi}
+    object: {label: Gene, name: adcy5}
+    interpretation: >-
+      The strongest link in the whole seed dataset. Association, a co-segregating
+      structural variant, a transcript consequence and an edited phenocopy all
+      point the same way, which is what separates this from the paper's other 25
+      trait-gene assignments.
+    evidence:
+      - paper: kon2026
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        section: Results
+        finding: >-
+          Genome-edited adcy5 delta-exon8 founders showed significantly increased
+          black body colour; the authors conclude that deletion of adcy5 exon 8
+          caused hyper-melanism similar to the orochi phenotype.
+      - paper: kon2026
+        experiment_type: RT-PCR
+        level: EXPRESSION_ASSOCIATION
+        section: Results
+        finding: >-
+          The orochi transcript lacks exon 8, with no frameshift after exon 9.
+      - paper: zhang2022
+        experiment_type: comparative mutant analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          Loss of adcy5 reduces pigmented melanocyte density during zebrafish
+          stripe formation. Functional validation in zebrafish; recorded at the
+          comparative ceiling here because it bears on the medaka claim only by
+          homology. The medaka functional evidence is the genome-editing entry
+          above.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: orochi}
+    object: {label: GeneticVariant, name: adcy5 exon8 56-bp deletion}
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling and genome editing
+        level: CAUSAL_VARIANT
+        section: Results
+        finding: >-
+          A homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5
+          was found in 16 of 18 orochi individuals (89%), and recreating it by
+          genome editing produced increased black body colour.
+        quote: >-
+          deletion of adcy5 exon8 caused hyper-melanism, similar to the orochi
+          phenotype
+
+  # ===========================================================================
+  # aurora -- strong candidate, with a tension the authors themselves flag
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: aurora}
+    object: {label: Locus, name: aurora chr6 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 6, 35,026-6,793,288, from 23 aurora
+          individuals; best P = 7.32E-17; 175 genes in the interval.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: aurora}
+    object: {label: Gene, name: kitlga}
+    interpretation: >-
+      A frameshift is strong for a candidate, but the interval is 6.8 Mb and 175
+      genes, and the known kitlga mutant phenotype does not include the iridophore
+      loss that defines aurora. Treat as a strong candidate, not as the cause.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          A frameshift at Chr6:2,485,888 introduces a premature stop, giving a
+          164-aa truncated protein against a 233-aa wild type. The authors call
+          kitlga a strong candidate gene.
+        quote: >-
+          we cannot rule out the possibility that the aurora phenotype results from
+          mutations in another gene located near kitlga
+      - paper: otsuki2020
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        finding: >-
+          kitlga mutants (few melanophore) show reduced melanophores but no
+          detectable alteration in iris iridophores, whereas aurora is defined by
+          adult iridophore loss.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: aurora}
+    object: {label: GeneticVariant, name: kitlga frameshift chr6:2485888}
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          Frameshift variant co-segregating with aurora; not functionally
+          validated.
+
+  # ===========================================================================
+  # panda -- three genes, one name. The most tangled record in the seed data.
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: Locus, name: panda chr3 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 3, 12,944,237-16,837,085, from 16 panda
+          individuals; best P = 1.12E-16; 113 genes in the interval. The authors
+          describe the chr3 peak as unexpected.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: Gene, name: slc24a5}
+    interpretation: >-
+      The paper nominates slc24a5 and then withdraws from the nomination in the
+      same discussion. Recorded as contested rather than as a candidate, because
+      the authors' own conclusion is that the causal gene is something else in the
+      interval.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          slc24a5 lies in the chr3 candidate interval and is nominated as the
+          candidate gene for panda.
+      - paper: kon2026
+        experiment_type: discussion of candidate gene function
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        section: Discussion
+        finding: >-
+          The authors state that slc24a5 may not fully explain the panda phenotype
+          and conclude that a mutation in a functionally unknown gene within the
+          chromosome 3 GWAS interval causes it.
+      - paper: schnetkamp2013
+        experiment_type: review of gene family function
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        finding: >-
+          SLC24 family function as reviewed does not account for the iridophore
+          loss that defines panda.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: Gene, name: pnp4a}
+    interpretation: >-
+      A prior attribution that this paper's own data overturn. Kept because PRD §9
+      forbids deleting superseded claims: a future reader needs to see that the
+      pnp4a attribution existed and why it failed.
+    review_reasons: [CONTRADICTORY_EVIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: UNKNOWN
+        section: Table 1
+        finding: >-
+          Table 1 lists pnp4a as the previously reported locus for panda, citing
+          Kimura et al. 2017.
+      - paper: kon2026
+        experiment_type: variant calling
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        section: Results
+        finding: >-
+          No coding mutations were found in pnp4a in the panda individuals
+          sequenced here.
+
+  # panda (ornamental strain) vs panda (pa) lab mutant. PRD §8: a shared name is
+  # not evidence of a shared genetic background, so this is recorded as a
+  # question that currently has only a negative answer.
+  - predicate: putatively_same_as
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: OrnamentalTrait, name: panda (pa) lab mutant}
+    interpretation: >-
+      No source links these two. They are kept as separate entities and this claim
+      exists only so the collision is visible to anyone querying either name.
+    review_reasons: [NAME_COLLISION, BREEDER_ACADEMIC_LINK]
+    evidence:
+      - paper: koda2024
+        experiment_type: mutant discovery
+        level: UNKNOWN
+        stance: CONTRADICTS
+        finding: >-
+          A newly discovered laboratory iridophore mutant is also named "panda
+          (pa)" and attributed to mpv17. It is a different mutant from the
+          ornamental panda strain, is reported only in a preprint, and is not
+          cited by the seed paper. Nothing in either source asserts that the two
+          share a genetic background.
+
+  # ===========================================================================
+  # hikari -- the one trait where causality was already settled elsewhere
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: Locus, name: hikari chr20 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 20, 18,018,142-19,345,542, from 35 hikari
+          individuals; best P = 1.84E-21; 40 genes in the interval.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: Gene, name: zic1}
+    interpretation: >-
+      The seed paper replicates an already-established locus rather than
+      discovering one. The causal work is Moriyama 2012 and the Da literature; what
+      2026 adds is that all 35 hikari individuals carry the insertion.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS and variant genotyping
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          The chr20 GWAS peak coincides with the zic1/zic4 locus, and the
+          insertion in that locus was confirmed in all 35 hikari individuals.
+      - paper: moriyama2012
+        experiment_type: mutant mapping
+        level: CAUSAL_VARIANT
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer causes
+          mesoderm-specific loss of their transcription.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: Gene, name: zic4}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS and variant genotyping
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          The chr20 peak maps to the shared zic1/zic4 regulatory locus; zic4
+          cannot be separated from zic1 by this data.
+      - paper: ohtsuka2004
+        experiment_type: positional cloning
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1 and zic4 were identified within the medaka Double anal fin (Da)
+          locus and implicated in dorsoventral patterning of the trunk-tail region.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
+    evidence:
+      - paper: moriyama2012
+        experiment_type: mutant mapping and expression analysis
+        level: CAUSAL_VARIANT
+        finding: >-
+          The transposon insertion in the zic1/zic4 enhancer causes mesoderm-
+          specific loss of transcription and the diphycercal-like caudal skeleton.
+      - paper: kon2026
+        experiment_type: variant genotyping
+        level: FINE_MAPPING
+        section: Results
+        finding: The insertion was confirmed in all 35 hikari individuals.
+
+  # ===========================================================================
+  # daruma -- Table 1 and Results of the same paper disagree
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: Locus, name: daruma chr4 interval}
+    interpretation: >-
+      A very strong peak with no candidate gene nominated, from only six mutants.
+      The strongest unexplained signal in the dataset.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 4, 775,070-6,879,644, from 6 daruma
+          individuals; best P = 9.61E-38; 211 genes in the interval and no
+          candidate gene nominated.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: Gene, name: wnt4b}
+    interpretation: >-
+      A mis-attribution carried inside the seed paper itself: its Table 1 lists
+      wnt4b as daruma's reported locus while its Results argue the opposite. The
+      underlying wnt4b work is about the fused centrum mutant, a similar phenotype
+      that has not been shown to be daruma. Trust the text over the table.
+    review_reasons: [CONTRADICTORY_EVIDENCE, BROKEN_CITATION]
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: UNKNOWN
+        section: Table 1
+        finding: >-
+          Table 1 lists wnt4b as the previously reported locus for daruma, citing
+          Inohaya et al. 2010.
+      - paper: kon2026
+        experiment_type: variant calling
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        section: Results
+        finding: >-
+          At least two daruma individuals carried the reported wnt4b mutation, but
+          the authors state this does not appear to be a major mutation causing the
+          daruma phenotype; wnt4b is on chromosome 16 while the daruma peak is on
+          chromosome 4. They conclude that unknown molecular mechanisms may be
+          responsible.
+      - paper: inohaya2010
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        stance: CONTRADICTS
+        finding: >-
+          Loss of wnt4b produces the medaka fused centrum (fsc) mutant, a
+          disruption of vertebral column segmental patterning. The paper is about
+          fsc, not daruma.
+
+  # ===========================================================================
+  # Fin morphology -- the first medaka potassium-channel candidates
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: Locus, name: hirenaga chr15 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 15, 7,548,155-12,116,545, from 19 hirenaga
+          individuals; best P = 1.19E-31; 92 genes; top SNV Chr15:11,377,038.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: Gene, name: kcnq5a}
+    interpretation: >-
+      A regulatory hypothesis, not a demonstration. The authors found no coding
+      change and propose that an intronic deletion alters expression; that
+      expression change has not been measured.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          No hirenaga-specific nonsense, frameshift or missense variant was found
+          in the kcnq5a coding region. Instead a hirenaga-specific large deletion
+          sits in intron 1 (Chr15:11,147,312-11,148,989). The authors write that
+          these genetic variants may affect kcnq5a expression.
+      - paper: perathoner2014
+        experiment_type: comparative mutant analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          The zebrafish longfin mutant is caused by the potassium channel kcnk5b;
+          bioelectric signalling sets fin proportion. This is the precedent
+          motivating a potassium-channel candidate, not evidence about medaka.
+          Note that the medaka candidate is a different channel (kcnq5a), so even
+          the homology argument is indirect.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: GeneticVariant, name: kcnq5a intron1 deletion}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          Hirenaga-specific intron 1 deletion; proposed to affect expression, not
+          shown to.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: swallow}
+    object: {label: Locus, name: swallow chr15 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 15, 7,321,021-11,762,845, from 12 swallow
+          individuals; best P = 6.95E-33; 93 genes. The interval overlaps the
+          hirenaga interval.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: swallow}
+    object: {label: Gene, name: kcnq5a}
+    interpretation: >-
+      The paper treats hirenaga and swallow as allelic variants at kcnq5a. Since
+      the intervals overlap, the shared assignment is one observation, not two.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Results
+        finding: >-
+          swallow maps to the same chr15 locus as hirenaga and is treated as an
+          allelic variant at kcnq5a.
+
+  - predicate: resembles
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: OrnamentalTrait, name: swallow}
+    interpretation: >-
+      Same locus, different membrane involvement. Recorded so that the shared
+      kcnq5a assignment is not read as two independent findings.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype comparison
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          hirenaga shows elongation of all five fin ray types with partial membrane
+          elongation; swallow shows elongation of some fin rays with no membrane
+          elongation. Both map to the overlapping chr15 kcnq5a interval.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: longfin}
+    object: {label: Locus, name: longfin chr7 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 7, 9,865,513-17,095,925, from 10 longfin
+          individuals; best P = 5.19E-26; 318 genes - the largest interval in the
+          study.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: longfin}
+    object: {label: Gene, name: kcna10}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          kcna10 is one of three potassium-channel genes nominated inside the chr7
+          interval, which contains 318 genes. Independent of the chr15 kcnq5a
+          locus.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: longfin}
+    object: {label: Gene, name: kcna3}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: kcna3 nominated within the chr7 interval of 318 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: longfin}
+    object: {label: Gene, name: kcnd3}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: kcnd3 nominated within the chr7 interval of 318 genes.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: reallongfin}
+    object: {label: Locus, name: reallongfin chr17 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 17, 26,828,411-31,743,217, from 8 reallongfin
+          individuals; best P = 1.10E-33; 197 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: reallongfin}
+    object: {label: Gene, name: and2}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          and2 (actinodin 2) nominated within the chr17 interval; membrane as well
+          as ray elongation makes an actinotrichia protein a plausible candidate.
+      - paper: zhangj2010
+        experiment_type: comparative functional analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          Actinodin proteins and1/and2 build the actinotrichia of the fin fold;
+          their loss accompanies the fin-to-limb transition. Establishes what
+          actinodins do, not that and2 causes reallongfin.
+
+  # ===========================================================================
+  # Eye morphology
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: deme}
+    object: {label: Locus, name: deme chr15 interval}
+    interpretation: >-
+      Same chromosome as hirenaga and swallow but a different, non-overlapping
+      interval (23.0-25.2 Mb against 7.3-12.1 Mb). Sharing a chromosome is not
+      sharing a locus.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 15, 23,036,284-25,194,225, from 15 deme
+          individuals; best P = 1.76E-22; 109 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: deme}
+    object: {label: Gene, name: bmp5}
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          Nominated via the GO term skeletal system development (GO:0001501). No
+          deme-specific coding mutation was found; instead an SNV 1.6 kb upstream
+          of bmp5 (Chr15:24,280,607) is present in 12 of 15 cases and 1 of 166
+          controls.
+
+  - predicate: caused_by_variant
+    subject: {label: OrnamentalTrait, name: deme}
+    object: {label: GeneticVariant, name: bmp5 upstream SNV chr15:24280607}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: variant calling
+        level: FINE_MAPPING
+        section: Results
+        finding: >-
+          Upstream SNV strongly enriched in cases (12/15) against controls (1/166);
+          regulatory effect not demonstrated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: bigeye}
+    object: {label: Locus, name: bigeye chr2 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 2, 20,843,163-23,907,604, from 7 bigeye
+          individuals; best P = 6.48E-34; 74 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: bigeye}
+    object: {label: Gene, name: abcb6a}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: abcb6a nominated within the chr2 interval; n = 7 cases.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: bigeye}
+    object: {label: Gene, name: chn1}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: chn1 nominated within the chr2 interval; n = 7 cases.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: tenme}
+    object: {label: Locus, name: tenme chr22 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 22, 47,214-3,731,349, from 14 tenme
+          individuals; best P = 1.45E-19; 223 genes; no candidate gene nominated.
+
+  # ===========================================================================
+  # Remaining body-colour intervals
+  # ===========================================================================
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: sanshoku}
+    object: {label: Locus, name: sanshoku chr14 interval}
+    interpretation: >-
+      An extreme P-value from four mutants in a heavily structured, inbred
+      population. Strain identity and phenotype are confounded here almost by
+      construction.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 14, 22,279,553-30,567,935, from only 4 sanshoku
+          individuals; best P = 6.48E-61; 248 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: sanshoku}
+    object: {label: Gene, name: uvrag}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          uvrag nominated inside the chr14 interval, argued from the mammalian
+          UVRAG role in melanogenesis and autophagy.
+      - paper: yang2018
+        experiment_type: comparative functional analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          UVRAG is central to autophagy-dependent melanogenesis; reduced UVRAG
+          causes defective melanocyte development in zebrafish. This is why uvrag
+          was picked out of 248 genes in the interval - it is the reason for the
+          guess, not evidence for it.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: kurobuchi}
+    object: {label: Locus, name: kurobuchi chr14 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 14, 22,305,698-30,081,129, from 11 kurobuchi
+          individuals; best P = 8.50E-09; 230 genes. Effectively the same interval
+          as sanshoku.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: kurobuchi}
+    object: {label: Gene, name: uvrag}
+    interpretation: >-
+      Same locus and same nomination as sanshoku. Because kurobuchi subsumes
+      sanshoku, this is not independent support.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: uvrag nominated for kurobuchi at the same chr14 interval.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: blackrim}
+    object: {label: Locus, name: blackrim chr12 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 12, 9,763,282-15,596,885, from 14 blackrim
+          individuals; best P = 3.33E-26; 230 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: blackrim}
+    object: {label: Gene, name: slc45a2}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          slc45a2 nominated inside the chr12 interval, the same region recovered
+          for yellow and YWKo.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: Locus, name: yellow chr12 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 12, 8,533,986-11,509,087, from 77 yellow
+          individuals; best P = 3.19E-06 - the weakest P among the body-colour
+          hits despite the largest case count; 100 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: Gene, name: slc45a2}
+    interpretation: >-
+      A positive control: the GWAS recovers a locus that classical genetics
+      established in 2001. That it works here is reassurance about the method, not
+      a new finding.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: The chr12 interval recovers slc45a2, the known himedaka gene.
+      - paper: fukamachi2001
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        finding: >-
+          Mutations in the gene encoding B, a novel transporter protein (now
+          slc45a2), reduce melanin content in medaka. This is the b locus.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: Locus, name: YWKo chr12 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 12, 9,523,726-11,920,633, from 100 individuals
+          of the aggregated YWKo class; best P = 2.00E-11; 61 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: Gene, name: slc45a2}
+    interpretation: >-
+      YWKo subsumes yellow, so this and the yellow assignment are one observation.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: slc45a2 nominated for the aggregated YWKo class at chr12.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: black}
+    object: {label: Locus, name: black chr21 interval}
+    interpretation: >-
+      Adjacent to but distinct from the orochi interval on chr21. Two dark-colour
+      traits, two different loci on one chromosome.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 21, 7,325,809-8,858,152, from 40 black
+          individuals; best P = 1.53E-12; 35 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: black}
+    object: {label: Gene, name: atp6ap2}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: >-
+          atp6ap2 nominated via a melanocyte-differentiation requirement reported
+          in zebrafish.
+      - paper: tatarakis2021
+        experiment_type: comparative single-cell transcriptomics
+        level: OBSERVATIONAL
+        species: Danio rerio
+        finding: >-
+          Single-cell analysis of zebrafish cranial neural crest shows atp6ap2
+          involvement in melanocyte lineage decisions.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: akabuchi}
+    object: {label: Locus, name: akabuchi chr4 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 4, 15,616,568-19,691,410, from 19 akabuchi
+          individuals; best P = 1.23E-10; 106 genes.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: akabuchi}
+    object: {label: Gene, name: foxd3}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS candidate nomination
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 3
+        finding: foxd3 nominated inside the chr4 interval.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: Locus, name: white chr12 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 12, 3,865,760-7,668,732, from 30 white
+          individuals; best P = 1.76E-12; 72 genes; no candidate gene nominated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: blue}
+    object: {label: Locus, name: blue chr4 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 4, 23,872,478-27,071,814, from 33 blue
+          individuals; best P = 2.43E-11; 108 genes; no candidate gene nominated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: miyuki}
+    object: {label: Locus, name: miyuki chr19 interval}
+    interpretation: >-
+      Treat as weak. The paper's own Discussion groups miyuki with the traits
+      having no obvious candidate peak, which sits awkwardly with reporting a
+      chr19 hit for it.
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 19, 9,832,109-10,803,405, from 34 miyuki
+          individuals; best P = 3.67E-10; 30 genes.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: rame}
+    object: {label: Locus, name: rame chr20 interval}
+    interpretation: >-
+      Shares chr20 with hikari but the intervals are far apart (12.1-13.1 Mb
+      against 18.0-19.3 Mb).
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 20, 12,073,015-13,138,676, from 47 rame
+          individuals; best P = 1.33E-09; 38 genes; no candidate gene nominated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: kouhaku}
+    object: {label: Locus, name: kouhaku chr3 interval}
+    interpretation: The interval overlaps the panda chr3 interval.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 3, 13,960,030-15,862,381, from 19 kouhaku
+          individuals; best P = 3.61E-11; 44 genes; no candidate gene nominated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: kuroaka}
+    object: {label: Locus, name: kuroaka chr8 interval}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 8, 5,006,576-6,657,821, from 7 kuroaka
+          individuals; best P = 8.96E-16; 113 genes; no candidate gene nominated.
+
+  - predicate: associated_with_locus
+    subject: {label: OrnamentalTrait, name: fukumaku}
+    object: {label: Locus, name: fukumaku chr13 interval}
+    review_reasons: [LOW_RESOLUTION_CONFIDENCE]
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        section: Table 2
+        finding: >-
+          Association on chromosome 13, 25,328,892-33,584,184, from only 4 fukumaku
+          individuals; best P = 5.71E-59; 198 genes; no candidate gene nominated.
+
+  # ===========================================================================
+  # albino -- the broken citation, kept visible rather than dropped
+  # ===========================================================================
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: Gene, name: oca2}
+    interpretation: >-
+      This pairing has no traceable source. It is recorded at UNKNOWN level, with
+      the defect stated, rather than either repeated as fact or silently dropped -
+      PRD §5 prefers preserved uncertainty to false confidence, and a reader who
+      meets albino->oca2 elsewhere needs to find the reason it failed here.
+    review_reasons: [BROKEN_CITATION, EVIDENCE_LEVEL_UNCLEAR]
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: UNKNOWN
+        section: Table 1
+        finding: >-
+          Table 1 lists oca2 as albino's previously reported locus, attributed to
+          "Fukamachi et al. 2004". No such paper appears in the article's own
+          reference list; the only Fukamachi 2004 entry there is a somatolactin
+          study unrelated to oca2. The attribution could not be resolved.

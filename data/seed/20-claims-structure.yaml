@@ -1,0 +1,398 @@
+# Trait structure: what each trait is made of, and which traits contain which.
+# PRD §3, §4.
+
+claims:
+  # --- Subsumption -------------------------------------------------------------
+  # The seed paper defines three umbrella classes and runs a separate GWAS on each.
+  # Their intervals overlap their members' intervals *by construction*. Without
+  # these edges the graph would show kurobuchi and sanshoku independently
+  # associating with the same chr14 locus, which reads as replication when it is
+  # an artefact of overlapping label sets.
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: kurobuchi}
+    object: {label: OrnamentalTrait, name: sanshoku}
+    interpretation: >-
+      Shared GWAS signal between these two traits is expected and is not
+      independent evidence.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          kurobuchi is defined as a body colour pattern with black spots, a
+          superset that includes sanshoku and kuroaka.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: kurobuchi}
+    object: {label: OrnamentalTrait, name: kuroaka}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          kurobuchi is declared a superset including sanshoku and kuroaka.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: akabuchi}
+    object: {label: OrnamentalTrait, name: sanshoku}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          akabuchi is declared a superset including sanshoku and kouhaku.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: akabuchi}
+    object: {label: OrnamentalTrait, name: kouhaku}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          akabuchi is declared a superset including sanshoku and kouhaku.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: OrnamentalTrait, name: yellow}
+    interpretation: >-
+      YWKo is an analysis class, not a strain. Its chr12 interval and yellow's
+      overlap because the same fish are in both case sets.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          YWKo is defined as body colour without melanophores, an umbrella class
+          covering yellow, white or kouhaku.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: OrnamentalTrait, name: white}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: YWKo covers yellow, white or kouhaku.
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: OrnamentalTrait, name: kouhaku}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: YWKo covers yellow, white or kouhaku.
+
+  # --- Trait -> phenotype ------------------------------------------------------
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: orochi}
+    object: {label: Phenotype, name: hyper-melanism}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Blackness greater than the black strain, with increased melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: black}
+    object: {label: Phenotype, name: hyper-melanism}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Increased blackness relative to wild type; increased melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: Phenotype, name: dorsal-to-ventral identity transformation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          The dorsal side becomes ventral: the dorsal fin is shaped like a pelvic
+          fin and the caudal fin is diamond-shaped.
+      - paper: kawanishi2013
+        experiment_type: expression analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1/zic4 expression is lost specifically in the dorsal half of the
+          somites, producing mirror-image duplication of the ventral half across
+          the lateral midline from larva to adult.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: Phenotype, name: ectopic dorsal iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Ectopic iridophore on the back; the dorsal side shines silver.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: miyuki}
+    object: {label: Phenotype, name: ectopic dorsal iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore on the dorsal side, with reduction of melanophores and
+          xanthophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: Phenotype, name: iridophore depletion}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Decreased iridophore throughout the body, including the iris and
+          peritoneum.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: toumeirin}
+    object: {label: Phenotype, name: iridophore depletion}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Decreased iridophore throughout the body, EXCLUDING the iris and
+          peritoneum, with near-complete loss in the scales.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: aurora}
+    object: {label: Phenotype, name: iridophore depletion}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Mild iridophore depletion; loss of opercular iridophores makes the red
+          gills visible.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: Phenotype, name: loss of melanophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Loss of normal melanophores from the body surface.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: Phenotype, name: loss of melanophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          White body with loss of both normal xanthophores and melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: Phenotype, name: loss of xanthophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Loss of both normal xanthophores and melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: blue}
+    object: {label: Phenotype, name: loss of xanthophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Loss of normal xanthophores from the body surface.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: Phenotype, name: loss of melanophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Lack of melanophores throughout the body; yellow body, pink pupil.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: Phenotype, name: fin ray elongation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: All five types of fin ray are longer than wild type.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: hirenaga}
+    object: {label: Phenotype, name: fin membrane elongation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Fin membranes elongate partially.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: swallow}
+    object: {label: Phenotype, name: fin ray elongation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Some fin rays are longer than wild type; the fin membranes do not
+          elongate. Membrane involvement is what distinguishes swallow from
+          hirenaga.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: longfin}
+    object: {label: Phenotype, name: fin ray elongation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Six fins, all except the caudal fin, are longer than wild type.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: reallongfin}
+    object: {label: Phenotype, name: fin membrane elongation}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: All fins longer; both fin rays and fin membranes are elongated.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: Phenotype, name: shortened body axis}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Short body axis.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: handaruma}
+    object: {label: Phenotype, name: shortened body axis}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Mildly short body axis; longer than daruma and shorter than wild type.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: deme}
+    object: {label: Phenotype, name: eyeball protrusion}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Protrusion of the eyeballs from the skull due to skeletal dysplasia of
+          the head, with no enlargement of the eyeballs.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: bigeye}
+    object: {label: Phenotype, name: eyeball enlargement}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Enlarged eyeballs that do not protrude from the skull.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: Da mutant}
+    object: {label: Phenotype, name: dorsal-to-ventral identity transformation}
+    evidence:
+      - paper: ohtsuka2004
+        experiment_type: mutant characterization
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          The Da mutant shows altered dorsoventral patterning of the trunk-tail
+          region; zic1 and zic4 lie within the Da locus.
+
+  # --- Phenotype -> anatomy ----------------------------------------------------
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: dorsal-to-ventral identity transformation}
+    object: {label: Anatomy, name: dorsal fin}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: The dorsal fin is shaped like a pelvic fin.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: dorsal-to-ventral identity transformation}
+    object: {label: Anatomy, name: caudal fin}
+    evidence:
+      - paper: moriyama2012
+        experiment_type: skeletal analysis
+        level: FUNCTIONAL_VALIDATION
+        finding: >-
+          zic1/zic4 expression in the dorsal ural mesenchyme drives asymmetric
+          caudal fin development; its loss yields a symmetrical, diphycercal-like
+          caudal skeleton.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: shortened body axis}
+    object: {label: Anatomy, name: vertebral column}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Short body axis.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: iridophore depletion}
+    object: {label: Anatomy, name: iris}
+    interpretation: >-
+      Whether the iris is affected is the discriminator between panda and
+      toumeirin, so the anatomy edge is load-bearing here rather than decorative.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          panda shows decreased iridophore including the iris and peritoneum;
+          toumeirin shows the same excluding the iris and peritoneum.

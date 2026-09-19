@@ -1,0 +1,261 @@
+# Provenance roots. PRD §2.4.
+#
+# Every DOI here came either from the seed paper's own JATS reference list or from
+# a CrossRef/Europe PMC resolution. Where a PMID could not be confirmed the field
+# is omitted rather than guessed, and the paper carries FULLTEXT_UNAVAILABLE or a
+# note saying so. A fabricated identifier is the worst failure this project can
+# have, so a blank is always preferred to a plausible-looking string.
+
+papers:
+  # --- Seed dataset. PRD §6.1, §15 Phase 1 -------------------------------------
+  - key: kon2026
+    title: >-
+      Genomic consequences of domestication and the diversification of body
+      coloration and morphology in ornamental medaka strains
+    year: 2026
+    journal: Molecular Biology and Evolution
+    doi: 10.1093/molbev/msag021
+    pmid: "41612673"
+    pmcid: PMC12915790
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12915790/
+    open_access: true
+    authors:
+      - Tetsuo Kon
+      - Rui Tang
+      - Koto Kon-Nanjo
+      - Soma Tomihara
+      - Soichiro Fushiki
+      - Wakana Fujii
+      - Mifuyu Sera
+      - Yusuke Takehana
+      - Hideki Noguchi
+      - Atsushi Toyoda
+      - Kiyoshi Naruse
+      - Yoshihiro Omori
+    notes: >-
+      181 individuals, 86 ornamental strains, 34 phenotypes described, GWAS on 29,
+      candidate regions for 26. Table 1/2/3 extracted from publisher JATS XML.
+      Only one of its 26 trait-gene assignments (adcy5/orochi) is functionally
+      validated; candidate intervals hold 30-318 genes each.
+
+  # --- Hikari / Double anal fin (Da) -> zic1/zic4 -------------------------------
+  - key: ohtsuka2004
+    title: >-
+      Possible roles of zic1 and zic4, identified within the medaka Double anal fin
+      (Da) locus, in dorsoventral patterning of the trunk-tail region
+    year: 2004
+    journal: Mechanisms of Development
+    doi: 10.1016/j.mod.2004.04.006
+    pmid: "15210192"
+    notes: The founding gene-identification paper for the Da locus.
+
+  - key: moriyama2012
+    title: >-
+      The medaka zic1/zic4 mutant provides molecular insights into teleost caudal
+      fin evolution
+    year: 2012
+    journal: Current Biology
+    doi: 10.1016/j.cub.2012.01.063
+    pmid: "22386310"
+    notes: >-
+      Identifies the transposon insertion in the zic1/zic4 enhancer as the Da
+      lesion. This is the citation the seed paper uses for hikari.
+
+  - key: kawanishi2013
+    title: >-
+      Modular development of the teleost trunk along the dorsoventral axis and
+      zic1/zic4 as selector genes in the dorsal module
+    year: 2013
+    journal: Development
+    doi: 10.1242/dev.088567
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: PMID not confirmed; DOI resolved via CrossRef and title matched.
+
+  # --- Pigmentation ------------------------------------------------------------
+  - key: fukamachi2001
+    title: >-
+      Mutations in the gene encoding B, a novel transporter protein, reduce melanin
+      content in medaka
+    year: 2001
+    journal: Nature Genetics
+    doi: 10.1038/ng584
+    pmid: "11479596"
+    notes: The medaka b locus, now slc45a2. This is the himedaka (yellow) gene.
+
+  - key: koga1995
+    title: >-
+      Insertion of a novel transposable element in the tyrosinase gene is
+      responsible for an albino mutation in the medaka fish, Oryzias latipes
+    year: 1995
+    journal: Molecular and General Genetics
+    doi: 10.1007/BF00287101
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: PMID not confirmed. Causal variant for the classic medaka albino (i locus).
+
+  - key: tsutsumi2006
+    title: >-
+      Color reversion of the albino medaka fish associated with spontaneous somatic
+      excision of the Tol-1 transposable element from the tyrosinase gene
+    year: 2006
+    journal: Pigment Cell Research
+    doi: 10.1111/j.1600-0749.2006.00300.x
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: Somatic excision restores colour - strong causal confirmation for tyr.
+
+  - key: kimura2017
+    title: Pnp4a is the causal gene of the medaka iridophore mutant guanineless
+    year: 2017
+    journal: "G3: Genes, Genomes, Genetics"
+    doi: 10.1534/g3.117.040675
+    pmid: "28258112"
+    notes: >-
+      Causal for the guanineless mutant. The seed paper's Table 1 lists pnp4a as
+      panda's prior locus, but its own Results reject that attribution.
+
+  - key: otsuki2020
+    title: >-
+      Identification of kit-ligand a as the gene responsible for the medaka pigment
+      cell mutant few melanophore
+    year: 2020
+    journal: "G3: Genes, Genomes, Genetics"
+    doi: 10.1534/g3.119.400561
+    pmid: "31757930"
+    notes: >-
+      kitlga is causal for few melanophore. Relevant tension with aurora: fm shows
+      reduced melanophores but no detectable iris iridophore change.
+
+  - key: nagao2014
+    title: Sox5 functions as a fate switch in medaka pigment cell development
+    year: 2014
+    journal: PLoS Genetics
+    doi: 10.1371/journal.pgen.1004246
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: Causal for leucophore free (lf). Not cited by the seed paper.
+
+  - key: lamason2005
+    title: >-
+      SLC24A5, a putative cation exchanger, affects pigmentation in zebrafish and
+      humans
+    year: 2005
+    journal: Science
+    doi: 10.1126/science.1116238
+    pmid: "16357253"
+    notes: Comparative reference (zebrafish golden). Not a medaka paper.
+
+  - key: schnetkamp2013
+    title: >-
+      The SLC24 gene family of Na+/Ca2+-K+ exchangers: from sight and smell to
+      memory consolidation and skin pigmentation
+    year: 2013
+    journal: Molecular Aspects of Medicine
+    doi: 10.1016/j.mam.2012.07.008
+    pmid: "23506883"
+    notes: >-
+      Used by the seed paper to argue slc24a5 may not fully explain panda.
+
+  - key: koda2024
+    title: >-
+      Discovery of the novel iridophore mutant medaka 'panda (pa)' and
+      identification of the causal gene, mpv17
+    year: 2024
+    journal: Authorea (preprint)
+    doi: 10.22541/au.173204448.88130877/v1
+    open_access: true
+    review_reasons: [NAME_COLLISION, FULLTEXT_UNAVAILABLE]
+    notes: >-
+      PREPRINT, not peer reviewed. Describes a different lab mutant that is also
+      called "panda". Not cited by the seed paper.
+
+  - key: tatarakis2021
+    title: >-
+      Single-cell transcriptomic analysis of zebrafish cranial neural crest reveals
+      spatiotemporal regulation of lineage decisions during development
+    year: 2021
+    journal: Cell Reports
+    doi: 10.1016/j.celrep.2021.110140
+    pmid: "34936864"
+    notes: Basis for the seed paper's atp6ap2 nomination for black.
+
+  - key: yang2018
+    title: Central role of autophagic UVRAG in melanogenesis and the suntan response
+    year: 2018
+    journal: PNAS
+    doi: 10.1073/pnas.1803303115
+    pmid: "30061422"
+    notes: Basis for the seed paper's uvrag nomination for sanshoku/kurobuchi.
+
+  - key: zhang2022
+    title: >-
+      Requirement of zebrafish Adcy3a and Adcy5 in melanosome dispersion and
+      melanocyte stripe formation
+    year: 2022
+    journal: International Journal of Molecular Sciences
+    doi: 10.3390/ijms232214182
+    pmid: "36430661"
+    notes: Comparative precedent for orochi/adcy5.
+
+  - key: carapito2015
+    title: >-
+      A de novo ADCY5 mutation causes early-onset autosomal dominant chorea and
+      dystonia
+    year: 2015
+    journal: Movement Disorders
+    doi: 10.1002/mds.26115
+    pmid: "25545163"
+    notes: >-
+      Human ADCY5 disease mutations cluster in the C1b domain, the same domain as
+      the orochi deletion. Comparative layer only. PRD §10.
+
+  - key: aida1921
+    title: >-
+      On the inheritance of color in a freshwater fish, Aplocheilus latipes Temminck
+      and Schlegel, with special reference to sex-linked inheritance
+    year: 1921
+    journal: Genetics
+    doi: 10.1093/genetics/6.6.554
+    pmid: "17245975"
+    notes: Founding classical-genetics paper; source of the r locus.
+
+  # --- Fin morphology ----------------------------------------------------------
+  - key: perathoner2014
+    title: Bioelectric signaling regulates size in zebrafish fins
+    year: 2014
+    journal: PLoS Genetics
+    doi: 10.1371/journal.pgen.1004080
+    pmid: "24453984"
+    notes: >-
+      Zebrafish longfin is caused by the potassium channel kcnk5b. The canonical
+      comparative reference motivating potassium-channel candidates in medaka.
+
+  - key: zhangj2010
+    title: Loss of fish actinotrichia proteins and the fin-to-limb transition
+    year: 2010
+    journal: Nature
+    doi: 10.1038/nature09137
+    pmid: "20574421"
+    notes: Characterises actinodin (and1/and2); basis for the and2 nomination.
+
+  - key: letelier2018
+    title: >-
+      A conserved Shh cis-regulatory module highlights a common developmental origin
+      of unpaired and paired fins
+    year: 2018
+    journal: Nature Genetics
+    doi: 10.1038/s41588-018-0080-5
+    pmid: "29556077"
+    notes: Basis for the nodorsalfin -> lmbr1 attribution in the seed paper's Table 1.
+
+  # --- Body shape --------------------------------------------------------------
+  - key: inohaya2010
+    title: >-
+      Production of Wnt4b by floor plate cells is essential for the segmental
+      patterning of the vertebral column in medaka
+    year: 2010
+    journal: Development
+    doi: 10.1242/dev.051540
+    pmid: "20460365"
+    review_reasons: [BROKEN_CITATION]
+    notes: >-
+      Shows wnt4b loss causes the medaka fused centrum (fsc) mutant - NOT daruma.
+      The seed paper's Table 1 cites this for daruma; its own Results contradict
+      that (wnt4b is chr16, the daruma peak is chr4).

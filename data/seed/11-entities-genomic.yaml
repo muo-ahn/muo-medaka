@@ -1,0 +1,578 @@
+# Genes, GWAS intervals, variants, phenotypes and mechanisms. PRD §3.
+#
+# LOCI carry the numbers that say how much weight a hit can bear: case count, best
+# P, and how many genes sit inside the interval. The seed paper's intervals hold
+# 30-318 genes, and several rest on four to eight mutants, so "candidate gene"
+# there generally means "a gene with a plausible GO term inside a multi-megabase
+# window". Keeping n and interval width on the node means a dossier cannot quote
+# the P-value without also showing what produced it.
+#
+# Coordinates follow the assembly the seed paper used; recorded as stated.
+
+entities:
+  # --- Medaka genes ------------------------------------------------------------
+  - label: Gene
+    name: adcy5
+    species: Oryzias latipes
+    symbol: adcy5
+    chromosome: "21"
+    description: Adenylate cyclase 5. cAMP synthesis.
+
+  - label: Gene
+    name: kitlga
+    species: Oryzias latipes
+    symbol: kitlga
+    chromosome: "6"
+    description: Kit ligand a. Causal gene for the few melanophore mutant.
+
+  - label: Gene
+    name: uvrag
+    species: Oryzias latipes
+    symbol: uvrag
+    chromosome: "14"
+    description: UV radiation resistance associated gene; autophagy and melanogenesis.
+
+  - label: Gene
+    name: slc45a2
+    species: Oryzias latipes
+    symbol: slc45a2
+    chromosome: "12"
+    description: >-
+      The classical medaka b locus. Loss reduces melanin content; the himedaka
+      (yellow) gene. Human orthologue underlies OCA4.
+
+  - label: Gene
+    name: atp6ap2
+    species: Oryzias latipes
+    symbol: atp6ap2
+    chromosome: "21"
+    description: >-
+      ATPase H+ transporting accessory protein 2; required in melanocyte
+      differentiation in zebrafish.
+
+  - label: Gene
+    name: foxd3
+    species: Oryzias latipes
+    symbol: foxd3
+    chromosome: "4"
+    description: Forkhead box D3; neural crest and pigment cell lineage regulator.
+
+  - label: Gene
+    name: slc24a5
+    species: Oryzias latipes
+    symbol: slc24a5
+    chromosome: "3"
+    description: >-
+      Na+/Ca2+-K+ exchanger. The zebrafish orthologue is golden. Nominated for
+      panda by the seed paper, which then hedges the nomination heavily.
+
+  - label: Gene
+    name: zic1
+    species: Oryzias latipes
+    symbol: zic1
+    chromosome: "20"
+    description: Zic family member 1; dorsal module selector gene with zic4.
+
+  - label: Gene
+    name: zic4
+    species: Oryzias latipes
+    symbol: zic4
+    chromosome: "20"
+    description: Zic family member 4; shares a regulatory region with zic1.
+
+  - label: Gene
+    name: kcnq5a
+    species: Oryzias latipes
+    symbol: kcnq5a
+    chromosome: "15"
+    description: >-
+      Voltage-gated potassium channel. First medaka potassium-channel candidate for
+      fin elongation, by analogy with zebrafish kcnk5b.
+
+  - label: Gene
+    name: kcna10
+    species: Oryzias latipes
+    symbol: kcna10
+    chromosome: "7"
+
+  - label: Gene
+    name: kcna3
+    species: Oryzias latipes
+    symbol: kcna3
+    chromosome: "7"
+
+  - label: Gene
+    name: kcnd3
+    species: Oryzias latipes
+    symbol: kcnd3
+    chromosome: "7"
+
+  - label: Gene
+    name: and2
+    species: Oryzias latipes
+    symbol: and2
+    chromosome: "17"
+    description: Actinodin 2; an actinotrichia protein of the fin fold.
+
+  - label: Gene
+    name: bmp5
+    species: Oryzias latipes
+    symbol: bmp5
+    chromosome: "15"
+    description: Bone morphogenetic protein 5; skeletal system development.
+
+  - label: Gene
+    name: abcb6a
+    species: Oryzias latipes
+    symbol: abcb6a
+    chromosome: "2"
+
+  - label: Gene
+    name: chn1
+    species: Oryzias latipes
+    symbol: chn1
+    chromosome: "2"
+
+  - label: Gene
+    name: tyr
+    species: Oryzias latipes
+    symbol: tyr
+    description: >-
+      Tyrosinase, the rate-limiting enzyme of melanin synthesis. The classical
+      medaka i locus; also an FST outlier in the seed paper's domestication scan.
+
+  - label: Gene
+    name: pnp4a
+    species: Oryzias latipes
+    symbol: pnp4a
+    description: >-
+      Purine nucleoside phosphorylase 4a. Causal for the guanineless iridophore
+      mutant.
+
+  - label: Gene
+    name: sox5
+    species: Oryzias latipes
+    symbol: sox5
+    description: Fate switch between xanthophore and leucophore lineages.
+
+  - label: Gene
+    name: wnt4b
+    species: Oryzias latipes
+    symbol: wnt4b
+    chromosome: "16"
+    description: >-
+      Produced by floor plate cells; required for segmental patterning of the
+      vertebral column. Note the chromosome: wnt4b is on chr16, while the daruma
+      GWAS peak is on chr4.
+
+  - label: Gene
+    name: lmbr1
+    species: Oryzias latipes
+    symbol: lmbr1
+    description: Carries the conserved Shh cis-regulatory module for fin development.
+
+  - label: Gene
+    name: mpv17
+    species: Oryzias latipes
+    symbol: mpv17
+    description: >-
+      Required for iridophore survival (established in zebrafish transparent).
+      Claimed causal for a lab mutant also named panda, in a preprint only.
+
+  - label: Gene
+    name: csf1ra
+    species: Oryzias latipes
+    symbol: csf1ra
+    description: Colony stimulating factor 1 receptor a; xanthophore development.
+
+  - label: Gene
+    name: oca2
+    species: Oryzias latipes
+    symbol: oca2
+    description: >-
+      Listed by the seed paper's Table 1 as albino's reported locus, attributed to
+      "Fukamachi et al. 2004" - a paper that does not appear in its own reference
+      list. Kept as an entity so the broken attribution stays visible and
+      checkable rather than being silently dropped; see the claim carrying
+      BROKEN_CITATION. The well-established medaka albino gene is tyr.
+    review_reasons: [BROKEN_CITATION]
+
+  # --- Comparative genes. PRD §10 ----------------------------------------------
+  # Species is mandatory on Gene precisely so these cannot be read as medaka.
+  - label: Gene
+    name: kcnk5b
+    species: Danio rerio
+    symbol: kcnk5b
+    description: >-
+      Zebrafish two-pore potassium channel; causal for the zebrafish longfin
+      mutant. The precedent that motivates potassium-channel candidates in medaka,
+      not a medaka finding.
+
+  - label: HumanGene
+    name: ADCY5
+    symbol: ADCY5
+    description: Human adenylate cyclase 5.
+
+  - label: HumanPhenotype
+    name: ADCY5-related dyskinesia
+    aliases: ["early-onset autosomal dominant chorea and dystonia"]
+    description: >-
+      Human movement disorder caused by de novo ADCY5 mutations, which cluster in
+      the coiled-coil and C1b domains.
+
+  # --- GWAS intervals ----------------------------------------------------------
+  - label: Locus
+    name: orochi chr21 interval
+    chromosome: "21"
+    start: 4494031
+    end: 7110016
+    n_cases: 16
+    best_p_value: 6.28E-25
+    n_genes_in_interval: 70
+
+  - label: Locus
+    name: aurora chr6 interval
+    chromosome: "6"
+    start: 35026
+    end: 6793288
+    n_cases: 23
+    best_p_value: 7.32E-17
+    n_genes_in_interval: 175
+
+  - label: Locus
+    name: sanshoku chr14 interval
+    chromosome: "14"
+    start: 22279553
+    end: 30567935
+    n_cases: 4
+    best_p_value: 6.48E-61
+    n_genes_in_interval: 248
+
+  - label: Locus
+    name: kurobuchi chr14 interval
+    chromosome: "14"
+    start: 22305698
+    end: 30081129
+    n_cases: 11
+    best_p_value: 8.50E-09
+    n_genes_in_interval: 230
+
+  - label: Locus
+    name: blackrim chr12 interval
+    chromosome: "12"
+    start: 9763282
+    end: 15596885
+    n_cases: 14
+    best_p_value: 3.33E-26
+    n_genes_in_interval: 230
+
+  - label: Locus
+    name: yellow chr12 interval
+    chromosome: "12"
+    start: 8533986
+    end: 11509087
+    n_cases: 77
+    best_p_value: 3.19E-06
+    n_genes_in_interval: 100
+
+  - label: Locus
+    name: YWKo chr12 interval
+    chromosome: "12"
+    start: 9523726
+    end: 11920633
+    n_cases: 100
+    best_p_value: 2.00E-11
+    n_genes_in_interval: 61
+
+  - label: Locus
+    name: black chr21 interval
+    chromosome: "21"
+    start: 7325809
+    end: 8858152
+    n_cases: 40
+    best_p_value: 1.53E-12
+    n_genes_in_interval: 35
+
+  - label: Locus
+    name: akabuchi chr4 interval
+    chromosome: "4"
+    start: 15616568
+    end: 19691410
+    n_cases: 19
+    best_p_value: 1.23E-10
+    n_genes_in_interval: 106
+
+  - label: Locus
+    name: panda chr3 interval
+    chromosome: "3"
+    start: 12944237
+    end: 16837085
+    n_cases: 16
+    best_p_value: 1.12E-16
+    n_genes_in_interval: 113
+
+  - label: Locus
+    name: white chr12 interval
+    chromosome: "12"
+    start: 3865760
+    end: 7668732
+    n_cases: 30
+    best_p_value: 1.76E-12
+    n_genes_in_interval: 72
+
+  - label: Locus
+    name: blue chr4 interval
+    chromosome: "4"
+    start: 23872478
+    end: 27071814
+    n_cases: 33
+    best_p_value: 2.43E-11
+    n_genes_in_interval: 108
+
+  - label: Locus
+    name: miyuki chr19 interval
+    chromosome: "19"
+    start: 9832109
+    end: 10803405
+    n_cases: 34
+    best_p_value: 3.67E-10
+    n_genes_in_interval: 30
+
+  - label: Locus
+    name: rame chr20 interval
+    chromosome: "20"
+    start: 12073015
+    end: 13138676
+    n_cases: 47
+    best_p_value: 1.33E-09
+    n_genes_in_interval: 38
+
+  - label: Locus
+    name: kouhaku chr3 interval
+    chromosome: "3"
+    start: 13960030
+    end: 15862381
+    n_cases: 19
+    best_p_value: 3.61E-11
+    n_genes_in_interval: 44
+
+  - label: Locus
+    name: kuroaka chr8 interval
+    chromosome: "8"
+    start: 5006576
+    end: 6657821
+    n_cases: 7
+    best_p_value: 8.96E-16
+    n_genes_in_interval: 113
+
+  - label: Locus
+    name: fukumaku chr13 interval
+    chromosome: "13"
+    start: 25328892
+    end: 33584184
+    n_cases: 4
+    best_p_value: 5.71E-59
+    n_genes_in_interval: 198
+
+  - label: Locus
+    name: hikari chr20 interval
+    chromosome: "20"
+    start: 18018142
+    end: 19345542
+    n_cases: 35
+    best_p_value: 1.84E-21
+    n_genes_in_interval: 40
+
+  - label: Locus
+    name: daruma chr4 interval
+    chromosome: "4"
+    start: 775070
+    end: 6879644
+    n_cases: 6
+    best_p_value: 9.61E-38
+    n_genes_in_interval: 211
+
+  - label: Locus
+    name: hirenaga chr15 interval
+    chromosome: "15"
+    start: 7548155
+    end: 12116545
+    n_cases: 19
+    best_p_value: 1.19E-31
+    n_genes_in_interval: 92
+
+  - label: Locus
+    name: swallow chr15 interval
+    chromosome: "15"
+    start: 7321021
+    end: 11762845
+    n_cases: 12
+    best_p_value: 6.95E-33
+    n_genes_in_interval: 93
+
+  - label: Locus
+    name: longfin chr7 interval
+    chromosome: "7"
+    start: 9865513
+    end: 17095925
+    n_cases: 10
+    best_p_value: 5.19E-26
+    n_genes_in_interval: 318
+
+  - label: Locus
+    name: reallongfin chr17 interval
+    chromosome: "17"
+    start: 26828411
+    end: 31743217
+    n_cases: 8
+    best_p_value: 1.10E-33
+    n_genes_in_interval: 197
+
+  - label: Locus
+    name: deme chr15 interval
+    chromosome: "15"
+    start: 23036284
+    end: 25194225
+    n_cases: 15
+    best_p_value: 1.76E-22
+    n_genes_in_interval: 109
+
+  - label: Locus
+    name: bigeye chr2 interval
+    chromosome: "2"
+    start: 20843163
+    end: 23907604
+    n_cases: 7
+    best_p_value: 6.48E-34
+    n_genes_in_interval: 74
+
+  - label: Locus
+    name: tenme chr22 interval
+    chromosome: "22"
+    start: 47214
+    end: 3731349
+    n_cases: 14
+    best_p_value: 1.45E-19
+    n_genes_in_interval: 223
+
+  # --- Variants ----------------------------------------------------------------
+  - label: GeneticVariant
+    name: adcy5 exon8 56-bp deletion
+    variant_type: deletion
+    chromosome: "21"
+    description: >-
+      Homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5, found
+      in 16 of 18 orochi individuals. The transcript lacks exon 8 with no frameshift
+      after exon 9; the deletion maps to the C1b-alpha2 domain.
+
+  - label: GeneticVariant
+    name: kitlga frameshift chr6:2485888
+    variant_type: frameshift
+    chromosome: "6"
+    position: 2485888
+    description: >-
+      Frameshift producing a premature stop; 164-aa truncated protein against a
+      233-aa wild type.
+
+  - label: GeneticVariant
+    name: zic1/zic4 enhancer transposon insertion
+    variant_type: insertion
+    chromosome: "20"
+    description: >-
+      A large transposon inserted into the enhancer region shared by zic1 and zic4,
+      causing mesoderm-specific loss of their transcription. The Da lesion.
+
+  - label: GeneticVariant
+    name: kcnq5a intron1 deletion
+    variant_type: deletion
+    chromosome: "15"
+    start: 11147312
+    end: 11148989
+    description: >-
+      Hirenaga-specific large deletion in intron 1 of kcnq5a. No hirenaga-specific
+      nonsense, frameshift or missense variant was found in the coding region.
+
+  - label: GeneticVariant
+    name: bmp5 upstream SNV chr15:24280607
+    variant_type: SNV
+    chromosome: "15"
+    position: 24280607
+    description: >-
+      SNV 1.6 kb upstream of bmp5; present in 12 of 15 deme cases and 1 of 166
+      controls. No deme-specific coding mutation was found.
+
+  - label: GeneticVariant
+    name: tyr Tol-1 transposon insertion
+    variant_type: insertion
+    description: >-
+      Insertion of the Tol-1 transposable element into tyrosinase, responsible for
+      the classical medaka albino mutation. Somatic excision restores colour.
+
+  # --- Phenotypes --------------------------------------------------------------
+  - label: Phenotype
+    name: hyper-melanism
+    description: Dark body colour from increased melanophore number or dispersion.
+
+  - label: Phenotype
+    name: iridophore depletion
+    description: Reduced iridophore number or reflective platelet content.
+
+  - label: Phenotype
+    name: ectopic dorsal iridophore
+    description: Iridophores appearing on the dorsal body surface.
+
+  - label: Phenotype
+    name: dorsal-to-ventral identity transformation
+    description: >-
+      Dorsal structures taking on ventral character, producing mirror-image
+      duplication of the ventral half across the lateral midline.
+
+  - label: Phenotype
+    name: loss of melanophores
+  - label: Phenotype
+    name: loss of xanthophores
+  - label: Phenotype
+    name: fin ray elongation
+  - label: Phenotype
+    name: fin membrane elongation
+  - label: Phenotype
+    name: shortened body axis
+  - label: Phenotype
+    name: eyeball protrusion
+    description: Protrusion of the eyeball from the skull without enlargement.
+  - label: Phenotype
+    name: eyeball enlargement
+    description: Enlargement of the eyeball without protrusion.
+
+  # --- Mechanisms --------------------------------------------------------------
+  - label: BiologicalMechanism
+    name: dorsoventral patterning
+  - label: BiologicalMechanism
+    name: chromatophore development
+  - label: BiologicalMechanism
+    name: melanogenesis
+  - label: BiologicalMechanism
+    name: iridophore development
+  - label: BiologicalMechanism
+    name: bioelectric fin size regulation
+    description: >-
+      Potassium-channel-mediated control of fin proportion, established in
+      zebrafish.
+  - label: BiologicalMechanism
+    name: skeletal system development
+  - label: BiologicalMechanism
+    name: cAMP signaling
+
+  # --- Anatomy -----------------------------------------------------------------
+  - label: Anatomy
+    name: dorsal fin
+  - label: Anatomy
+    name: caudal fin
+  - label: Anatomy
+    name: scale
+  - label: Anatomy
+    name: peritoneum
+  - label: Anatomy
+    name: iris
+  - label: Anatomy
+    name: vertebral column

@@ -1,0 +1,341 @@
+# The 34 ornamental traits described by Kon et al. 2026, Table 1. PRD §3, §15 Phase 1.
+#
+# NAMING. The romanized string is the canonical identifier, because that is what
+# the source actually prints. Every Japanese-script form below sits in
+# `unverified_labels`, not in `aliases` or `japanese_name`: the seed paper
+# romanizes throughout and gives no orthography, so those strings are
+# reconstruction. PRD §2.4 does not allow unsourced text to sit in a field that
+# reads as sourced. They carry UNVERIFIED_LABEL and are waiting on a native
+# speaker.
+#
+# COMPOSITE CLASSES. YWKo, kurobuchi and akabuchi are declared by the paper as
+# unions of other traits. They are marked `is_composite` and linked with
+# `subsumes` claims, so that a shared locus between an umbrella and its member is
+# not mistaken for independent replication.
+
+entities:
+  # --- Body colour -------------------------------------------------------------
+  - label: OrnamentalTrait
+    name: orochi
+    category: BODY_COLOR
+    unverified_labels: ["オロチ"]
+    description: >-
+      Blackness greater than the black strain; increased melanophores. Table 1
+      records the hereditary mode as multilocus.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: aurora
+    category: BODY_COLOR
+    unverified_labels: ["オーロラ"]
+    description: >-
+      Mild iridophore depletion; loss of opercular iridophores makes the red gills
+      visible; scales shift green, red, blue or yellow.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: sanshoku
+    category: BODY_COLOR
+    unverified_labels: ["三色"]
+    description: Body partly white with both orange and black spots.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: kurobuchi
+    category: BODY_COLOR
+    is_composite: true
+    unverified_labels: ["黒斑"]
+    description: >-
+      Body colour pattern with black spots. Declared by the source as a superset
+      including sanshoku and kuroaka.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: akabuchi
+    category: BODY_COLOR
+    is_composite: true
+    unverified_labels: ["赤斑"]
+    description: >-
+      Body colour pattern with red spots. Declared by the source as a superset
+      including sanshoku and kouhaku.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: blackrim
+    category: BODY_COLOR
+    description: Dense melanophores around the scales, appearing as a black mesh.
+
+  - label: OrnamentalTrait
+    name: yellow
+    category: BODY_COLOR
+    aliases: [himedaka]
+    unverified_labels: ["ヒメダカ", "黄"]
+    description: >-
+      Loss of normal melanophores from the body surface. The body colour of the
+      traditional ornamental medaka, himedaka.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: YWKo
+    category: BODY_COLOR
+    is_composite: true
+    description: >-
+      Body colour without melanophores. An aggregated analysis class covering
+      yellow, white or kouhaku - not a strain name.
+
+  - label: OrnamentalTrait
+    name: black
+    category: BODY_COLOR
+    unverified_labels: ["黒"]
+    description: Increased blackness relative to wild type; increased melanophores.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: panda
+    category: BODY_COLOR
+    unverified_labels: ["パンダ"]
+    description: >-
+      Decreased iridophore throughout the body INCLUDING the iris and peritoneum.
+      The inclusion of iris and peritoneum is what distinguishes panda from
+      toumeirin.
+    review_reasons: [UNVERIFIED_LABEL, NAME_COLLISION]
+
+  - label: OrnamentalTrait
+    name: white
+    category: BODY_COLOR
+    unverified_labels: ["白"]
+    description: White body; loss of both normal xanthophores and melanophores.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: blue
+    category: BODY_COLOR
+    unverified_labels: ["青"]
+    description: Loss of normal xanthophores from the body surface.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: miyuki
+    category: BODY_COLOR
+    unverified_labels: ["幹之"]
+    description: >-
+      Ectopic iridophore on the dorsal side; reduction of melanophores and
+      xanthophores. Table 1 records the hereditary mode as multilocus.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: rame
+    category: SCALE
+    unverified_labels: ["ラメ"]
+    description: Increased number of iridophore-expressing silver-coloured scales.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: kouhaku
+    category: BODY_COLOR
+    unverified_labels: ["紅白"]
+    description: Body surface partly white with orange spots.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: kuroaka
+    category: BODY_COLOR
+    unverified_labels: ["黒赤"]
+    description: >-
+      Body surface partly orange with some black spots formed by melanophores.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: fukumaku
+    category: BODY_COLOR
+    unverified_labels: ["腹膜"]
+    description: Blue silver-coloured peritoneum.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: yokihi
+    category: BODY_COLOR
+    unverified_labels: ["楊貴妃"]
+    description: >-
+      Increased redness (orange) relative to yellow medaka; enhanced xanthophores,
+      loss of normal melanophores.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: gold
+    category: BODY_COLOR
+    description: >-
+      Brown or wild-type-like; brighter than wild type, with decreased blackness.
+
+  - label: OrnamentalTrait
+    name: toumeirin
+    category: SCALE
+    unverified_labels: ["透明鱗"]
+    description: >-
+      Decreased iridophore throughout the body EXCLUDING the iris and peritoneum;
+      near-complete loss in the scales.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: albino
+    category: BODY_COLOR
+    unverified_labels: ["アルビノ"]
+    description: >-
+      Lack of melanophores throughout the body; yellow body, pink pupil. Not
+      GWAS-analysed by the seed paper.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: nijikin
+    category: BODY_COLOR
+    unverified_labels: ["虹金"]
+    description: >-
+      Ectopic iridophore expression throughout the muscle. Not GWAS-analysed.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  # --- Body shape --------------------------------------------------------------
+  - label: OrnamentalTrait
+    name: hikari
+    category: BODY_SHAPE
+    unverified_labels: ["光"]
+    description: >-
+      The dorsal side takes on ventral character: the dorsal fin is shaped like a
+      pelvic fin, the caudal fin is diamond-shaped, and ectopic iridophore on the
+      back makes the dorsal side shine silver.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: daruma
+    category: BODY_SHAPE
+    unverified_labels: ["ダルマ"]
+    description: Short body axis.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: handaruma
+    category: BODY_SHAPE
+    unverified_labels: ["半ダルマ"]
+    description: >-
+      Mildly short body axis; longer than daruma, shorter than wild type. Not
+      GWAS-analysed.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  # --- Fin morphology ----------------------------------------------------------
+  - label: OrnamentalTrait
+    name: hirenaga
+    category: FIN_MORPHOLOGY
+    unverified_labels: ["ヒレ長"]
+    description: >-
+      All five types of fin ray longer than wild type; fin membranes elongate
+      partially.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: swallow
+    category: FIN_MORPHOLOGY
+    unverified_labels: ["スワロー"]
+    description: >-
+      Some fin rays longer than wild type; fin membranes do NOT elongate. Membrane
+      involvement is the discriminator from hirenaga.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: longfin
+    category: FIN_MORPHOLOGY
+    description: Six fins - all except the caudal fin - longer than wild type.
+
+  - label: OrnamentalTrait
+    name: reallongfin
+    category: FIN_MORPHOLOGY
+    description: >-
+      All fins longer than wild type; not only the fin rays but also the fin
+      membranes are elongated.
+
+  - label: OrnamentalTrait
+    name: nodorsalfin
+    category: FIN_MORPHOLOGY
+    description: Dorsal fin loss. Not GWAS-analysed by the seed paper.
+
+  # --- Eye morphology ----------------------------------------------------------
+  - label: OrnamentalTrait
+    name: deme
+    category: EYE_MORPHOLOGY
+    unverified_labels: ["出目"]
+    description: >-
+      Protrusion of the eyeballs from the skull caused by skeletal dysplasia of the
+      head; the eyeballs themselves are not enlarged.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: bigeye
+    category: EYE_MORPHOLOGY
+    description: >-
+      Enlarged eyeballs that do NOT protrude from the skull. Clean contrast with
+      deme, which is protrusion without enlargement.
+
+  - label: OrnamentalTrait
+    name: tenme
+    category: EYE_MORPHOLOGY
+    unverified_labels: ["天眼"]
+    description: Small pupil; small eyeballs in some cases.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: OrnamentalTrait
+    name: suihougan
+    category: EYE_MORPHOLOGY
+    unverified_labels: ["水泡眼"]
+    description: >-
+      Enlargement of the anterior segment of the eyeball; corneal cyst. Not
+      GWAS-analysed.
+    review_reasons: [UNVERIFIED_LABEL]
+
+  # --- Laboratory mutants, kept distinct from the breeder traits. PRD §8 --------
+  # These are NOT aliases of the ornamental traits above. Whether a breeder strain
+  # and a lab mutant share a genetic background is a biological claim, so it is
+  # recorded with `putatively_same_as` and evidence, never by merging the nodes.
+  - label: OrnamentalTrait
+    name: Da mutant
+    category: BODY_SHAPE
+    aliases: ["Double anal fin", "Da", "double-anal-fin mutant"]
+    description: >-
+      Laboratory medaka mutant showing mirror-image duplication of the ventral half
+      across the lateral midline. Caused by a transposon insertion in the zic1/zic4
+      enhancer.
+
+  - label: OrnamentalTrait
+    name: guanineless
+    category: BODY_COLOR
+    aliases: ["gu"]
+    description: Laboratory medaka iridophore mutant; causal gene pnp4a.
+
+  - label: OrnamentalTrait
+    name: few melanophore
+    category: BODY_COLOR
+    aliases: ["fm"]
+    description: Laboratory medaka pigment cell mutant; causal gene kitlga.
+
+  - label: OrnamentalTrait
+    name: leucophore free
+    category: BODY_COLOR
+    aliases: ["lf"]
+    description: Laboratory medaka pigment cell mutant; sox5 acts as the fate switch.
+
+  - label: OrnamentalTrait
+    name: panda (pa) lab mutant
+    category: BODY_COLOR
+    aliases: ["pa"]
+    description: >-
+      A DIFFERENT laboratory iridophore mutant that is also called "panda",
+      reported in a 2024 preprint and attributed to mpv17. Deliberately a separate
+      entity from the ornamental `panda` strain: sharing a common name is not
+      evidence of sharing a genetic background. PRD §8.
+    review_reasons: [NAME_COLLISION]
+
+  - label: OrnamentalTrait
+    name: fused centrum
+    category: BODY_SHAPE
+    aliases: ["fsc"]
+    description: >-
+      Laboratory medaka mutant with disrupted segmental patterning of the vertebral
+      column; causal gene wnt4b. Phenotypically similar to daruma but not shown to
+      be the same thing - the seed paper's own data argue against it.
