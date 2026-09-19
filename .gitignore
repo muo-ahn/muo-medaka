@@ -26,3 +26,9 @@ data/fulltext/
 Thumbs.db
 .idea/
 .vscode/
+
+# Graph dumps: timestamped backups written by `medaka export`. Regenerable from
+# the graph, and a new file every run, so they are kept out of history. The
+# dossiers under data/dossier/ ARE committed - their diffs are how a reviewer
+# sees what changed in the knowledge base.
+data/export/
