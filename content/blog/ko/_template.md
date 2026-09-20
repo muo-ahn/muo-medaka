@@ -1,6 +1,6 @@
 ---
 trait: <도시에 파일명과 동일한 romanized id>
-category: <BODY_COLOR | BODY_SHAPE | SCALE | FIN | EYE>
+category: <vocabulary.py TraitCategory 정본 값: BODY_COLOR | BODY_SHAPE | FIN_MORPHOLOGY | EYE_MORPHOLOGY | SCALE | OTHER>
 evidence_badge: <causal | candidate | interval>
 sources:
   - doi: 10.1093/molbev/msag021
