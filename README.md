@@ -76,9 +76,48 @@ cp .env.example .env
 | `shared-genes` | Trait pairs sharing a gene, excluding pairs related by subsumption. |
 | `search <q>` | Full-text over entity names and aliases. |
 | `export` | Dump the whole graph to JSONL under `data/export/`. |
+| `queries` | The literature queries the current ontology generates. |
+| `pipeline` | One discovery cycle: search, acquire, extract, stage for review. |
+| `papers` | The paper registry, by processing state. |
+| `candidates` | Staged proposals awaiting a decision. |
+| `accept <id> --level X` / `reject <id>` | Decide one candidate. |
+| `proposed-genes` | Gene symbols seen but not in the ontology. |
 
 The Neo4j browser is at <http://localhost:7474> (user `neo4j`, password from
 `.env`).
+
+## The discovery loop
+
+```bash
+.venv/Scripts/python -m medaka_ontology.cli pipeline --max-queries 10 --max-papers 12
+```
+
+The queries are built from the graph, so the ontology expands its own search as
+it grows. Each trait produces a ladder — trait names and aliases, the laboratory
+mutants it is identified with, the genes those claims point at, the mechanisms
+those genes participate in — and the mechanism rung is deliberately *not* scoped
+to medaka, because the papers that settle a trait's genetics are often not
+ornamental-medaka papers at all. Expanding `hikari → Da mutant → zic1 →
+dorsoventral patterning` is what reaches the original Da linkage-mapping paper
+and the zic1 somite literature, none of which the seed contains.
+
+**A run writes nothing into the ontology.** Everything lands in a candidate
+queue:
+
+```bash
+.venv/Scripts/python -m medaka_ontology.cli candidates
+.venv/Scripts/python -m medaka_ontology.cli accept cand:abc123 --level OBSERVATIONAL
+```
+
+Extraction finds sentences where two known entities are named together and
+offers the verbatim quote. It does not read the sentence, and the evidence level
+it suggests from cue phrases carries no authority — you assign the real one when
+you accept. [ADR 0002](docs/decisions/0002-extraction-proposes-never-asserts.md)
+explains why it stops there, and what that costs.
+
+Papers carry a processing state (`medaka papers`) so a scheduled run never
+rediscovers or reprocesses what it already handled, and so a paywalled paper is
+recorded as `INACCESSIBLE` with a reason rather than silently missing.
 
 ## Who owns what
 
@@ -165,8 +204,8 @@ tests/            Includes assertions about the seed data's honesty
 
 ## Status
 
-Phase 1 (ontology bootstrap) is in place. Phase 2 (literature backfill), Phase 3
-(automated discovery) and Phase 4 (refinement) are not yet built; the paper
-processing pipeline of PRD §7 and the periodic collector of §11 are still to
-come. `unprocessed_papers()` and `mark_paper_processed()` are the hooks they will
-use.
+Phase 1 (ontology bootstrap) and the discovery pipeline of PRD §7/§11 are in
+place. What is not built: automatic entity resolution for genuinely new traits
+(ADR 0002 explains why that is deliberate), and Phase 4 refinement — merging
+duplicate entities, detecting contradictions across newly accepted evidence, and
+correcting evidence levels in bulk.

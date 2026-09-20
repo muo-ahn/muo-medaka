@@ -32,3 +32,7 @@ Thumbs.db
 # dossiers under data/dossier/ ARE committed - their diffs are how a reviewer
 # sees what changed in the knowledge base.
 data/export/
+
+# Run reports: one timestamped JSON per pipeline run. Operational logs,
+# regenerated constantly; the knowledge they describe lives in the graph.
+data/runs/
