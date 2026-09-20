@@ -344,6 +344,33 @@ def test_a_decided_candidate_cannot_be_decided_twice(clean_candidates):
         accept_candidate(graph, candidate.id, EvidenceLevel.OBSERVATIONAL)
 
 
+def test_proposed_genes_are_checked_against_the_existing_ontology(clean_candidates):
+    """Issue #1 §6. A proposal is only news if the symbol is actually unknown.
+    One that already exists under another label must say so, because adding it
+    again splits one concept across two nodes."""
+    from medaka_ontology.candidates import pending_proposed_genes, store_proposed_genes
+    from medaka_ontology.resolution import ProposedGene
+    from medaka_ontology.vocabulary import ResolutionStatus
+
+    graph = clean_candidates
+    graph.run(
+        "MERGE (p:Paper {id:'paper:doi:10.1/resolve-test'}) "
+        "ON CREATE SET p.title='resolution fixture', p.doi='10.1/resolve-test'"
+    )
+    store_proposed_genes(
+        graph,
+        [
+            # Genuinely absent from the ontology.
+            ProposedGene("hoxa9b", "quote", "paper:doi:10.1/resolve-test", "Results"),
+            # Already a Gene in the seed data; must not read as new.
+            ProposedGene("adcy5", "quote", "paper:doi:10.1/resolve-test", "Results"),
+        ],
+    )
+    by_symbol = {r["symbol"]: r for r in pending_proposed_genes(graph)}
+    assert by_symbol["hoxa9b"]["resolution"] == ResolutionStatus.NEW.value
+    assert by_symbol["adcy5"]["resolution"] == ResolutionStatus.RESOLVED_EXACT.value
+
+
 def test_rejected_candidates_stay_recorded(clean_candidates):
     """So the same call is not re-proposed as new on the next run."""
     graph = clean_candidates

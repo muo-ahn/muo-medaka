@@ -552,18 +552,24 @@ def proposed_genes_cmd() -> None:
     if not rows:
         console.print("no proposed genes")
         return
-    table = Table("symbol", "seen near", "paper")
+    table = Table("symbol", "resolution", "seen near", "paper")
     for row in rows:
+        resolution = row["resolution"]
+        if row["collides_with"]:
+            resolution += f" ({', '.join(row['collides_with'][:2])})"
         table.add_row(
             row["symbol"],
+            resolution,
             ", ".join((row["near_entities"] or [])[:3]),
-            (row["paper_title"] or "")[:60],
+            (row["paper_title"] or "")[:52],
         )
     console.print(table)
     console.print(
         f"{len(rows)} proposal(s). These are orthographic guesses from gene "
         "nomenclature, not identifications - confirm against a gene database "
-        "before adding any of them to data/seed/."
+        "before adding any to data/seed/. A resolution other than NEW means the "
+        "symbol already exists somewhere in the graph; adding it again would "
+        "split one concept across two nodes."
     )
 
 

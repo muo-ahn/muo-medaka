@@ -24,7 +24,7 @@ from neo4j import Session
 from .extraction import CandidateClaim
 from .ingest import ingest_claim
 from .models import Claim, EntityRef, Evidence
-from .resolution import ProposedGene
+from .resolution import ProposedGene, resolve
 from .vocabulary import (
     CandidateStatus,
     EvidenceLevel,
@@ -146,7 +146,15 @@ def pending_candidates(session: Session, limit: int | None = None) -> list[dict[
 
 
 def pending_proposed_genes(session: Session) -> list[dict[str, Any]]:
-    return [
+    """Proposed gene symbols, each checked against the existing ontology.
+
+    The resolution check is what stops a proposal being read as new when it is
+    not. A symbol can already exist under a different label, or match an alias on
+    an entity nobody expected -- and adding it as a fresh `Gene` would split one
+    concept across two nodes, which PRD §8 exists to prevent. `AMBIGUOUS` here
+    means "look before you add", not "reject".
+    """
+    rows = [
         dict(r)
         for r in session.run(
             "MATCH (g:ProposedEntity)-[:FROM_PAPER]->(p:Paper) WHERE g.status = $pending "
@@ -156,6 +164,11 @@ def pending_proposed_genes(session: Session) -> list[dict[str, Any]]:
             pending=CandidateStatus.PENDING.value,
         )
     ]
+    for row in rows:
+        resolution = resolve(session, NodeLabel.GENE, row["symbol"])
+        row["resolution"] = resolution.status.value
+        row["collides_with"] = resolution.alternatives
+    return rows
 
 
 def candidate_counts(session: Session) -> dict[str, int]:
