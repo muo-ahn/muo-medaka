@@ -1,0 +1,146 @@
+# What the trade sources assert about the scale and fin axes. PRD §4, §5, §8.
+#
+# Every evidence record here is BREEDER_OBSERVATION. That is not a formality: rank
+# 10 puts all of it below the OBSERVATIONAL rung a published phenotype table sits
+# on, so `dossier` will print these under any literature finding that ever arrives
+# and `shared-genes` cannot be moved by them. The level is the containment.
+#
+# WHAT IS NOT CLAIMED HERE, AND WHY. Three links are visible and all three are
+# absent on purpose:
+#
+#   - fusahire -> pnp4a. The trade explanation of the feathery white is guanine on
+#     the branched rays, and pnp4a is the causal gene of guanineless, whose whole
+#     business is guanine in the iridophore. It is the most interesting hypothesis
+#     on this page and there is not one experiment behind it. A trait-gene claim
+#     minted from a word appearing in two sentences is precisely the failure PRD
+#     §8 names. It stays in this comment until somebody sequences a fusahire fish.
+#   - fusahire -> longfin / hirenaga. The sources say fusahire is usually combined
+#     with ロングフィン. Our `longfin` is Kon et al.'s definition, not the trade's,
+#     and equating them on the English word would manufacture a relation nobody
+#     asserted.
+#   - kagamirin -> toumeirin. Both are SCALE and they are not the same thing; no
+#     source compares them, so nothing here says they resemble each other.
+
+claims:
+  # --- kagamirin ---------------------------------------------------------------
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: kagamirin}
+    object: {label: Phenotype, name: enlarged scale}
+    interpretation: >-
+      Scale size, not scale reflectivity, is what distinguishes this trait. The
+      lateral alignment and symmetry the source dwells on are grading criteria
+      applied to that phenotype by breeders, not separate phenotypes, and are
+      left in the trait description rather than reified here.
+    evidence:
+      - paper: swampcreek_kagamirin
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: >-
+          Scales are larger than normal and are valued when they sit in one
+          orderly lateral row, bilaterally symmetric and unbroken. The source
+          states the appeal lies in the size and arrangement of each scale
+          rather than in rame or taigaikou, and that the arrangement cannot be
+          assessed from above.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: enlarged scale}
+    object: {label: Anatomy, name: scale}
+    evidence:
+      - paper: swampcreek_kagamirin
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: The phenotype is a property of the scales themselves.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: co_occurs_with
+    subject: {label: OrnamentalTrait, name: kagamirin}
+    object: {label: OrnamentalTrait, name: rame}
+    interpretation: >-
+      A breeder combined these deliberately in one strain; this is not evidence
+      of a biological association and must not be read as one. What it does
+      establish is that the two are compatible in a single fish, so whatever
+      locus carries kagamirin is not the chr20 rame interval by another name --
+      which is the one thing worth having recorded on the scale axis while it
+      holds exactly two entries.
+    evidence:
+      - paper: medakayaen_ryuurin
+        experiment_type: strain composition
+        level: BREEDER_OBSERVATION
+        strain: ryuurin
+        finding: >-
+          The ryuurin strain, announced August 2025, is described as carrying
+          flaming rame together with kagamirin over the whole body and long
+          fins, at a fixation rate near 100%.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  # --- fusahire ----------------------------------------------------------------
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: fusahire}
+    object: {label: Phenotype, name: fin ray branching}
+    interpretation: >-
+      This is the discriminator. Kon et al. split the fin axis on whether the
+      membrane elongates with the rays -- hirenaga yes, swallow no -- and a ray
+      that divides is outside both descriptions, so fusahire is a third mode
+      rather than a grade of either.
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        strain: mariage longfin
+        finding: >-
+          The elongated portions of the dorsal and anal fin rays divide into
+          branches.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: fusahire}
+    object: {label: Phenotype, name: fin ray elongation}
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        strain: mariage longfin
+        finding: >-
+          The branching occurs in rays that have already elongated; elongation is
+          described as the precondition rather than as the trait itself.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: fusahire}
+    object: {label: Phenotype, name: guanine deposition on fin rays}
+    interpretation: >-
+      Recorded separately from the branching because the source makes the white
+      feathery look depend on both, and because a pigmentary component on the fin
+      axis is unusual enough to be worth being able to query for. The obvious
+      pnp4a hypothesis is deliberately not a claim -- see this file's header.
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        strain: mariage longfin
+        finding: >-
+          Guanine, referred to as hire-hikari, collects at the branch points of
+          the elongated rays, and the source attributes the white feathery
+          appearance to that accumulation.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: fin ray branching}
+    object: {label: Anatomy, name: dorsal fin}
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: The dorsal fin is one of the two fins named as branching.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: fin ray branching}
+    object: {label: Anatomy, name: anal fin}
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: The anal fin is the other fin named as branching.
+        review_reasons: [BREEDER_ACADEMIC_LINK]

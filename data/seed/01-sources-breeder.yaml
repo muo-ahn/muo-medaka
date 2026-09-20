@@ -1,0 +1,101 @@
+# Breeder and hobby-registry sources. PRD §2.4, §8.
+#
+# WHY THESE ARE :Paper NODES. Evidence hangs off a paper key, and a second
+# provenance label would double every read path to buy nothing. What separates a
+# trade source from the literature is not the node type, and all three separators
+# are already enforced elsewhere:
+#
+#   1. No DOI, PMID or PMCID. `Paper.id` falls back to `paper:key:<slug>`, and
+#      `register_discovered` skips anything it cannot identify by DOI/PMID/PMCID,
+#      so a shop page can never be dragged into the acquisition pipeline. Seed
+#      ingest never writes `processing_state`, and `papers_in_states` matches on a
+#      value, so these are invisible to `pipeline` by construction rather than by
+#      anyone remembering to exclude them.
+#   2. Every claim resting on them is capped at BREEDER_OBSERVATION -- rank 10,
+#      the weakest level above UNKNOWN. Nothing here can outrank a GWAS.
+#   3. All of it carries BREEDER_ACADEMIC_LINK into the review queue.
+#
+# These describe what breeders observe, name and sell. No journal has published on
+# either trait below, so this is the whole of the record. Recording it as weak
+# evidence is more honest than the silence of leaving it out.
+#
+# NOT CITED, DELIBERATELY. The JMA (日本メダカ協会) 改良メダカ品種分類マニュアル
+# 第五版, September 2025, is the nearest thing this hobby has to a standards body
+# and is the right anchor for both axes. It is not below because nobody here has
+# read it -- citing a classification manual for a classification we inferred from
+# shop pages would be exactly the fabricated provenance PRD §2.4 forbids. Acquire
+# it, then revisit every claim in 23-claims-breeder.yaml.
+# https://jma-medaka.com/medaka-variety-classification-manual/
+
+papers:
+  # --- Scale axis --------------------------------------------------------------
+  - key: swampcreek_kagamirin
+    title: カガミ鱗幹之ってどんなメダカ？大きな鱗が並ぶ不思議な魅力
+    journal: note (Swamp & Creek)
+    url: https://note.com/noble_takin450/n/n9e755d7ab052
+    authors: [Swamp & Creek]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-20. The only descriptive account of the kagamirin
+      phenotype we could find: scales larger than normal, in a single orderly
+      lateral row, bilaterally symmetric. Explicitly contrasts the trait with
+      rame and taigaikou as a matter of scale size and arrangement rather than
+      reflective load, and states the arrangement cannot be judged from above.
+      A hobby blog, not a reference work.
+
+  - key: horikiri_kagamirin2024
+    title: カガミ鱗メダカのメダカ言葉は「夢かなう」
+    year: 2024
+    journal: 堀切めだか (blog)
+    url: https://horikirimedaka.hateblo.jp/entry/2024/07/06/155258
+    authors: [堀切めだか]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-20. Origin account only -- carries no morphological
+      description, which is why the phenotype claims cite swampcreek_kagamirin
+      instead. States the trait was found by Iketani of Nekomanma in 2017 while
+      screening stock from the side, brushed up over five years, and reached the
+      market in 2024. Uncorroborated single-source history; the dates are the
+      shop's own.
+
+  - key: medakayaen_ryuurin
+    title: 龍鱗メダカの特徴や作り方、固定率など徹底解説！
+    year: 2025
+    journal: メダカ屋えん (blog)
+    url: https://medakayaen-ec.com/blog/ryuurin/
+    authors: [メダカ屋えん]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-20. Describes ryuurin as a house name announced August
+      2025 by Mugen Medaka (Okinawa), from Ouroboros x Jabokubu Limone flaming
+      type longfin, fixation near 100%, combining full-body kagamirin with rame
+      and long fins in pursuit of an Asian arowana scale look. Cited here only
+      for the co-occurrence of kagamirin and rame in one strain.
+
+  # --- Fin axis ----------------------------------------------------------------
+  - key: medakazukan_mariage2021
+    title: マリアージュロングフィン (2021.9) — 最新メダカ紹介
+    year: 2021
+    journal: 改良メダカWEB図鑑
+    url: https://medakazukan.net/202109mariagelongfin/
+    authors: [改良メダカWEB図鑑]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-20. The most mechanistic statement of fusahire found
+      anywhere: the elongated fin rays branch, and guanine collects on the
+      branches, which is what produces the white feathery look. Also the earliest
+      dated appearance we can pin -- Tarumi (Ehime), September 2021, from
+      rinkou longfin (Tarumi longfin) x morpho. The commonly repeated "fusahire,
+      2023" refers to the release of the strain Fromage, not to the trait.
+
+  - key: hinsyuzukan_fusahire
+    title: フサヒレ — みんなのメダカ品種図鑑
+    journal: みんなのメダカ品種図鑑
+    url: https://hinsyu-zukan.satumano-medakayasan.com/tag/%E3%83%95%E3%82%B5%E3%83%92%E3%83%AC/
+    authors: [みんなのメダカ品種図鑑]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-20. A house-name index, not a description. Used only to
+      establish that fusahire is treated as a fin category in its own right,
+      separate from hirenaga, and that it recurs across independent strains:
+      Feather Light (2025), Midnight Frill (2023), Fromage (2023), Orange (2024).
