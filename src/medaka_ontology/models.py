@@ -69,8 +69,12 @@ def entity_id(label: NodeLabel, name: str) -> str:
     return f"{LABEL_PREFIX[label]}:{slugify(name)}"
 
 
-def _digest(*parts: str) -> str:
+def content_digest(*parts: str) -> str:
+    """Short stable digest of the given parts, used to mint deterministic ids."""
     return hashlib.sha1("|".join(parts).encode("utf-8")).hexdigest()[:16]
+
+
+_digest = content_digest  # internal alias, kept so call sites below read shorter
 
 
 def claim_id(predicate: Predicate, subject_id: str, object_id: str) -> str:
@@ -312,6 +316,14 @@ class Claim(_Record):
         description="Our reading of the evidence, never the source's own words. PRD §2.3.",
     )
     evidence: list[Evidence] = Field(default_factory=list)
+    subject_species: str | None = Field(
+        default=None,
+        description=(
+            "The subject entity's species, when the caller knows it. Needed for "
+            "the comparative-evidence ceiling on Gene subjects, whose species "
+            "lives on the entity rather than being implied by the label."
+        ),
+    )
     review_status: ReviewStatus = ReviewStatus.PENDING
     review_reasons: list[ReviewReason] = Field(default_factory=list)
 
@@ -323,10 +335,30 @@ class Claim(_Record):
                 f"claim {self.predicate.value} {self.subject.name} -> {self.object.name}: "
                 "has no evidence. PRD §2.2 requires every claim to carry a source."
             )
-        # An OrnamentalTrait or Phenotype here is a medaka trait by definition, so
-        # comparative evidence on it is an argument from homology whatever its
-        # standing in its own species.
+        # A medaka subject means comparative evidence on it is an argument from
+        # homology, whatever its standing in its own species.
+        #
+        # An OrnamentalTrait or Phenotype is medaka by definition, so the check
+        # always applies there. A Gene is not: `kcnk5b` is a zebrafish gene, and
+        # zebrafish evidence about it is direct, not comparative. Its species
+        # lives on the entity, which this model cannot see, so the caller passes
+        # it in `subject_species`.
+        #
+        # When a Gene subject arrives with no species, the check is skipped here
+        # and the caller is responsible. Both callers do it: the seed loader
+        # checks in `loader.validate`, where the entity map is available, and
+        # acceptance looks the species up before constructing the claim. A third
+        # write path would have to do the same -- which is why
+        # `candidates.accept_candidate` routes through this model rather than
+        # writing its own Cypher.
         if self.subject.label in {NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.PHENOTYPE}:
+            subject_is_medaka = True
+        elif self.subject_species is None:
+            subject_is_medaka = False
+        else:
+            subject_is_medaka = self.subject_species.lower().startswith("oryzias")
+
+        if subject_is_medaka:
             for ev in self.evidence:
                 if ev.is_comparative and ev.rank > EVIDENCE_RANK[COMPARATIVE_CEILING]:
                     raise ValueError(

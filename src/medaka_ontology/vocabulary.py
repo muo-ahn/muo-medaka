@@ -242,6 +242,61 @@ class ReviewReason(StrEnum):
     NAME_COLLISION = "NAME_COLLISION"
 
 
+class PaperState(StrEnum):
+    """Where a paper is in the discovery pipeline.
+
+    Persisted on the :Paper node so a scheduled run never rediscovers or
+    reprocesses what it already handled, and so a failure is recorded as a state
+    rather than as an absence. PRD §11; issue #1 §2.
+
+    `INACCESSIBLE` is terminal-ish but not final: a paywalled paper may become
+    open access later, so `reset-state` can move it back.
+    """
+
+    DISCOVERED = "DISCOVERED"
+    METADATA_RESOLVED = "METADATA_RESOLVED"
+    FULLTEXT_AVAILABLE = "FULLTEXT_AVAILABLE"
+    INACCESSIBLE = "INACCESSIBLE"
+    EXTRACTION_PENDING = "EXTRACTION_PENDING"
+    EXTRACTED = "EXTRACTED"
+    REVIEW_REQUIRED = "REVIEW_REQUIRED"
+    ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
+
+
+#: States a run may pick up for the next step. Anything else is done or parked.
+ACTIONABLE_PAPER_STATES: frozenset[PaperState] = frozenset(
+    {
+        PaperState.DISCOVERED,
+        PaperState.METADATA_RESOLVED,
+        PaperState.FULLTEXT_AVAILABLE,
+        PaperState.EXTRACTION_PENDING,
+    }
+)
+
+
+class CandidateStatus(StrEnum):
+    """A proposal's standing. Candidates are never claims until accepted."""
+
+    PENDING = "PENDING"
+    ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
+
+
+class ResolutionStatus(StrEnum):
+    """How an extracted mention mapped onto the existing ontology. Issue #1 §6.
+
+    `AMBIGUOUS` and `NEW` both route to a human. Silently merging on a fuzzy name
+    match is how an ontology acquires entities that are two things at once, and
+    PRD §8 is explicit that a shared name is not evidence of shared biology.
+    """
+
+    RESOLVED_EXACT = "RESOLVED_EXACT"
+    RESOLVED_ALIAS = "RESOLVED_ALIAS"
+    AMBIGUOUS = "AMBIGUOUS"
+    NEW = "NEW"
+
+
 class VocabularyError(ValueError):
     """Raised when a claim violates the declared predicate shape."""
 
