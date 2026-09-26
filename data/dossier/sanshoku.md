@@ -13,7 +13,8 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 ## Phenotypes
 
-- _none recorded_
+- black spotting
+- orange spotting
 
 ## Genetics
 
@@ -42,6 +43,11 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Association on chromosome 14, 22,279,553-30,567,935, from only 4 sanshoku individuals; best P = 6.48E-61; 248 genes.
   - _Table 2_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - has_phenotype → black spotting
+  - Body partly white with both orange and black spots.
+  - _Table 1_
+
 ## Related traits
 
 - akabuchi → subsumes → this trait
@@ -51,4 +57,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
 - Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
-- 2 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).
+- 4 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).

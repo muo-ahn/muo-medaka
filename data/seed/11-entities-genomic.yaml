@@ -544,6 +544,73 @@ entities:
     name: eyeball enlargement
     description: Enlargement of the eyeball without protrusion.
 
+  # Backfill. Table 1 describes a phenotype for every strain it lists, but the
+  # first load only decomposed the ones needed to tell two traits apart, leaving
+  # 20 of 42 dossiers with an empty Phenotypes section. That omission is
+  # load-bearing in the wrong direction: a trait with no phenotype recorded is
+  # unreachable from any search that expands through phenotypes, and the traits
+  # that need such a search are exactly the ones with no candidate gene.
+  #
+  # Every entry below decomposes wording already carried by the trait
+  # `description`, which is itself Table 1. Nothing here is inferred from a
+  # trait name: guanineless, leucophore free and panda (pa) stay empty because
+  # their recorded findings name a causal gene and never state the phenotype,
+  # and reading it off the name is the failure PRD SS8 exists to prevent.
+  - label: Phenotype
+    name: hypomelanism
+    description: >-
+      Lighter body colour from decreased melanin. Recorded where the source
+      describes colour rather than melanophore count; see reduced melanophore
+      number for the cell-count form.
+  - label: Phenotype
+    name: reduced melanophore number
+    description: Fewer melanophores than wild type, short of complete loss.
+  - label: Phenotype
+    name: reduced xanthophore number
+    description: Fewer xanthophores than wild type, short of complete loss.
+  - label: Phenotype
+    name: xanthophore enhancement
+    description: Increased xanthophore pigmentation relative to yellow medaka.
+  - label: Phenotype
+    name: orange spotting
+    description: >-
+      Discrete orange patches on the body surface. Table 1 writes "red" for
+      akabuchi and "orange" for kouhaku and sanshoku; the subsumption edges the
+      same table declares make these the same feature under two words.
+  - label: Phenotype
+    name: black spotting
+    description: Discrete black patches formed by melanophores.
+  - label: Phenotype
+    name: melanophore concentration at scale margin
+    description: >-
+      Dense melanophores around each scale, reading as a black mesh. Distinct
+      from hyper-melanism, which is not localised to the scale margin.
+  - label: Phenotype
+    name: peritoneal iridophore
+    description: Iridophore in the peritoneum, colouring it blue-silver.
+  - label: Phenotype
+    name: ectopic muscle iridophore
+    description: Iridophore appearing throughout the muscle.
+  - label: Phenotype
+    name: increased iridophore-bearing scales
+    description: More scales carrying iridophore than wild type.
+  - label: Phenotype
+    name: dorsal fin loss
+  - label: Phenotype
+    name: small pupil
+  - label: Phenotype
+    name: eyeball reduction
+    description: >-
+      Eyeballs smaller than wild type. The opposite pole from eyeball
+      enlargement, which bigeye carries.
+  - label: Phenotype
+    name: anterior eye segment enlargement
+  - label: Phenotype
+    name: corneal cyst
+  - label: Phenotype
+    name: vertebral centrum fusion
+    description: Vertebral centra fused through disrupted segmental patterning.
+
   # --- Mechanisms --------------------------------------------------------------
   - label: BiologicalMechanism
     name: dorsoventral patterning

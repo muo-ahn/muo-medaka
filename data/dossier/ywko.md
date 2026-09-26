@@ -10,7 +10,7 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
 
 ## Phenotypes
 
-- _none recorded_
+- loss of melanophores
 
 ## Genetics
 
@@ -36,6 +36,11 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
   - _Table 2_
 
 • **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - has_phenotype → loss of melanophores
+  - Body colour without melanophores.
+  - _Table 1_
+
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - subsumes → kouhaku
   - YWKo covers yellow, white or kouhaku.
   - _Table 1_
@@ -54,4 +59,4 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 5 claim(s) awaiting human review.
+- 6 claim(s) awaiting human review.

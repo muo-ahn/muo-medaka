@@ -10,7 +10,7 @@ Brown or wild-type-like; brighter than wild type, with decreased blackness.
 
 ## Phenotypes
 
-- _none recorded_
+- hypomelanism
 
 ## Genetics
 
@@ -22,7 +22,10 @@ _No genetic association recorded._
 
 ## Evidence
 
-_No evidence recorded._
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - has_phenotype → hypomelanism
+  - Brown or wild-type-like; brighter than wild type, with decreased blackness.
+  - _Table 1_
 
 ## Related traits
 
@@ -31,3 +34,4 @@ _No evidence recorded._
 ## Open questions
 
 - No candidate gene or locus recorded yet.
+- 1 claim(s) awaiting human review.
