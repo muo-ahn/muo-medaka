@@ -13,7 +13,7 @@ Two jobs, in order:
    phenotype rung was not built on phenotype names.
 
     python .claude/skills/trait-literature-search/scripts/probe_retrieval.py
-    python .claude/skills/trait-literature-search/scripts/probe_retrieval.py "enlarged scale" "fin ray"
+    python .claude/skills/trait-literature-search/scripts/probe_retrieval.py "fin ray"
 """
 
 from __future__ import annotations

@@ -89,6 +89,18 @@ TITLE:(medaka) AND TITLE:(fin)      → found the afl/eda paper
 medaka AND (edar OR ectodysplasin)  → found the rs-3 paper
 ```
 
+**Anatomy nouns retrieve where phenotype names do not** — 0 of 26 anatomy terms
+came back empty against 18 of 30 phenotype names. But the fine-grained noun is
+not the one to search with. Title-scoped, these retrieve **nothing**: `dorsal
+fin`, `iris`, `peritoneum`, `cornea`, `pupil`, `centrum`, `fin membrane`. Their
+coarse parents do: `fin` 27, `skin` 13, `muscle` 12, `eye` 10, `scale` 8,
+`pigment cell` 8, `melanophore` 6.
+
+That split is why `Anatomy` nodes carry a `query_terms` list. The node keeps the
+precise name because the graph needs it — whether the iris is involved is the
+discriminator between panda and toumeirin — while `query_terms` holds what the
+literature actually titles. Do not collapse the two.
+
 ### 3. Search each phenotype independently
 
 Independently means the searches must not share terms. Two queries that both
@@ -172,15 +184,73 @@ A candidate is not written up until these are in the same entry:
 | script | what it answers |
 |---|---|
 | `scripts/probe_retrieval.py` | do these query strings retrieve anything real? |
+| `scripts/anatomy_recall.py` | does the anatomy rung find the *right* paper, and under which organism scope? |
 | `scripts/converge.py` | which genes do a trait's phenotypes reach, and which survive the veto? |
 | `scripts/validate_rule.py` | does the rule still recover the answers we already know? |
 
-## Still unresolved
+## The anatomy rung, and why it emits two queries
 
-The phenotype rung is **not implemented** in `src/medaka_ontology/discovery.py`;
-its ladder is trait → mutant → gene → mechanism, which dead-ends on exactly the
-traits that need it. Two designs are open: expand through the existing `Anatomy`
-label and `affects_anatomy` predicate (no schema change, needs ~30 claims
-backfilled), or add a curated `search_terms` field to `Phenotype`. Do not
-repurpose `aliases` for this — it is contracted to sourced naming variants and
-feeds the matcher.
+The ladder in `discovery.py` was trait → mutant → gene → mechanism, which
+dead-ends on exactly the traits with no gene yet. It now also expands
+trait → phenotype → `Anatomy` → `query_terms`.
+
+**Organism scope is an axis, not a constant.** Measured against the 14 traits
+whose causal gene is named by a paper *other than* the GWAS this repo already
+holds — the only honest denominator, since an anatomy query cannot be expected
+to re-find `kon2026`:
+
+| scope | as the pipeline runs it | as a hand probe runs it |
+|---|---|---|
+| `TITLE:(medaka) AND TITLE:("<term>")` | 8/14 | 8/14 |
+| `TITLE:("<term>") AND (medaka OR zebrafish OR teleost OR fish …)` | 8/14 | 10/14 |
+| union | **10/14** | **11/14** |
+
+The two columns are two different questions and it matters which one gets
+quoted. `run_queries` asks for 25 results and sends no `sort`, so it reads
+Europe PMC's **relevance** order; a hand probe defaults to 50 sorted by
+citation. Relevance is not the poor relation — it moved yellow from 33rd to
+4th and reallongfin from 40th to 10th, because a 1288-hit pool sorted by
+citations puts famous papers first rather than relevant ones. It costs one
+trait (orochi). **Do not add a sort parameter to the backend on the strength of
+the probe column**; it would move every other rung for no measured gain.
+
+The scopes are not nested either. Under the pipeline's own settings, tight
+alone reaches daruma and fused centrum, and wide alone reaches reallongfin and
+yellow — the latter's papers are zebrafish papers that `TITLE:(medaka)` excludes
+by construction. So the rung emits both: tight first because it is precise and
+nearly free, wide because it is the only thing that reaches the comparative
+literature.
+
+**The ceiling: black, hirenaga, orochi and sanshoku are reached by neither**,
+because yang2018 is mammalian and tatarakis2021 is a single-cell atlas that
+never names the gene in its title or abstract. No query shape fixes that. Say it
+out loud rather than treating a trait as unstudied.
+
+`scripts/anatomy_recall.py` reproduces both columns from `data/seed`; pass
+`--as-pipeline` for the left one.
+
+**`scale` is the one term that pays a polysemy tax.** Run live against the real
+backend, `TITLE:(medaka) AND (TITLE:"scale")` returns both *edar* papers — the
+2001 rs-3 locus paper and the 2010 scale-and-tooth paper — inside the first
+eight hits, but four of those eight are `large-scale` and `time scale` papers
+about heartbeat detection and ESTs. Expect roughly half a page of noise on that
+term specifically, and do not read it as a failed query.
+
+**Two phenotypes deliberately have no anatomy edge.** `hypomelanism`'s only
+source describes colour ("brighter than wild type, with decreased blackness")
+and `orange spotting`'s three sources all say "orange spots" without ever naming
+a cell. Writing melanophore or xanthophore there would be inferring the cell
+from the colour, which is the §8 move this repo exists to refuse — and the
+contrast is instructive, because `black spotting` *does* have its edge, on the
+strength of kuroaka's entry saying "black spots formed by melanophores". Those
+two traits do not expand through this rung until a source states the cell.
+
+### Still unresolved
+
+`query_terms` is hand-curated, so it drifts as the literature moves and nothing
+currently fails when it does. The cheap check is to re-run `anatomy_recall.py`
+and watch the union fall. And pigment cell types (melanophore, xanthophore,
+iridophore) are recorded under `Anatomy` deliberately — ZFA does the same — but
+if a `CellType` label is ever added, those nodes and their `affects_anatomy`
+claims are what moves. Do not repurpose `aliases` for query terms: it is
+contracted to sourced naming variants and feeds the matcher.
