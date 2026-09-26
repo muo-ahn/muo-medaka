@@ -15,6 +15,15 @@ So each trait yields a ladder of queries:
         -> the genes those claims point at
           -> the mechanisms those genes participate in
 
+    trait name
+      -> the phenotypes it has
+        -> the anatomy those phenotypes affect
+
+The second ladder exists because the first one dead-ends on precisely the traits
+that need discovering: a trait with no candidate gene yields only the trait rung,
+and the trait rung searches this ontology's own vocabulary. Anatomy is the one
+vocabulary the literature shares with us.
+
 Each query records which entity and which rung produced it, so a paper's
 `discovered_via` says why it was ever looked at.
 """
@@ -43,14 +52,31 @@ REQUEST_INTERVAL_SECONDS = 0.34
 #: deliberately cross-species -- that rung exists to find the comparative work.
 MEDAKA_SCOPE = '(medaka OR "Oryzias latipes")'
 
+#: The anatomy rung's wide scope. Deliberately cross-species: half the papers
+#: that name a medaka trait's causal gene are zebrafish papers, and `TITLE:
+#: (medaka)` excludes those by construction.
+FISH_SCOPE = (
+    '(medaka OR zebrafish OR "Oryzias latipes" OR "Danio rerio" OR teleost OR fish)'
+)
+
 #: Shorter than this and a term retrieves noise whatever it is.
 MIN_QUERY_TERM_LENGTH = 4
+
+#: The anatomy rung's own floor, three rather than four. `fin` and `eye` are the
+#: two most productive terms the rung has and both are three characters; a
+#: four-character floor would silently delete them. See `_is_anatomy_searchable`
+#: for why the anatomy rung can afford a term the other rungs cannot.
+MIN_ANATOMY_TERM_LENGTH = 3
 
 #: Europe PMC field prefix restricting a term to title and abstract. Applied
 #: to the trait rung only; the gene and mechanism rungs deliberately search
 #: full text, because a gene named only in a Results section is exactly the
 #: finding those rungs exist to reach.
 TITLE_ABS = "TITLE_ABS"
+
+#: Title only. The anatomy rung uses this rather than TITLE_ABS: `fin` in an
+#: abstract means nothing, `fin` in a title means the paper is about fins.
+TITLE = "TITLE"
 
 
 class DiscoveryTier(str):
@@ -60,6 +86,11 @@ class DiscoveryTier(str):
     MUTANT = "mutant"
     GENE = "gene"
     MECHANISM = "mechanism"
+    ANATOMY = "anatomy"
+    #: The same terms as ANATOMY, searched against every teleost rather than
+    #: medaka alone. A separate tier string so `discovered_via` still says which
+    #: of the two shapes found a paper -- they recover different papers.
+    ANATOMY_WIDE = "anatomy-wide"
 
 
 @dataclass(frozen=True)
@@ -108,12 +139,19 @@ OPTIONAL MATCH (gc)-[:OBJECT]->(g:Gene)
   AND EXISTS { MATCH (:Evidence)-[:SUPPORTS]->(gc) }
 OPTIONAL MATCH (mc:Claim {predicate: 'participates_in'})-[:SUBJECT]->(g)
 OPTIONAL MATCH (mc)-[:OBJECT]->(mech:BiologicalMechanism)
+OPTIONAL MATCH (pc:Claim {predicate: 'has_phenotype'})-[:SUBJECT]->(t)
+OPTIONAL MATCH (pc)-[:OBJECT]->(p:Phenotype)
+  WHERE EXISTS { MATCH (:Evidence)-[:SUPPORTS]->(pc) }
+OPTIONAL MATCH (ac:Claim {predicate: 'affects_anatomy'})-[:SUBJECT]->(p)
+OPTIONAL MATCH (ac)-[:OBJECT]->(a:Anatomy)
+  WHERE EXISTS { MATCH (:Evidence)-[:SUPPORTS]->(ac) }
 RETURN t.name AS trait,
        coalesce(t.aliases, []) AS aliases,
        collect(DISTINCT mutant.name) AS mutants,
        collect(DISTINCT [m IN coalesce(mutant.aliases, []) | m]) AS mutant_aliases,
        collect(DISTINCT g.name) AS genes,
-       collect(DISTINCT mech.name) AS mechanisms
+       collect(DISTINCT mech.name) AS mechanisms,
+       collect(DISTINCT [a.name, coalesce(a.query_terms, [])]) AS anatomy
 """
 
 _ALL_TRAITS = "MATCH (t:OrnamentalTrait) RETURN t.id AS id, t.name AS name ORDER BY t.name"
@@ -149,13 +187,41 @@ def _is_searchable(term: str) -> bool:
     return stripped.lower() not in AMBIGUOUS_SURFACE_FORMS
 
 
+def _is_anatomy_searchable(term: str) -> bool:
+    """The same test as `_is_searchable`, relaxed for the anatomy rung only.
+
+    `eye`, `fin` and `scale` are the rung's three most productive terms and all
+    three fail `_is_searchable`: `fin` and `eye` are below MIN_QUERY_TERM_LENGTH,
+    and `scale` and `iris` are in AMBIGUOUS_SURFACE_FORMS. Passing anatomy
+    through the general filter therefore deletes the rung, not the noise.
+
+    Loosening the general filter instead is not an option -- it exists because
+    the two-character alias `Da`, AND-ed against a full-text medaka scope, once
+    retrieved every medaka paper ever published. What makes the anatomy rung
+    safe with the same term is the *shape* of its queries, not the term: both
+    are restricted to TITLE, and a word in a title is what the paper is about.
+    `TITLE:"fin"` cannot behave like full-text `Da`. So the relaxation is scoped
+    to this one rung and a three-character floor is still enforced, because a
+    one- or two-character anatomy term would be a data error either way.
+    """
+    stripped = term.strip()
+    if len(stripped) < MIN_ANATOMY_TERM_LENGTH:
+        return False
+    return any(ch.isalpha() for ch in stripped)
+
+
 def _searchable(terms: Sequence[str]) -> list[str]:
     return [t for t in terms if t and _is_searchable(t)]
 
 
-def _or_group(terms: Sequence[str], field: str | None = None) -> str:
+def _searchable_anatomy(terms: Sequence[str]) -> list[str]:
+    return [t for t in terms if t and _is_anatomy_searchable(t)]
+
+
+def _or_group(terms: Sequence[str], field: str | None = None, quote_all: bool = False) -> str:
     prefix = f"{field}:" if field else ""
-    return " OR ".join(f"{prefix}{_quote(t)}" for t in sorted(set(terms)) if t)
+    quote = (lambda t: f'"{t}"') if quote_all else _quote
+    return " OR ".join(f"{prefix}{quote(t)}" for t in sorted(set(terms)) if t)
 
 
 def expansion_terms(session: Session, trait_id: str) -> dict[str, list[str]]:
@@ -164,11 +230,22 @@ def expansion_terms(session: Session, trait_id: str) -> dict[str, list[str]]:
     if record is None:
         return {}
     mutant_aliases = [a for group in record["mutant_aliases"] for a in group if a]
+    # `query_terms` is what to search on and is often coarser than the node's
+    # own name: the `dorsal fin` node searches as `fin`, because a paper about
+    # dorsal fins rarely says so in its title. The fallback to `a.name` is here
+    # rather than in the Cypher so the rung degrades to names on a graph where
+    # the property has not been backfilled yet.
+    anatomy = [
+        term
+        for name, query_terms in record["anatomy"]
+        for term in ([t for t in (query_terms or []) if t] or ([name] if name else []))
+    ]
     return {
         DiscoveryTier.TRAIT: [record["trait"], *record["aliases"]],
         DiscoveryTier.MUTANT: [*[m for m in record["mutants"] if m], *mutant_aliases],
         DiscoveryTier.GENE: [g for g in record["genes"] if g],
         DiscoveryTier.MECHANISM: [m for m in record["mechanisms"] if m],
+        DiscoveryTier.ANATOMY: anatomy,
     }
 
 
@@ -229,6 +306,59 @@ def queries_for_trait(
                     origin_entity_name=trait_name,
                 )
             )
+
+    anatomy = _searchable_anatomy(terms[DiscoveryTier.ANATOMY])
+    if anatomy:
+        # Two scopes, both required. Measured 2026-09-26 by
+        # `.claude/skills/trait-literature-search/scripts/anatomy_recall.py
+        # --as-pipeline`, which reproduces exactly what `run_queries` sees --
+        # pageSize 25 and no `sort` parameter, so Europe PMC relevance order --
+        # against the 14 traits whose causal gene is named by a paper OTHER than
+        # kon2026, using the same anatomy term map this rung reads:
+        #
+        #   tight  8/14   only tight: daruma, fused centrum
+        #   wide   8/14   only wide:  reallongfin, yellow
+        #   union 10/14
+        #
+        # Tight goes first because it is precise and nearly free: pools of 1-27
+        # hits with the correct paper at rank 1-7. Wide is here because it is
+        # the only thing that reaches the comparative literature -- reallongfin
+        # and yellow are recovered by wide alone and both of their papers are
+        # zebrafish papers that `TITLE:(medaka)` excludes by construction. The
+        # two overlap heavily but neither subsumes the other, so dropping either
+        # costs two traits.
+        #
+        # black, hirenaga, orochi and sanshoku are reached by neither: yang2018
+        # is mammalian and tatarakis2021 is a single-cell atlas that never names
+        # the gene in its title or abstract. That is this rung's ceiling, not a
+        # bug in it.
+        #
+        # Do not add a `sort` parameter. Wide's pool reaches 1288 hits for `fin`,
+        # so this rung does lean on the ordering -- but the same script run with
+        # a citation sort scores 10/14 wide and 11/14 union, one trait better
+        # (orochi, at rank 25), while ranking several results markedly worse:
+        # yellow 4th under relevance against 33rd under citations, reallongfin
+        # 10th against 40th, albino 2nd against 12th. A 1288-hit pool sorted by
+        # citation count puts famous papers first, not relevant ones. Sorting is
+        # the backend's business and would move every other rung too, for a
+        # measured gain of one trait.
+        titles = _or_group(anatomy, field=TITLE, quote_all=True)
+        specs.append(
+            QuerySpec(
+                query=f"TITLE:(medaka) AND ({titles})",
+                tier=DiscoveryTier.ANATOMY,
+                origin_entity_id=trait_id,
+                origin_entity_name=trait_name,
+            )
+        )
+        specs.append(
+            QuerySpec(
+                query=f"({titles}) AND {FISH_SCOPE}",
+                tier=DiscoveryTier.ANATOMY_WIDE,
+                origin_entity_id=trait_id,
+                origin_entity_name=trait_name,
+            )
+        )
     return specs
 
 

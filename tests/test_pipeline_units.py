@@ -13,7 +13,16 @@ from __future__ import annotations
 import pytest
 
 from medaka_ontology.acquisition import _is_evidence_section, parse_jats
-from medaka_ontology.discovery import QuerySpec, _is_searchable, _or_group, parse_result
+from medaka_ontology.discovery import (
+    _EXPANSION_QUERY,
+    DiscoveryTier,
+    QuerySpec,
+    _is_anatomy_searchable,
+    _is_searchable,
+    _or_group,
+    parse_result,
+    queries_for_trait,
+)
 from medaka_ontology.extraction import (
     PREDICATE_PREFERENCE,
     detect_level,
@@ -147,6 +156,141 @@ def test_field_prefix_is_applied_to_every_term():
     grouped = _or_group(["hikari", "Da mutant"], field="TITLE_ABS")
     assert grouped.count("TITLE_ABS:") == 2
     assert 'TITLE_ABS:"Da mutant"' in grouped
+
+
+# --- discovery: the anatomy rung -------------------------------------------
+
+
+class _FakeResult:
+    def __init__(self, record: dict | None):
+        self._record = record
+
+    def single(self) -> dict | None:
+        return self._record
+
+
+class _FakeSession:
+    """Stands in for a Neo4j session by returning one prepared expansion row.
+
+    The Cypher itself is not executed here, so what these tests pin is the
+    Python side: which rows become terms, and which terms become queries.
+    """
+
+    def __init__(self, record: dict | None):
+        self._record = record
+
+    def run(self, query: str, **params):
+        return _FakeResult(self._record)
+
+
+def _expansion_row(anatomy: list[list] | None = None, **overrides) -> dict:
+    row = {
+        "trait": "kagamirin",
+        "aliases": [],
+        "mutants": [],
+        "mutant_aliases": [],
+        "genes": [],
+        "mechanisms": [],
+        # Each entry is [name, query_terms], as the Cypher collects it.
+        "anatomy": anatomy if anatomy is not None else [],
+    }
+    row.update(overrides)
+    return row
+
+
+def _anatomy_specs(record: dict) -> list[QuerySpec]:
+    specs = queries_for_trait(_FakeSession(record), "trait:kagamirin", "kagamirin")
+    return [
+        s
+        for s in specs
+        if s.tier in (DiscoveryTier.ANATOMY, DiscoveryTier.ANATOMY_WIDE)
+    ]
+
+
+def test_anatomy_rung_emits_both_scopes():
+    """Measured through the real pipeline (relevance order, pageSize 25) on the
+    14 traits whose gene is named by a paper other than kon2026: tight 8/14,
+    wide 8/14, union 10/14. Neither subsumes the other -- wide alone recovers
+    reallongfin and yellow (zebrafish papers that `TITLE:(medaka)` excludes by
+    construction), tight alone recovers daruma and fused centrum. Dropping
+    either query costs two traits."""
+    tight, wide = _anatomy_specs(_expansion_row(anatomy=[["dorsal fin", ["fin"]]]))
+
+    assert tight.tier == DiscoveryTier.ANATOMY
+    assert tight.query == 'TITLE:(medaka) AND (TITLE:"fin")'
+
+    assert wide.tier == DiscoveryTier.ANATOMY_WIDE
+    assert wide.query.startswith('(TITLE:"fin") AND (')
+    # The wide scope's whole purpose: the zebrafish papers that name the gene.
+    assert "zebrafish" in wide.query
+    assert "medaka" not in wide.query.split(" AND ")[0]
+
+
+def test_the_two_scopes_are_distinguishable_in_provenance():
+    """`discovered_via` has to say which shape found a paper, or the measurement
+    above cannot be repeated on the next corpus."""
+    tight, wide = _anatomy_specs(_expansion_row(anatomy=[["scale", ["scale"]]]))
+    assert tight.key != wide.key
+
+
+def test_anatomy_terms_come_from_query_terms_not_the_node_name():
+    """The searchable unit is coarser than the ontology's unit: a paper about
+    dorsal fins says `fin` in its title, not `dorsal fin`."""
+    tight, _ = _anatomy_specs(_expansion_row(anatomy=[["dorsal fin", ["fin"]]]))
+    assert '"fin"' in tight.query
+    assert "dorsal fin" not in tight.query
+
+
+def test_anatomy_terms_fall_back_to_the_node_name():
+    """The field is being backfilled by another change; until it lands, and for
+    any node it misses, the rung must still produce a query."""
+    tight, _ = _anatomy_specs(_expansion_row(anatomy=[["peritoneum", []]]))
+    assert '"peritoneum"' in tight.query
+
+    tight_null, _ = _anatomy_specs(_expansion_row(anatomy=[["peritoneum", None]]))
+    assert '"peritoneum"' in tight_null.query
+
+
+def test_unsupported_anatomy_claim_produces_no_query():
+    """An unsupported claim must not be able to drive a search. The guard is the
+    `EXISTS { MATCH (:Evidence)-[:SUPPORTS]->(ac) }` in the expansion Cypher, so
+    a filtered-out claim arrives as a row with no anatomy node in it."""
+    assert _anatomy_specs(_expansion_row(anatomy=[[None, []]])) == []
+
+
+def test_evidence_guard_is_present_on_both_new_claim_hops():
+    """Pinned as text because the clause above is what the previous test relies
+    on; the offline suite cannot execute the Cypher that enforces it."""
+    for claim in ("pc", "ac"):
+        assert f"EXISTS {{ MATCH (:Evidence)-[:SUPPORTS]->({claim}) }}" in _EXPANSION_QUERY
+
+
+def test_trait_with_no_phenotypes_emits_no_anatomy_query():
+    specs = queries_for_trait(
+        _FakeSession(_expansion_row()), "trait:kagamirin", "kagamirin"
+    )
+    assert specs
+    assert all(
+        s.tier not in (DiscoveryTier.ANATOMY, DiscoveryTier.ANATOMY_WIDE) for s in specs
+    )
+
+
+def test_short_anatomy_terms_survive_the_query_filter():
+    """`fin` and `eye` are three characters and `scale` and `iris` are in
+    AMBIGUOUS_SURFACE_FORMS, so all four fail the general `_is_searchable`.
+    Running anatomy through that filter deletes the rung rather than the noise;
+    the rung gets its own test instead of the general one being loosened."""
+    for term in ("fin", "eye", "scale", "iris"):
+        assert not _is_searchable(term), term
+        assert _is_anatomy_searchable(term), term
+
+
+def test_the_anatomy_filter_is_still_a_filter():
+    """The relaxation is scoped, not an opening. One- and two-character terms
+    are a data error whatever the rung."""
+    assert not _is_anatomy_searchable("Da")
+    assert not _is_anatomy_searchable("  ")
+    assert not _is_anatomy_searchable("12")
 
 
 def test_search_results_are_unescaped():

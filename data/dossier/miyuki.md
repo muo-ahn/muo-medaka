@@ -14,6 +14,8 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Phenotypes
 
 - ectopic dorsal iridophore
+- reduced melanophore number
+- reduced xanthophore number
 
 ## Genetics
 
@@ -45,4 +47,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
 - Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
-- 2 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).
+- 4 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).

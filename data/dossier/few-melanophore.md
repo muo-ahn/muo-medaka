@@ -10,7 +10,7 @@ Laboratory medaka pigment cell mutant; causal gene kitlga.
 
 ## Phenotypes
 
-- _none recorded_
+- reduced melanophore number
 
 ## Genetics
 
@@ -28,10 +28,15 @@ Laboratory medaka pigment cell mutant; causal gene kitlga.
   - associated_with_gene → kitlga
   - kit-ligand a is the gene responsible for the medaka pigment cell mutant few melanophore. The mutant shows reduced melanophores with no detectable alteration in iris iridophores.
 
+• **OBSERVATIONAL** — Identification of kit-ligand a as the gene responsible for the medaka pigment cell muta... (2020) — doi:10.1534/g3.119.400561
+  - has_phenotype → reduced melanophore number
+  - The mutant shows reduced melanophores with no detectable alteration in iris iridophores.
+  - _Results_
+
 ## Related traits
 
 - yellow → putatively_same_as → this trait
 
 ## Open questions
 
-- 1 claim(s) awaiting human review.
+- 2 claim(s) awaiting human review.
