@@ -659,3 +659,275 @@ claims:
         finding: >-
           panda shows decreased iridophore including the iris and peritoneum;
           toumeirin shows the same excluding the iris and peritoneum.
+
+  # The rest of this section is backfill, added so that every phenotype has an
+  # anatomical part the search can expand through. Each one reuses the paper, the
+  # level and the wording of that phenotype's own `has_phenotype` evidence rather
+  # than restating it: the anatomy edge is a second reading of a finding we
+  # already hold, not a new observation, and writing a fresh sentence for it would
+  # be exactly the PRD §8 failure this file exists to avoid.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: hyper-melanism}
+    object: {label: Anatomy, name: melanophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Blackness greater than the black strain, with increased melanophores.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: black spotting}
+    object: {label: Anatomy, name: melanophore}
+    interpretation: >-
+      Of the four traits carrying this phenotype, only kuroaka's entry names the
+      cell, so that is the one the anatomy edge rests on.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body surface partly orange with some black spots formed by melanophores.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: loss of melanophores}
+    object: {label: Anatomy, name: melanophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Loss of normal melanophores from the body surface.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: reduced melanophore number}
+    object: {label: Anatomy, name: melanophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore on the dorsal side, with reduction of melanophores
+          and xanthophores.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: melanophore concentration at scale margin}
+    object: {label: Anatomy, name: melanophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Dense melanophores around the scales, appearing as a black mesh.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: loss of xanthophores}
+    object: {label: Anatomy, name: xanthophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Loss of normal xanthophores from the body surface.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: reduced xanthophore number}
+    object: {label: Anatomy, name: xanthophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore on the dorsal side, with reduction of melanophores
+          and xanthophores.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: xanthophore enhancement}
+    object: {label: Anatomy, name: xanthophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Increased redness (orange) relative to yellow medaka; enhanced
+          xanthophores, loss of normal melanophores.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: iridophore depletion}
+    object: {label: Anatomy, name: iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Decreased iridophore throughout the body, including the iris and
+          peritoneum.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: ectopic dorsal iridophore}
+    object: {label: Anatomy, name: iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Ectopic iridophore on the back; the dorsal side shines silver.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: ectopic muscle iridophore}
+    object: {label: Anatomy, name: iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Ectopic iridophore expression throughout the muscle.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: ectopic muscle iridophore}
+    object: {label: Anatomy, name: muscle}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Ectopic iridophore expression throughout the muscle.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: increased iridophore-bearing scales}
+    object: {label: Anatomy, name: scale}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Increased number of iridophore-expressing silver-coloured scales.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: increased iridophore-bearing scales}
+    object: {label: Anatomy, name: iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Increased number of iridophore-expressing silver-coloured scales.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: peritoneal iridophore}
+    object: {label: Anatomy, name: peritoneum}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Blue silver-coloured peritoneum.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: dorsal fin loss}
+    object: {label: Anatomy, name: dorsal fin}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Dorsal fin loss.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: fin ray elongation}
+    object: {label: Anatomy, name: fin ray}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: All five types of fin ray are longer than wild type.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: fin membrane elongation}
+    object: {label: Anatomy, name: fin membrane}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Fin membranes elongate partially.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: eyeball enlargement}
+    object: {label: Anatomy, name: eyeball}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Enlarged eyeballs that do not protrude from the skull.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: eyeball protrusion}
+    object: {label: Anatomy, name: eyeball}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Protrusion of the eyeballs from the skull due to skeletal dysplasia of
+          the head, with no enlargement of the eyeballs.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: eyeball reduction}
+    object: {label: Anatomy, name: eyeball}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Small pupil; small eyeballs in some cases.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: small pupil}
+    object: {label: Anatomy, name: pupil}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Small pupil; small eyeballs in some cases.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: anterior eye segment enlargement}
+    object: {label: Anatomy, name: anterior eye segment}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Enlargement of the anterior segment of the eyeball; corneal cyst.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: corneal cyst}
+    object: {label: Anatomy, name: cornea}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: Enlargement of the anterior segment of the eyeball; corneal cyst.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: vertebral centrum fusion}
+    object: {label: Anatomy, name: centrum}
+    evidence:
+      - paper: inohaya2010
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        section: Results
+        finding: >-
+          Loss of Wnt4b from floor plate cells disrupts segmental patterning of the vertebral column, producing the fused centrum (fsc) mutant.

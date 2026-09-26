@@ -144,3 +144,37 @@ claims:
         level: BREEDER_OBSERVATION
         finding: The anal fin is the other fin named as branching.
         review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  # Backfill on the fin-ray axis, so the two breeder phenotypes reach the part
+  # itself and not only the fins it sits in. Both reuse their own
+  # `has_phenotype` evidence verbatim, for the reason given in
+  # 20-claims-structure.yaml. What is deliberately absent is a guanine ->
+  # iridophore edge: the source names the substance, never the cell, and
+  # 12-entities-breeder-traits.yaml already refuses that step.
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: fin ray branching}
+    object: {label: Anatomy, name: fin ray}
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        strain: mariage longfin
+        finding: >-
+          The elongated portions of the dorsal and anal fin rays divide into
+          branches.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: guanine deposition on fin rays}
+    object: {label: Anatomy, name: fin ray}
+    evidence:
+      - paper: medakazukan_mariage2021
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        strain: mariage longfin
+        finding: >-
+          Guanine, referred to as hire-hikari, collects at the branch points of
+          the elongated rays, and the source attributes the white feathery
+          appearance to that accumulation.
+        review_reasons: [BREEDER_ACADEMIC_LINK]

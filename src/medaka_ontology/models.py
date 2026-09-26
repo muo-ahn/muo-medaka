@@ -178,6 +178,24 @@ class Entity(_Record):
             "the seed paper defines as unions of other traits."
         ),
     )
+    # Anatomy
+    #
+    # Why this is not just `name`: measured 2026-09-26, a title-scoped medaka
+    # search for `dorsal fin`, `iris`, `peritoneum`, `cornea`, `pupil`, `centrum`
+    # or `fin membrane` retrieves nothing at all, while the coarse parent of each
+    # retrieves papers (fin 27, eye 10, scale 8, vertebra/vertebral column 1-3).
+    # The fine name is not the thing to loosen -- it is load-bearing in the graph,
+    # since whether the iris is affected is the only thing separating panda from
+    # toumeirin -- so the vocabulary the literature answers to is carried beside
+    # it rather than replacing it.
+    query_terms: list[str] = Field(
+        default_factory=list,
+        description=(
+            "What to search the literature on when expanding through this part, "
+            "which is usually not what the part is called here. PRD §8: the name "
+            "is ours, the titles are theirs."
+        ),
+    )
     # Gene / HumanGene
     symbol: str | None = None
     species: str | None = Field(
@@ -232,6 +250,8 @@ class Entity(_Record):
             )
         if self.category is not None and self.label is not NodeLabel.ORNAMENTAL_TRAIT:
             raise ValueError("category applies only to OrnamentalTrait")
+        if self.query_terms and self.label is not NodeLabel.ANATOMY:
+            raise ValueError("query_terms applies only to Anatomy")
         overlap = set(self.aliases) & set(self.unverified_labels)
         if overlap:
             raise ValueError(

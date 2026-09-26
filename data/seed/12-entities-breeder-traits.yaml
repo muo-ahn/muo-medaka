@@ -74,5 +74,8 @@ entities:
       "guanine" is not a shared mechanism.
 
   # --- Anatomy -----------------------------------------------------------------
+  # See 11-entities-genomic.yaml for what `query_terms` is for. The coarse `fin`
+  # is listed beside the fine name because it is the term that retrieves.
   - label: Anatomy
     name: anal fin
+    query_terms: [anal fin, fin]

@@ -631,15 +631,69 @@ entities:
     name: cAMP signaling
 
   # --- Anatomy -----------------------------------------------------------------
+  #
+  # `query_terms` is not a synonym list. It is what a title-scoped medaka search
+  # actually retrieves on, measured 2026-09-26: `dorsal fin`, `iris`,
+  # `peritoneum`, `cornea`, `pupil`, `centrum` and `fin membrane` each returned
+  # nothing, while `fin`, `eye`, `scale` and `vertebra` returned papers. So the
+  # coarse term is listed even where it is plainly the wrong granularity -- the
+  # fine name is what the graph reasons with, the terms are what the search asks
+  # the literature.
   - label: Anatomy
     name: dorsal fin
+    query_terms: [fin]
   - label: Anatomy
     name: caudal fin
+    query_terms: [caudal fin, fin]
+  - label: Anatomy
+    name: fin ray
+    query_terms: [fin ray, fin]
+  - label: Anatomy
+    name: fin membrane
+    query_terms: [fin]
   - label: Anatomy
     name: scale
+    query_terms: [scale]
   - label: Anatomy
     name: peritoneum
+    query_terms: [peritoneum]
   - label: Anatomy
     name: iris
+    query_terms: [iris, eye]
+  - label: Anatomy
+    name: eyeball
+    query_terms: [eye]
+  - label: Anatomy
+    name: pupil
+    query_terms: [eye]
+  - label: Anatomy
+    name: cornea
+    query_terms: [eye]
+  - label: Anatomy
+    name: anterior eye segment
+    query_terms: [eye]
   - label: Anatomy
     name: vertebral column
+    query_terms: [vertebral column, vertebra]
+  - label: Anatomy
+    name: centrum
+    query_terms: [vertebra, vertebral column]
+  - label: Anatomy
+    name: muscle
+    query_terms: [muscle]
+
+  # Pigment cells sit under Anatomy on purpose. They are cells rather than
+  # organs, but most of this ontology's phenotypes are statements about which
+  # chromatophore is present and where, so an anatomy axis that stops above the
+  # cell cannot express them. ZFA, the zebrafish anatomy ontology, likewise
+  # holds pigment cells as anatomical entities. Do not "fix" these into a
+  # separate label.
+  - label: Anatomy
+    name: melanophore
+    query_terms: [melanophore, pigment cell]
+  - label: Anatomy
+    name: xanthophore
+    query_terms: [xanthophore, pigment cell]
+  - label: Anatomy
+    name: iridophore
+    query_terms: [iridophore, pigment cell]
