@@ -22,6 +22,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         strain: 86 ornamental medaka strains
         finding: >-
@@ -40,6 +41,7 @@ claims:
       - paper: kon2026
         experiment_type: genome editing
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         section: Results
         finding: >-
           Genome-edited adcy5 delta-exon8 founders showed significantly increased
@@ -48,6 +50,7 @@ claims:
       - paper: kon2026
         experiment_type: RT-PCR
         level: EXPRESSION_ASSOCIATION
+        species: Oryzias latipes
         section: Results
         finding: >-
           The orochi transcript lacks exon 8, with no frameshift after exon 9.
@@ -69,6 +72,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling and genome editing
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         section: Results
         finding: >-
           A homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5
@@ -88,6 +92,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 6, 35,026-6,793,288, from 23 aurora
@@ -105,6 +110,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           A frameshift at Chr6:2,485,888 introduces a premature stop, giving a
@@ -129,6 +135,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           Frameshift variant co-segregating with aurora; not functionally
@@ -144,6 +151,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 3, 12,944,237-16,837,085, from 16 panda
@@ -163,6 +171,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           slc24a5 lies in the chr3 candidate interval and is nominated as the
@@ -241,6 +250,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 20, 18,018,142-19,345,542, from 35 hikari
@@ -257,6 +267,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS and variant genotyping
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           The chr20 GWAS peak coincides with the zic1/zic4 locus, and the
@@ -264,6 +275,7 @@ claims:
       - paper: moriyama2012
         experiment_type: mutant mapping
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           A large transposon inserted into the zic1/zic4 enhancer causes
           mesoderm-specific loss of their transcription.
@@ -275,6 +287,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS and variant genotyping
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           The chr20 peak maps to the shared zic1/zic4 regulatory locus; zic4
@@ -282,6 +295,7 @@ claims:
       - paper: ohtsuka2004
         experiment_type: positional cloning
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1 and zic4 were identified within the medaka Double anal fin (Da)
           locus and implicated in dorsoventral patterning of the trunk-tail region.
@@ -293,12 +307,14 @@ claims:
       - paper: moriyama2012
         experiment_type: mutant mapping and expression analysis
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           The transposon insertion in the zic1/zic4 enhancer causes mesoderm-
           specific loss of transcription and the diphycercal-like caudal skeleton.
       - paper: kon2026
         experiment_type: variant genotyping
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: The insertion was confirmed in all 35 hikari individuals.
 
@@ -315,6 +331,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 4, 775,070-6,879,644, from 6 daruma
@@ -368,6 +385,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 15, 7,548,155-12,116,545, from 19 hirenaga
@@ -385,6 +403,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           No hirenaga-specific nonsense, frameshift or missense variant was found
@@ -410,6 +429,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           Hirenaga-specific intron 1 deletion; proposed to affect expression, not
@@ -422,6 +442,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 15, 7,321,021-11,762,845, from 12 swallow
@@ -438,6 +459,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Results
         finding: >-
           swallow maps to the same chr15 locus as hirenaga and is treated as an
@@ -466,6 +488,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 7, 9,865,513-17,095,925, from 10 longfin
@@ -480,6 +503,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           kcna10 is one of three potassium-channel genes nominated inside the chr7
@@ -494,6 +518,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: kcna3 nominated within the chr7 interval of 318 genes.
 
@@ -505,6 +530,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: kcnd3 nominated within the chr7 interval of 318 genes.
 
@@ -515,6 +541,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 17, 26,828,411-31,743,217, from 8 reallongfin
@@ -527,6 +554,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           and2 (actinodin 2) nominated within the chr17 interval; membrane as well
@@ -554,6 +582,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 15, 23,036,284-25,194,225, from 15 deme
@@ -566,6 +595,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           Nominated via the GO term skeletal system development (GO:0001501). No
@@ -581,6 +611,7 @@ claims:
       - paper: kon2026
         experiment_type: variant calling
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           Upstream SNV strongly enriched in cases (12/15) against controls (1/166);
@@ -593,6 +624,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 2, 20,843,163-23,907,604, from 7 bigeye
@@ -606,6 +638,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: abcb6a nominated within the chr2 interval; n = 7 cases.
 
@@ -617,6 +650,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: chn1 nominated within the chr2 interval; n = 7 cases.
 
@@ -627,6 +661,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 22, 47,214-3,731,349, from 14 tenme
@@ -647,6 +682,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 14, 22,279,553-30,567,935, from only 4 sanshoku
@@ -660,6 +696,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           uvrag nominated inside the chr14 interval, argued from the mammalian
@@ -681,6 +718,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 14, 22,305,698-30,081,129, from 11 kurobuchi
@@ -698,6 +736,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: uvrag nominated for kurobuchi at the same chr14 interval.
 
@@ -708,6 +747,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 12, 9,763,282-15,596,885, from 14 blackrim
@@ -721,6 +761,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           slc45a2 nominated inside the chr12 interval, the same region recovered
@@ -733,6 +774,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 12, 8,533,986-11,509,087, from 77 yellow
@@ -750,11 +792,13 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: The chr12 interval recovers slc45a2, the known himedaka gene.
       - paper: fukamachi2001
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           Mutations in the gene encoding B, a novel transporter protein (now
           slc45a2), reduce melanin content in medaka. This is the b locus.
@@ -766,6 +810,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 12, 9,523,726-11,920,633, from 100 individuals
@@ -780,6 +825,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: slc45a2 nominated for the aggregated YWKo class at chr12.
 
@@ -793,6 +839,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 21, 7,325,809-8,858,152, from 40 black
@@ -806,6 +853,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: >-
           atp6ap2 nominated via a melanocyte-differentiation requirement reported
@@ -825,6 +873,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 4, 15,616,568-19,691,410, from 19 akabuchi
@@ -838,6 +887,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS candidate nomination
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 3
         finding: foxd3 nominated inside the chr4 interval.
 
@@ -848,6 +898,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 12, 3,865,760-7,668,732, from 30 white
@@ -860,6 +911,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 4, 23,872,478-27,071,814, from 33 blue
@@ -877,6 +929,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 19, 9,832,109-10,803,405, from 34 miyuki
@@ -892,6 +945,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 20, 12,073,015-13,138,676, from 47 rame
@@ -905,6 +959,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 3, 13,960,030-15,862,381, from 19 kouhaku
@@ -918,6 +973,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 8, 5,006,576-6,657,821, from 7 kuroaka
@@ -931,6 +987,7 @@ claims:
       - paper: kon2026
         experiment_type: GWAS
         level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
         section: Table 2
         finding: >-
           Association on chromosome 13, 25,328,892-33,584,184, from only 4 fukumaku

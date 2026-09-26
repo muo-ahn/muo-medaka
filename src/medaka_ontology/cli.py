@@ -20,6 +20,7 @@ from .candidates import (
     reject_candidate,
 )
 from .config import DOSSIER_DIR, EXPORT_DIR, SEED_DIR
+from .convergence import gene_claim_violations
 from .db import Neo4jUnavailableError, graph_counts, install_schema, session_scope
 from .discovery import all_queries
 from .dossier import render_trait
@@ -84,6 +85,14 @@ def validate(
             console.print(
                 f"  - {claim.subject.name} --{claim.predicate.value}--> {claim.object.name}"
             )
+    known = gene_claim_violations(bundle)
+    if known:
+        console.print(
+            f"[yellow]{len(known)} gene claim(s) on the known-violations list, "
+            "awaiting a data fix[/yellow]"
+        )
+        for (trait, gene), why in sorted(known.items()):
+            console.print(f"  - {trait} --associated_with_gene--> {gene}: {why}")
 
 
 @app.command()

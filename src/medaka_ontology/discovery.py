@@ -317,28 +317,32 @@ def queries_for_trait(
         # kon2026, using the same anatomy term map this rung reads:
         #
         #   tight  8/14   only tight: daruma, fused centrum
-        #   wide   8/14   only wide:  reallongfin, yellow
-        #   union 10/14
+        #   wide   7/14   only wide:  reallongfin
+        #   union  9/14
+        #
+        # (An earlier 8/14 wide and 10/14 union counted yellow, but that hit was
+        # an oca2 abstract matched through a loose slc45a2 alias. Re-measured
+        # without it.)
         #
         # Tight goes first because it is precise and nearly free: pools of 1-27
         # hits with the correct paper at rank 1-7. Wide is here because it is
         # the only thing that reaches the comparative literature -- reallongfin
-        # and yellow are recovered by wide alone and both of their papers are
-        # zebrafish papers that `TITLE:(medaka)` excludes by construction. The
-        # two overlap heavily but neither subsumes the other, so dropping either
-        # costs two traits.
+        # is recovered by wide alone, and its paper is a zebrafish paper that
+        # `TITLE:(medaka)` excludes by construction. The two overlap heavily but
+        # neither subsumes the other: dropping tight costs two traits, dropping
+        # wide costs one.
         #
-        # black, hirenaga, orochi and sanshoku are reached by neither: yang2018
-        # is mammalian and tatarakis2021 is a single-cell atlas that never names
-        # the gene in its title or abstract. That is this rung's ceiling, not a
-        # bug in it.
+        # black, hirenaga, orochi, sanshoku and yellow are reached by neither:
+        # yang2018 is mammalian, tatarakis2021 is a single-cell atlas that never
+        # names the gene in its title or abstract, and fukamachi2001 is in
+        # neither pool. That is this rung's ceiling, not a bug in it.
         #
         # Do not add a `sort` parameter. Wide's pool reaches 1288 hits for `fin`,
         # so this rung does lean on the ordering -- but the same script run with
-        # a citation sort scores 10/14 wide and 11/14 union, one trait better
+        # a citation sort scores 9/14 wide and 10/14 union, one trait better
         # (orochi, at rank 25), while ranking several results markedly worse:
-        # yellow 4th under relevance against 33rd under citations, reallongfin
-        # 10th against 40th, albino 2nd against 12th. A 1288-hit pool sorted by
+        # reallongfin 10th under relevance against 40th under citations,
+        # albino 2nd against 12th. A 1288-hit pool sorted by
         # citation count puts famous papers first, not relevant ones. Sorting is
         # the backend's business and would move every other rung too, for a
         # measured gain of one trait.

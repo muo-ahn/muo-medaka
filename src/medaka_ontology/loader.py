@@ -12,6 +12,7 @@ from pathlib import Path
 import yaml
 
 from .config import SEED_DIR
+from .convergence import KNOWN_VIOLATIONS, gene_claim_violations
 from .models import COMPARATIVE_CEILING, MEDAKA, Claim, Entity, Paper, SeedBundle
 from .vocabulary import EVIDENCE_RANK, NodeLabel
 
@@ -123,6 +124,26 @@ def validate(bundle: SeedBundle) -> None:
                         f"above the comparative ceiling {COMPARATIVE_CEILING.value} "
                         f"for a claim about a medaka entity"
                     )
+                # The ceiling above is only as good as the species field, and that
+                # field defaults to medaka. A zebrafish knockout whose author forgot
+                # the field would sail through at FUNCTIONAL_VALIDATION, so above
+                # the ceiling the species has to be written down.
+                elif (
+                    ev.rank > EVIDENCE_RANK[COMPARATIVE_CEILING]
+                    and "species" not in ev.model_fields_set
+                ):
+                    errors.append(
+                        f"{where}: {ev.paper} evidence at {ev.level.value} does not state "
+                        f"its species; write `species: {MEDAKA}` if the experiment was "
+                        "done in medaka, or the real species (capped at "
+                        f"{COMPARATIVE_CEILING.value}) if it was not"
+                    )
+
+    # PRD §8. Known violations are tolerated here and pinned by a test, so that
+    # the list can only shrink by the data being fixed.
+    for (trait, gene), why in gene_claim_violations(bundle).items():
+        if (trait, gene) not in KNOWN_VIOLATIONS:
+            errors.append(f"claim associated_with_gene {trait} -> {gene}: {why}")
 
     if errors:
         raise SeedValidationError("\n".join(sorted(set(errors))))

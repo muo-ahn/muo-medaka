@@ -153,7 +153,37 @@ entities:
     name: sox5
     species: Oryzias latipes
     symbol: sox5
-    description: Fate switch between xanthophore and leucophore lineages.
+    chromosome: "23"
+    description: >-
+      Fate switch between xanthophore and leucophore lineages. Causal for the
+      many leucophores-3 (ml-3) mutant, not for leucophore free.
+
+  - label: Gene
+    name: slc2a15b
+    species: Oryzias latipes
+    symbol: slc2a15b
+    chromosome: "1"
+    description: >-
+      Solute carrier family 2, member 15b. Causal for the leucophore free (lf)
+      mutant.
+
+  - label: Gene
+    name: pax7a
+    species: Oryzias latipes
+    symbol: pax7a
+    chromosome: "5"
+    description: >-
+      Paired box 7a. Required for the shared xanthophore/leucophore progenitor;
+      causal for the leucophore free-2 (lf-2) mutant.
+
+  - label: Gene
+    name: slc2a11b
+    species: Oryzias latipes
+    symbol: slc2a11b
+    chromosome: "9"
+    description: >-
+      Solute carrier family 2 facilitated glucose transporter, member 11b.
+      Causal for the white leucophore (wl) mutant.
 
   - label: Gene
     name: wnt4b

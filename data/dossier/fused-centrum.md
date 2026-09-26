@@ -26,7 +26,8 @@ Laboratory medaka mutant with disrupted segmental patterning of the vertebral co
 
 • **FUNCTIONAL_VALIDATION** — Production of Wnt4b by floor plate cells is essential for the segmental patterning of t... (2010) — doi:10.1242/dev.051540
   - associated_with_gene → wnt4b
-  - Production of Wnt4b by floor plate cells is essential for segmental patterning of the vertebral column; its loss produces the fused centrum (fsc) mutant.
+  - fsc encodes wnt4b, whose floor-plate expression is lost in the mutant; transgenic rescue lines and mosaic analyses establish that production of Wnt4b by floor plate cells is essential for segmental patterning of the vertebral column.
+  - _Abstract_
 
 • **OBSERVATIONAL** — Production of Wnt4b by floor plate cells is essential for the segmental patterning of t... (2010) — doi:10.1242/dev.051540
   - has_phenotype → vertebral centrum fusion

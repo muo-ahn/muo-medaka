@@ -127,6 +127,7 @@ claims:
       - paper: kawanishi2013
         experiment_type: expression analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1/zic4 expression is lost specifically in the dorsal half of the
           somites, producing mirror-image duplication of the ventral half across
@@ -345,6 +346,7 @@ claims:
       - paper: ohtsuka2004
         experiment_type: mutant characterization
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           The Da mutant shows altered dorsoventral patterning of the trunk-tail
           region; zic1 and zic4 lie within the Da locus.
@@ -630,6 +632,7 @@ claims:
       - paper: moriyama2012
         experiment_type: skeletal analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1/zic4 expression in the dorsal ural mesenchyme drives asymmetric
           caudal fin development; its loss yields a symmetrical, diphycercal-like

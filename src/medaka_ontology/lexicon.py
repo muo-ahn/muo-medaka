@@ -50,6 +50,11 @@ AMBIGUOUS_SURFACE_FORMS: frozenset[str] = frozenset(
         # "deme" is a standard population-genetics term. In this corpus the
         # trait meaning is almost certainly the rarer one.
         "deme",
+        # Trait names that are also Japanese personal names. `medaka AND kagami`
+        # returned 25 papers, every one by an author named Kagami; Miyuki is a
+        # common given name and turns up in author lists the same way.
+        "kagami",
+        "miyuki",
         # Laboratory mutant names that read as ordinary phrases
         "guanineless",
         "few melanophore",

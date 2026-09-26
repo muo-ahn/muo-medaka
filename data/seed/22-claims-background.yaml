@@ -21,12 +21,14 @@ claims:
       - paper: koga1995
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           Insertion of a novel transposable element into the tyrosinase gene is
           responsible for an albino mutation in medaka.
       - paper: tsutsumi2006
         experiment_type: somatic reversion analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           Colour reversion of albino medaka is associated with spontaneous somatic
           excision of the Tol-1 element from the tyrosinase gene.
@@ -38,12 +40,14 @@ claims:
       - paper: koga1995
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           The Tol-1 transposable element insertion in tyrosinase causes the medaka
           albino mutation.
       - paper: tsutsumi2006
         experiment_type: somatic reversion analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           Excision of the element restores pigmentation, confirming the insertion
           as the lesion.
@@ -58,6 +62,7 @@ claims:
       - paper: kimura2017
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           pnp4a is the causal gene of the medaka iridophore mutant guanineless.
 
@@ -68,6 +73,7 @@ claims:
       - paper: otsuki2020
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           kit-ligand a is the gene responsible for the medaka pigment cell mutant
           few melanophore. The mutant shows reduced melanophores with no detectable
@@ -75,14 +81,63 @@ claims:
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: leucophore free}
+    object: {label: Gene, name: slc2a15b}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          The lf locus maps to an 85-kbp interval on chromosome 1; BAC and fosmid
+          clones covering slc2a15b rescue the phenotype, a construct with
+          slc2a15b exon 1 replaced by GFP does not, and the lf genome carries a
+          703-bp deletion removing exons 8 and 9 of slc2a15b.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: leucophore free-2}
+    object: {label: Gene, name: pax7a}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          lf-2 maps to chromosome 5 beside pax7a; a BAC containing pax7a rescues
+          the phenotype and one with pax7a exon 1 replaced by GFP does not. A
+          1.8-kbp Tol1-arm insertion disrupts pax7a exon 2, and the mutant
+          transcript lacks the paired box.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: white leucophore}
+    object: {label: Gene, name: slc2a11b}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          wl maps to a 533-kbp interval on chromosome 9 in which slc2a11b, a
+          close relative of slc2a15b, is the candidate. A fosmid carrying
+          slc2a11b partially rescues the orange pigmentation of wl leucophores,
+          the GFP-disrupted fosmid does not, and wl carries a 2-bp deletion in
+          exon 3 that introduces a premature stop.
+
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: many leucophores-3}
     object: {label: Gene, name: sox5}
     evidence:
       - paper: nagao2014
-        experiment_type: mutant characterization
-        level: FUNCTIONAL_VALIDATION
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        section: Results
         finding: >-
-          Sox5 acts as a fate switch between the xanthophore and leucophore
-          lineages in medaka pigment cell development.
+          ml-3 maps to a 90-kbp interval on LG23 containing only sox5; the mutant
+          skips exon 7, introducing a premature stop. A sox5 morpholino and two
+          TILLING alleles reproduce the ml-3 phenotype.
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: fused centrum}
@@ -93,12 +148,15 @@ claims:
       what makes that mis-attribution visible rather than inherited.
     evidence:
       - paper: inohaya2010
-        experiment_type: mutant characterization
+        experiment_type: transgenic rescue
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Abstract
         finding: >-
-          Production of Wnt4b by floor plate cells is essential for segmental
-          patterning of the vertebral column; its loss produces the fused centrum
-          (fsc) mutant.
+          fsc encodes wnt4b, whose floor-plate expression is lost in the mutant;
+          transgenic rescue lines and mosaic analyses establish that production
+          of Wnt4b by floor plate cells is essential for segmental patterning of
+          the vertebral column.
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: panda (pa) lab mutant}
@@ -120,12 +178,14 @@ claims:
       - paper: ohtsuka2004
         experiment_type: positional cloning
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1 and zic4 were identified within the Double anal fin (Da) locus and
           implicated in dorsoventral patterning of the trunk-tail region.
       - paper: kawanishi2013
         experiment_type: expression analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           Da is an enhancer mutant: zic1/zic4 expression is lost specifically in
           the dorsal half of the somites, establishing them as dorsal-module
@@ -138,6 +198,7 @@ claims:
       - paper: moriyama2012
         experiment_type: mutant mapping
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           A large transposon inserted into the zic1/zic4 enhancer region causes
           mesoderm-specific loss of their transcription.
@@ -159,6 +220,7 @@ claims:
       - paper: kon2026
         experiment_type: variant genotyping
         level: FINE_MAPPING
+        species: Oryzias latipes
         section: Results
         finding: >-
           The hikari GWAS peak coincides with the zic1/zic4 locus, and the
@@ -167,6 +229,7 @@ claims:
       - paper: moriyama2012
         experiment_type: mutant mapping
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           The Da lesion is a transposon insertion in the zic1/zic4 enhancer.
 
@@ -236,6 +299,7 @@ claims:
       - paper: kon2026
         experiment_type: genome editing
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           Deletion of adcy5 exon 8 increases black body colour in medaka.
 
@@ -246,6 +310,7 @@ claims:
       - paper: kawanishi2013
         experiment_type: expression analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1/zic4 act as selector genes for the dorsal module of the teleost
           trunk.
@@ -257,6 +322,7 @@ claims:
       - paper: ohtsuka2004
         experiment_type: expression analysis
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           zic1 and zic4 function in dorsoventral patterning of the trunk-tail
           region.
@@ -296,6 +362,7 @@ claims:
       - paper: fukamachi2001
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: Mutations in slc45a2 reduce melanin content in medaka.
 
   - predicate: participates_in
@@ -305,6 +372,7 @@ claims:
       - paper: koga1995
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           Disruption of tyrosinase, the rate-limiting enzyme of melanin synthesis,
           causes the medaka albino mutation.
@@ -328,6 +396,7 @@ claims:
       - paper: kimura2017
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: pnp4a is causal for the medaka iridophore mutant guanineless.
 
   - predicate: participates_in
@@ -337,6 +406,7 @@ claims:
       - paper: otsuki2020
         experiment_type: positional cloning
         level: CAUSAL_VARIANT
+        species: Oryzias latipes
         finding: >-
           kitlga loss produces the few melanophore pigment cell mutant.
 
@@ -347,9 +417,46 @@ claims:
       - paper: nagao2014
         experiment_type: mutant characterization
         level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
         finding: >-
           Sox5 switches pigment cell fate between xanthophore and leucophore
           lineages.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: slc2a15b}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          slc2a15b loss produces the leucophore free mutant, which lacks
+          leucophores and pigmented xanthophores.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: pax7a}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          pax7a is required to form the xanthophore and leucophore precursor
+          cells; its loss produces the leucophore free-2 mutant.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: slc2a11b}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: kimura2014
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          slc2a11b loss produces the white leucophore mutant, whose leucophores
+          fail to become orange and whose xanthophores are unpigmented.
 
   - predicate: participates_in
     subject: {label: Gene, name: bmp5}
