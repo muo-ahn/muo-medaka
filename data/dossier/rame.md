@@ -34,7 +34,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 ## Related traits
 
-- _none recorded_
+- kagamirin → co_occurs_with → this trait
 
 ## Open questions
 

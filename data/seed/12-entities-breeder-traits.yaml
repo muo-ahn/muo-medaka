@@ -1,0 +1,78 @@
+# Traits attested only in the trade, not in the literature. PRD §3, §8.
+#
+# Both axes these open were already declared in `TraitCategory` and left empty of
+# anything the hobby has produced since 2017. Kon et al. 2026 Table 1 froze the
+# vocabulary at the strains its 181 fish happened to cover; the hobby did not stop
+# there.
+#
+# ORTHOGRAPHY, INVERTED. Every trait in 10-entities-traits.yaml carries its
+# Japanese string in `unverified_labels`, because the seed paper romanises
+# throughout and the kanji are our reconstruction. Here the relation runs the
+# other way: the sources are Japanese and print カガミ鱗 and フサヒレ directly,
+# while the romanisation is ours. So the Japanese goes in `japanese_name` where it
+# is attested, and these are the first traits in the ontology entitled to that
+# field. The romanised `name` remains the identifier for consistency with the rest
+# of the graph -- it is not claimed to be anybody's spelling.
+#
+# NAMING HAZARD. `longfin` already exists here as Kon et al.'s "six fins, all but
+# the caudal, longer than wild type". The hobby's ロングフィン is a different unit
+# of thought and the two must not be merged on the strength of a shared English
+# word. PRD §8: a shared name is not evidence of shared biology. Nothing below
+# asserts a relation to `longfin`, `hirenaga` or `swallow`.
+
+entities:
+  # --- Scale -------------------------------------------------------------------
+  - label: OrnamentalTrait
+    name: kagamirin
+    category: SCALE
+    japanese_name: カガミ鱗
+    description: >-
+      Scales markedly larger than wild type, arranged in an orderly lateral row
+      and bilaterally symmetric. Named for the mirror scale of carp. Distinct in
+      kind from rame and toumeirin, which are about how much a scale reflects;
+      this is about how large each scale is and how the scales sit relative to
+      one another, and is judged in side view only.
+    review_reasons: [NEW_ORNAMENTAL_TRAIT, BREEDER_ACADEMIC_LINK]
+
+  # --- Fin morphology ----------------------------------------------------------
+  - label: OrnamentalTrait
+    name: fusahire
+    category: FIN_MORPHOLOGY
+    japanese_name: フサヒレ
+    # The sources print katakana throughout. 房ヒレ is the kanji form the trait is
+    # also known by and which gives the romanisation its reading, but no source we
+    # hold actually writes it, so it cannot sit beside an attested label.
+    unverified_labels: ["房ヒレ"]
+    description: >-
+      Elongated dorsal and anal fin rays that branch, with guanine collecting on
+      the branches to give a white feathery fringe. A third mode on an axis the
+      seed paper resolved into two: hirenaga elongates rays and membrane,
+      swallow elongates rays and not membrane, and neither describes a ray that
+      divides. The guanine deposition also makes this the one fin trait whose
+      expression is partly pigmentary rather than purely morphological.
+    review_reasons: [NEW_ORNAMENTAL_TRAIT, BREEDER_ACADEMIC_LINK, UNVERIFIED_LABEL]
+
+  # --- Phenotypes --------------------------------------------------------------
+  - label: Phenotype
+    name: enlarged scale
+    description: Individual scales larger in area than wild type.
+
+  - label: Phenotype
+    name: fin ray branching
+    description: >-
+      A fin ray dividing into multiple branches along its length, as distinct
+      from simply growing longer.
+
+  - label: Phenotype
+    name: guanine deposition on fin rays
+    description: >-
+      Guanine accumulating on the fin rays, read in the trade as ヒレ光. The
+      reflective platelet chemistry is the same one pnp4a serves in the
+      iridophore, which is what makes this phenotype worth stating separately
+      rather than folding into the fin morphology -- but see
+      23-claims-breeder.yaml: no evidence links the two, and the shared word
+      "guanine" is not a shared mechanism.
+
+  # --- Anatomy -----------------------------------------------------------------
+  - label: Anatomy
+    name: anal fin

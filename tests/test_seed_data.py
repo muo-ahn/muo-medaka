@@ -10,7 +10,7 @@ from __future__ import annotations
 import pytest
 
 from medaka_ontology.loader import load_dir
-from medaka_ontology.vocabulary import EvidenceLevel, Predicate, Stance
+from medaka_ontology.vocabulary import EvidenceLevel, Predicate, ReviewReason, Stance
 
 STRONG = {EvidenceLevel.CAUSAL_VARIANT, EvidenceLevel.FUNCTIONAL_VALIDATION}
 
@@ -38,17 +38,80 @@ def test_every_paper_is_traceable(bundle):
 
 
 def test_japanese_labels_are_never_recorded_as_sourced(bundle):
-    """The seed paper romanizes throughout, so any Japanese-script string in the
-    ontology is our reconstruction and must sit in `unverified_labels`."""
+    """`aliases` reads as sourced, so no Japanese string may sit there. The
+    literature romanizes throughout, which makes every kanji form derived from it
+    our reconstruction; `unverified_labels` is where reconstruction goes."""
     for entity in bundle.entities:
         for alias in entity.aliases:
             assert alias.isascii(), f"{entity.name}: {alias!r} claims a source it lacks"
-        assert entity.japanese_name is None, entity.name
+
+
+def test_japanese_name_is_set_only_where_a_japanese_source_backs_it(bundle):
+    """This field used to be banned outright, and the ban was right for as long as
+    every source romanized. The breeder sources do not -- they print カガミ鱗 and
+    フサヒレ and nothing else -- so the rule becomes conditional rather than
+    disappearing: a Japanese-language source must actually stand behind the entity.
+
+    A paper whose own title is not ASCII is one that prints Japanese. That keeps
+    the check self-maintaining: adding a Japanese source licenses the field, and
+    adding an English one never quietly does.
+    """
+    japanese_sources = {p.key for p in bundle.papers if not p.title.isascii()}
+    assert japanese_sources, "vacuous while no source prints Japanese"
+
+    backed = {
+        claim.subject.name
+        for claim in bundle.claims
+        if any(ev.paper in japanese_sources for ev in claim.evidence)
+    }
+    for entity in bundle.entities:
+        if entity.japanese_name is None:
+            continue
+        assert not entity.japanese_name.isascii(), entity.name
+        assert entity.name in backed, (
+            f"{entity.name}: japanese_name is set, but no claim about it cites a "
+            "Japanese-language source"
+        )
+
+
+def test_breeder_sources_can_never_outrank_the_literature(bundle):
+    """A trade page is the entire record for the scale and fin traits, which is
+    exactly why the level is the containment rather than anyone's restraint.
+    BREEDER_OBSERVATION is rank 10, below the OBSERVATIONAL rung a published
+    phenotype table sits on."""
+    trade = {p.key for p in bundle.papers if not (p.doi or p.pmid or p.pmcid)}
+    assert trade, "vacuous while every source has a formal identifier"
+
+    for claim in bundle.claims:
+        for ev in claim.evidence:
+            if ev.paper in trade:
+                assert ev.level is EvidenceLevel.BREEDER_OBSERVATION, (
+                    f"{claim.predicate.value} on {claim.subject.name} cites "
+                    f"{ev.paper} at {ev.level.value}"
+                )
+
+
+def test_breeder_sources_stay_out_of_the_acquisition_pipeline(bundle):
+    """`register_discovered` skips a paper it cannot key by DOI/PMID/PMCID, and
+    seed ingest never writes `processing_state`, so a shop page is invisible to
+    `pipeline` as long as it carries no formal identifier. A URL is still required
+    -- PRD §2.4 wants a locator, just not one that makes the paper fetchable."""
+    for paper in bundle.papers:
+        if paper.doi or paper.pmid or paper.pmcid:
+            continue
+        assert paper.url, f"{paper.key}: no identifier of any kind"
+
+
+def test_traits_from_outside_the_literature_are_routed_to_a_human(bundle):
+    """PRD §12. Nothing enters the trait vocabulary on a breeder's say-so without
+    somebody seeing it first."""
+    for entity in bundle.entities:
+        if ReviewReason.BREEDER_ACADEMIC_LINK not in entity.review_reasons:
+            continue
+        assert ReviewReason.NEW_ORNAMENTAL_TRAIT in entity.review_reasons, entity.name
 
 
 def test_unverified_labels_are_flagged_for_review(bundle):
-    from medaka_ontology.vocabulary import ReviewReason
-
     for entity in bundle.entities:
         if entity.unverified_labels:
             assert ReviewReason.UNVERIFIED_LABEL in entity.review_reasons, entity.name

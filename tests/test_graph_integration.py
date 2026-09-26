@@ -60,7 +60,7 @@ def _counts(session) -> tuple[int, int]:
 
 
 def test_ingest_writes_the_whole_bundle(loaded):
-    assert (loaded.papers, loaded.entities, loaded.claims) == (22, 124, 121)
+    assert (loaded.papers, loaded.entities, loaded.claims) == (27, 130, 129)
 
 
 def test_evidence_is_deduplicated_across_claims(session, loaded):
@@ -197,6 +197,6 @@ def test_every_trait_renders(session, loaded):
         r["name"]
         for r in session.run("MATCH (t:OrnamentalTrait) RETURN t.name AS name")
     ]
-    assert len(names) == 40
+    assert len(names) == 42
     for name in names:
         assert render_trait(session, name).startswith("# ")

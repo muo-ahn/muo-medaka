@@ -43,6 +43,7 @@ RETURN c.id             AS claim_id,
          paper_title: p.title,
          paper_doi:   p.doi,
          paper_pmid:  p.pmid,
+         paper_url:   p.url,
          paper_year:  p.year
        }) AS evidence
 ORDER BY predicate, object_name

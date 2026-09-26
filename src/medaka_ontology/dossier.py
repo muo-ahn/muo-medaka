@@ -47,6 +47,12 @@ def _cite(ev: dict[str, Any]) -> str:
         ref += f" — doi:{ev['paper_doi']}"
     elif ev.get("paper_pmid"):
         ref += f" — PMID:{ev['paper_pmid']}"
+    elif ev.get("paper_url"):
+        # A breeder source has no DOI and the URL is its only locator. Without
+        # this branch the strongest thing we can say about an entire axis of the
+        # ontology prints with no way to check it, which PRD §2.4 does not allow
+        # merely because the source is a shop page.
+        ref += f" — {ev['paper_url']}"
     return ref
 
 
