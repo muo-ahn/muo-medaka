@@ -129,8 +129,28 @@ papers:
     year: 2014
     journal: PLoS Genetics
     doi: 10.1371/journal.pgen.1004246
-    review_reasons: [FULLTEXT_UNAVAILABLE]
-    notes: Causal for leucophore free (lf). Not cited by the seed paper.
+    pmid: "24699463"
+    pmcid: PMC3974636
+    notes: >-
+      Causal for many leucophores-3 (ml-3): positional cloning to a 90-kbp
+      interval on LG23 containing only sox5, confirmed by morpholino phenocopy
+      and two TILLING alleles. Not the lf gene; this note previously said so in
+      error (lf is slc2a15b, kimura2014). Not cited by the seed paper.
+
+  - key: kimura2014
+    title: >-
+      Leucophores are similar to xanthophores in their specification and
+      differentiation processes in medaka
+    year: 2014
+    journal: PNAS
+    doi: 10.1073/pnas.1311254111
+    pmid: "24803434"
+    pmcid: PMC4034200
+    notes: >-
+      Positional cloning with BAC/fosmid rescue of three leucophore mutants:
+      leucophore free (lf) is slc2a15b (chr1), leucophore free-2 (lf-2) is pax7a
+      (chr5), white leucophore (wl) is slc2a11b (chr9). Not cited by the seed
+      paper.
 
   - key: lamason2005
     title: >-

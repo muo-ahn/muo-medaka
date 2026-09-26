@@ -2,7 +2,7 @@
 
 BODY_COLOR
 
-Laboratory medaka pigment cell mutant; sox5 acts as the fate switch.
+Laboratory medaka leucophore mutant lacking leucophores and pigmented xanthophores; causal gene slc2a15b.
 
 ## Aliases
 
@@ -16,17 +16,18 @@ Laboratory medaka pigment cell mutant; sox5 acts as the fate switch.
 
 | Target | Relation | Strongest evidence | Detail |
 |---|---|---|---|
-| sox5 | associated_with_gene | FUNCTIONAL_VALIDATION | Gene |
+| slc2a15b | associated_with_gene | CAUSAL_VARIANT | chr1 |
 
 ## Mechanism
 
-- chromatophore development — via sox5 (trait→gene link: FUNCTIONAL_VALIDATION)
+- chromatophore development — via slc2a15b (trait→gene link: CAUSAL_VARIANT)
 
 ## Evidence
 
-• **FUNCTIONAL_VALIDATION** — Sox5 functions as a fate switch in medaka pigment cell development (2014) — doi:10.1371/journal.pgen.1004246
-  - associated_with_gene → sox5
-  - Sox5 acts as a fate switch between the xanthophore and leucophore lineages in medaka pigment cell development.
+• **CAUSAL_VARIANT** — Leucophores are similar to xanthophores in their specification and differentiation proc... (2014) — doi:10.1073/pnas.1311254111
+  - associated_with_gene → slc2a15b
+  - The lf locus maps to an 85-kbp interval on chromosome 1; BAC and fosmid clones covering slc2a15b rescue the phenotype, a construct with slc2a15b exon 1 replaced by GFP does not, and the lf genome carries a 703-bp deletion removing exons 8 and 9 of slc2a15b.
+  - _Results_
 
 ## Related traits
 

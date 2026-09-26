@@ -136,6 +136,9 @@ LAB_MUTANTS = {
     "guanineless",
     "few melanophore",
     "leucophore free",
+    "leucophore free-2",
+    "white leucophore",
+    "many leucophores-3",
     "fused centrum",
     "panda (pa) lab mutant",
 }

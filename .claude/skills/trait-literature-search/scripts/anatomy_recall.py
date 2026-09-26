@@ -13,9 +13,11 @@ Two things it measures, both of which changed the design (2026-09-26):
    honest denominator is the 14 traits whose gene is named by some OTHER paper
    -- the traits this rung exists for.
 
-2. The scope. Tight and wide each recovered 7 of those 14, but a different
-   seven: the misses under `TITLE:(medaka)` are zebrafish papers that scope
-   excludes by construction. Union 10/14. That is why the rung emits both.
+2. The scope. Tight and wide recover different traits: the misses under
+   `TITLE:(medaka)` are zebrafish papers that scope excludes by construction.
+   That is why the rung emits both. Re-measured 2026-09-26 after dropping the
+   "oculocutaneous" alias for slc45a2, which had been matching oca2 abstracts:
+   pipeline tight 8, wide 7, union 9 of 14; probe tight 8, wide 9, union 10.
 
     python .claude/skills/trait-literature-search/scripts/anatomy_recall.py
     python .claude/skills/trait-literature-search/scripts/anatomy_recall.py --as-pipeline
@@ -38,10 +40,10 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-import yaml
-
 sys.path.insert(0, str(Path(__file__).parent))
-from converge import load  # noqa: E402
+from converge import GeneGraph, load_seed  # noqa: E402
+
+from medaka_ontology.vocabulary import NodeLabel, Predicate  # noqa: E402
 
 URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 CONTROL = ('DOI:"10.1093/molbev/msag021"', 1)
@@ -58,47 +60,34 @@ SCOPES = {
                        ' OR "Danio rerio" OR teleost OR fish)',
 }
 
-#: phenotype -> the anatomy terms the graph reaches for it. Mirrors the
-#: affects_anatomy claims and the Anatomy nodes' query_terms; kept here so the
-#: script runs against data/seed alone, with no database.
-ANATOMY = {
-    "anterior eye segment enlargement": ["eye"],
-    "black spotting": ["melanophore", "pigment cell"],
-    "corneal cyst": ["eye"],
-    "dorsal fin loss": ["fin"],
-    "dorsal-to-ventral identity transformation": ["fin", "caudal fin"],
-    "ectopic dorsal iridophore": ["iridophore", "pigment cell"],
-    "ectopic muscle iridophore": ["muscle", "iridophore"],
-    "enlarged scale": ["scale"],
-    "eyeball enlargement": ["eye"],
-    "eyeball protrusion": ["eye"],
-    "eyeball reduction": ["eye"],
-    "fin membrane elongation": ["fin"],
-    "fin ray branching": ["fin ray", "fin"],
-    "fin ray elongation": ["fin ray", "fin"],
-    "guanine deposition on fin rays": ["fin ray", "iridophore"],
-    "hyper-melanism": ["melanophore", "pigment cell"],
-    "hypomelanism": ["melanophore", "pigment cell"],
-    "increased iridophore-bearing scales": ["scale", "iridophore"],
-    "iridophore depletion": ["iridophore", "pigment cell"],
-    "loss of melanophores": ["melanophore", "pigment cell"],
-    "loss of xanthophores": ["xanthophore", "pigment cell"],
-    "melanophore concentration at scale margin": ["melanophore", "scale"],
-    "orange spotting": ["xanthophore", "pigment cell"],
-    "peritoneal iridophore": ["peritoneum", "iridophore"],
-    "reduced melanophore number": ["melanophore", "pigment cell"],
-    "reduced xanthophore number": ["xanthophore", "pigment cell"],
-    "shortened body axis": ["vertebral column", "vertebra"],
-    "small pupil": ["eye"],
-    "vertebral centrum fusion": ["vertebra", "vertebral column"],
-    "xanthophore enhancement": ["xanthophore", "pigment cell"],
-}
+
+def anatomy_terms(bundle):
+    """phenotype -> the query terms the graph reaches for it.
+
+    Derived from the affects_anatomy claims and each Anatomy node's
+    query_terms, the same path the discovery rung takes, rather than kept as a
+    hand copy. The hand copy drifted: it gave hypomelanism and orange spotting
+    pigment-cell terms that the seed deliberately withholds (SKILL.md, "Two
+    phenotypes deliberately have no anatomy edge").
+    """
+    anatomy = {e.name: e for e in bundle.entities if e.label is NodeLabel.ANATOMY}
+    out = collections.defaultdict(set)
+    for claim in bundle.claims:
+        if claim.predicate is not Predicate.AFFECTS_ANATOMY:
+            continue
+        part = anatomy.get(claim.object.name)
+        if part is not None:
+            out[claim.subject.name] |= set(part.query_terms or [part.name])
+    return out
+
 
 #: Papers name a gene by more than its symbol, and a missed alias reads as a
 #: failed rung.
 ALIAS = {
     "kitlga": ["kit ligand", "kitlg"],
-    "slc45a2": ["b locus", "oculocutaneous"],
+    # Not "oculocutaneous": that word also matches every oca2 abstract, and oca2
+    # is albino's gene, not yellow's. It credited slc45a2 with oca2 papers.
+    "slc45a2": ["b locus"],
     "tyr": ["tyrosinase"],
     "and2": ["actinodin"],
     "oca2": ["oculocutaneous albinism"],
@@ -138,21 +127,15 @@ def finds(blobs, gene):
     return None
 
 
-def externally_named():
+def externally_named(bundle):
     """trait -> papers other than the seed GWAS that name its gene."""
-    claims = []
-    for name in ("20-claims-structure", "21-claims-gwas", "22-claims-background",
-                 "23-claims-breeder"):
-        path = Path("data/seed") / f"{name}.yaml"
-        claims += yaml.safe_load(path.read_text("utf-8"))["claims"]
     out = collections.defaultdict(set)
-    for claim in claims:
-        if claim["predicate"] != "associated_with_gene":
+    for claim in bundle.claims:
+        if claim.predicate is not Predicate.ASSOCIATED_WITH_GENE:
             continue
-        for evidence in claim.get("evidence", []):
-            paper = evidence.get("paper")
-            if paper and paper != OWN_GWAS:
-                out[claim["subject"]["name"]].add(paper)
+        for evidence in claim.evidence:
+            if evidence.paper != OWN_GWAS:
+                out[claim.subject.name].add(evidence.paper)
     return out
 
 
@@ -171,8 +154,11 @@ def main(argv):
         print("\n  BACKEND NOT TRUSTWORTHY. Do not read 0 as 'no literature'.")
         return 1
 
-    pheno_of, genes_of, *_ = load()
-    external = externally_named()
+    bundle = load_seed()
+    graph = GeneGraph(bundle)
+    pheno_of, genes_of = graph.phenotypes, graph.gene_claims
+    anatomy = anatomy_terms(bundle)
+    external = externally_named(bundle)
     targets = sorted(t for t in external if pheno_of.get(t) and genes_of.get(t))
     print(f"\n{len(targets)} traits whose gene is named outside {OWN_GWAS}\n")
 
@@ -181,7 +167,7 @@ def main(argv):
     for label, template in SCOPES.items():
         print(f"=== scope: {label}")
         for trait in targets:
-            terms = sorted({t for p in pheno_of[trait] for t in ANATOMY.get(p, ())})
+            terms = sorted({t for p in pheno_of[trait] for t in anatomy.get(p, ())})
             best, pool = None, 0
             for term in terms:
                 query = template.format(t=term)

@@ -1,0 +1,121 @@
+{
+  "traits_tested": 7,
+  "nominations": 12,
+  "correct": 3,
+  "convergent": 0,
+  "convergent_correct": 0,
+  "veto_kept": 3,
+  "veto_kept_wrong": 1,
+  "vetoed": 5,
+  "vetoed_correct": 0,
+  "rows": [
+    {
+      "trait": "Da mutant",
+      "gene": "zic1",
+      "correct": true,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "unknown"
+    },
+    {
+      "trait": "Da mutant",
+      "gene": "zic4",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "unknown"
+    },
+    {
+      "trait": "albino",
+      "gene": "slc45a2",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 2,
+      "convergent": false,
+      "position": "unknown"
+    },
+    {
+      "trait": "aurora",
+      "gene": "slc24a5",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "vetoed"
+    },
+    {
+      "trait": "hikari",
+      "gene": "zic1",
+      "correct": true,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "consistent"
+    },
+    {
+      "trait": "hirenaga",
+      "gene": "and2",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "vetoed"
+    },
+    {
+      "trait": "hirenaga",
+      "gene": "kcna10",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "vetoed"
+    },
+    {
+      "trait": "hirenaga",
+      "gene": "kcna3",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "vetoed"
+    },
+    {
+      "trait": "hirenaga",
+      "gene": "kcnd3",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "vetoed"
+    },
+    {
+      "trait": "hirenaga",
+      "gene": "kcnq5a",
+      "correct": true,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "consistent"
+    },
+    {
+      "trait": "orochi",
+      "gene": "atp6ap2",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 1,
+      "convergent": false,
+      "position": "consistent"
+    },
+    {
+      "trait": "yellow",
+      "gene": "tyr",
+      "correct": false,
+      "neighbours": 1,
+      "papers": 2,
+      "convergent": false,
+      "position": "unknown"
+    }
+  ]
+}

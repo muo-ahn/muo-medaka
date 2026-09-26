@@ -210,10 +210,10 @@ def _anatomy_specs(record: dict) -> list[QuerySpec]:
 def test_anatomy_rung_emits_both_scopes():
     """Measured through the real pipeline (relevance order, pageSize 25) on the
     14 traits whose gene is named by a paper other than kon2026: tight 8/14,
-    wide 8/14, union 10/14. Neither subsumes the other -- wide alone recovers
-    reallongfin and yellow (zebrafish papers that `TITLE:(medaka)` excludes by
+    wide 7/14, union 9/14. Neither subsumes the other -- wide alone recovers
+    reallongfin (a zebrafish paper that `TITLE:(medaka)` excludes by
     construction), tight alone recovers daruma and fused centrum. Dropping
-    either query costs two traits."""
+    either query costs traits."""
     tight, wide = _anatomy_specs(_expansion_row(anatomy=[["dorsal fin", ["fin"]]]))
 
     assert tight.tier == DiscoveryTier.ANATOMY

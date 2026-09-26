@@ -318,7 +318,33 @@ entities:
     name: leucophore free
     category: BODY_COLOR
     aliases: ["lf"]
-    description: Laboratory medaka pigment cell mutant; sox5 acts as the fate switch.
+    description: >-
+      Laboratory medaka leucophore mutant lacking leucophores and pigmented
+      xanthophores; causal gene slc2a15b.
+
+  - label: OrnamentalTrait
+    name: leucophore free-2
+    category: BODY_COLOR
+    aliases: ["lf-2"]
+    description: >-
+      Laboratory medaka leucophore mutant lacking leucophores and pigmented
+      xanthophores; causal gene pax7a.
+
+  - label: OrnamentalTrait
+    name: white leucophore
+    category: BODY_COLOR
+    aliases: ["wl"]
+    description: >-
+      Laboratory medaka leucophore mutant whose larval leucophores are white
+      instead of orange, with no pigmented xanthophores; causal gene slc2a11b.
+
+  - label: OrnamentalTrait
+    name: many leucophores-3
+    category: BODY_COLOR
+    aliases: ["ml-3"]
+    description: >-
+      Laboratory medaka pigment cell mutant with excess leucophores and no
+      xanthophores; causal gene sox5, which acts as the xanthophore fate switch.
 
   - label: OrnamentalTrait
     name: panda (pa) lab mutant
