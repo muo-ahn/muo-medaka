@@ -349,6 +349,269 @@ claims:
           The Da mutant shows altered dorsoventral patterning of the trunk-tail
           region; zic1 and zic4 lie within the Da locus.
 
+  # Backfill of the traits Table 1 describes but the first load left without
+  # a phenotype. Composite classes are included: the subsumes edges above
+  # already stop a phenotype shared with a member reading as replication.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: sanshoku}
+    object: {label: Phenotype, name: orange spotting}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body partly white with both orange and black spots.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: sanshoku}
+    object: {label: Phenotype, name: black spotting}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body partly white with both orange and black spots.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: kouhaku}
+    object: {label: Phenotype, name: orange spotting}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body surface partly white with orange spots.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: kuroaka}
+    object: {label: Phenotype, name: black spotting}
+    interpretation: >-
+      Table 1 makes orange the ground colour here, not a spot, so only the
+      black spotting is recorded.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body surface partly orange with some black spots formed by melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: kurobuchi}
+    object: {label: Phenotype, name: black spotting}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body colour pattern with black spots.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: akabuchi}
+    object: {label: Phenotype, name: orange spotting}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body colour pattern with red spots.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: blackrim}
+    object: {label: Phenotype, name: melanophore concentration at scale margin}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Dense melanophores around the scales, appearing as a black mesh.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: gold}
+    object: {label: Phenotype, name: hypomelanism}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Brown or wild-type-like; brighter than wild type, with decreased blackness.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: yokihi}
+    object: {label: Phenotype, name: xanthophore enhancement}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Increased redness (orange) relative to yellow medaka; enhanced xanthophores, loss of normal melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: yokihi}
+    object: {label: Phenotype, name: loss of melanophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Increased redness (orange) relative to yellow medaka; enhanced xanthophores, loss of normal melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: Phenotype, name: loss of melanophores}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Body colour without melanophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: fukumaku}
+    object: {label: Phenotype, name: peritoneal iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Blue silver-coloured peritoneum.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: nijikin}
+    object: {label: Phenotype, name: ectopic muscle iridophore}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore expression throughout the muscle.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: rame}
+    object: {label: Phenotype, name: increased iridophore-bearing scales}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Increased number of iridophore-expressing silver-coloured scales.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: nodorsalfin}
+    object: {label: Phenotype, name: dorsal fin loss}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Dorsal fin loss.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: tenme}
+    object: {label: Phenotype, name: small pupil}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Small pupil; small eyeballs in some cases.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: tenme}
+    object: {label: Phenotype, name: eyeball reduction}
+    interpretation: >-
+      Table 1 qualifies this one as "in some cases". Recorded, but it is not
+      a constant feature of the trait the way the small pupil is.
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Small pupil; small eyeballs in some cases.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: suihougan}
+    object: {label: Phenotype, name: anterior eye segment enlargement}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Enlargement of the anterior segment of the eyeball; corneal cyst.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: suihougan}
+    object: {label: Phenotype, name: corneal cyst}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Enlargement of the anterior segment of the eyeball; corneal cyst.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: miyuki}
+    object: {label: Phenotype, name: reduced melanophore number}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore on the dorsal side, with reduction of melanophores and xanthophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: miyuki}
+    object: {label: Phenotype, name: reduced xanthophore number}
+    evidence:
+      - paper: kon2026
+        experiment_type: phenotype description
+        level: OBSERVATIONAL
+        section: Table 1
+        finding: >-
+          Ectopic iridophore on the dorsal side, with reduction of melanophores and xanthophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: few melanophore}
+    object: {label: Phenotype, name: reduced melanophore number}
+    evidence:
+      - paper: otsuki2020
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        section: Results
+        finding: >-
+          The mutant shows reduced melanophores with no detectable alteration in iris iridophores.
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: fused centrum}
+    object: {label: Phenotype, name: vertebral centrum fusion}
+    evidence:
+      - paper: inohaya2010
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        section: Results
+        finding: >-
+          Loss of Wnt4b from floor plate cells disrupts segmental patterning of the vertebral column, producing the fused centrum (fsc) mutant.
+
   # --- Phenotype -> anatomy ----------------------------------------------------
   - predicate: affects_anatomy
     subject: {label: Phenotype, name: dorsal-to-ventral identity transformation}

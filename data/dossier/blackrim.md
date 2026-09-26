@@ -10,7 +10,7 @@ Dense melanophores around the scales, appearing as a black mesh.
 
 ## Phenotypes
 
-- _none recorded_
+- melanophore concentration at scale margin
 
 ## Genetics
 
@@ -35,6 +35,11 @@ Dense melanophores around the scales, appearing as a black mesh.
   - Association on chromosome 12, 9,763,282-15,596,885, from 14 blackrim individuals; best P = 3.33E-26; 230 genes.
   - _Table 2_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - has_phenotype → melanophore concentration at scale margin
+  - Dense melanophores around the scales, appearing as a black mesh.
+  - _Table 1_
+
 ## Related traits
 
 - _none recorded_
@@ -42,4 +47,4 @@ Dense melanophores around the scales, appearing as a black mesh.
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 2 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).
+- 3 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).

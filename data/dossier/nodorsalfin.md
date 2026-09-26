@@ -10,7 +10,7 @@ Dorsal fin loss. Not GWAS-analysed by the seed paper.
 
 ## Phenotypes
 
-- _none recorded_
+- dorsal fin loss
 
 ## Genetics
 
@@ -29,6 +29,11 @@ Dorsal fin loss. Not GWAS-analysed by the seed paper.
   - Table 1 lists lmbr1 as nodorsalfin's reported locus, citing Letelier et al. 2018. nodorsalfin was not GWAS-analysed in this study.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - has_phenotype → dorsal fin loss
+  - Dorsal fin loss.
+  - _Table 1_
+
 ## Related traits
 
 - _none recorded_
@@ -36,4 +41,4 @@ Dorsal fin loss. Not GWAS-analysed by the seed paper.
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 1 claim(s) awaiting human review (EVIDENCE_LEVEL_UNCLEAR).
+- 2 claim(s) awaiting human review (EVIDENCE_LEVEL_UNCLEAR).
