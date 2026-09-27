@@ -1,7 +1,7 @@
 """The convergence rule for gene claims, and the species field it rests on.
 
-PRD §8. A single shared phenotype nominates the right gene 3 times in 12 on the
-traits whose answer is known, so a gene reached by inference has to converge
+PRD §8. A single shared phenotype nominated the right gene 3 times in 12 on the
+traits whose answer is known (2 in 5 after ADR 0003), so a gene reached by inference has to converge
 before it may be recorded. These tests pin the rule against the seed data and
 against claims built to break it.
 """
@@ -60,10 +60,22 @@ def _with_claim(bundle, trait, gene, **evidence):
 
 @pytest.mark.parametrize(
     ("trait", "gene"),
-    [("yellow", "slc45a2"), ("albino", "tyr"), ("fused centrum", "wnt4b")],
+    [("yellow", "slc45a2"), ("albino", "tyr"), ("fused centrum", "wnt4b"),
+     ("Da mutant", "zic1")],
 )
 def test_genes_cloned_in_medaka_are_direct(bundle, trait, gene):
     assert classify(_gene_claim(bundle, trait, gene)) is GeneBasis.DIRECT
+
+
+@pytest.mark.parametrize(
+    ("trait", "gene"),
+    [("hikari", "zic1"), ("hikari", "zic4"), ("Da mutant", "zic4")],
+)
+def test_genes_only_mapped_in_the_trait_itself_are_mapped(bundle, trait, gene):
+    """ADR 0003. hikari's zic1/zic4 rest on kon2026's GWAS and genotyping alone
+    once the Da evidence sits on the Da mutant. Da mutant -> zic4 rests on
+    ohtsuka2004's 174-kbp interval: its morpholino targeted zic1 only."""
+    assert classify(_gene_claim(bundle, trait, gene)) is GeneBasis.MAPPED
 
 
 def test_miyuki_gets_no_gene(bundle):

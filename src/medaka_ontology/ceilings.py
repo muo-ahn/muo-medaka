@@ -62,40 +62,13 @@ CEILED_PREDICATES = frozenset(
 #: here. Keyed (predicate, subject, object, paper, experiment_type). Pinned by
 #: `tests/test_ceilings.py` in both directions, like `convergence.KNOWN_VIOLATIONS`:
 #: a new breach fails the suite, and so does an entry whose data was fixed.
-#: Every entry is listed in ADR 0003 §Consequences.
-KNOWN_CEILING_VIOLATIONS: frozenset[tuple[str, str, str, str, str]] = frozenset(
-    {
-        # FINE_MAPPING without narrowing: a candidate variant in a GWAS interval.
-        ("associated_with_gene", "aurora", "kitlga", "kon2026", "variant calling"),
-        ("associated_with_gene", "hirenaga", "kcnq5a", "kon2026", "variant calling"),
-        ("associated_with_gene", "deme", "bmp5", "kon2026", "variant calling"),
-        ("associated_with_gene", "hikari", "zic1", "kon2026", "GWAS and variant genotyping"),
-        ("associated_with_gene", "hikari", "zic4", "kon2026", "GWAS and variant genotyping"),
-        (
-            "caused_by_variant", "aurora", "kitlga frameshift chr6:2485888",
-            "kon2026", "variant calling",
-        ),
-        (
-            "caused_by_variant", "hirenaga", "kcnq5a intron1 deletion",
-            "kon2026", "variant calling",
-        ),
-        (
-            "caused_by_variant", "deme", "bmp5 upstream SNV chr15:24280607",
-            "kon2026", "variant calling",
-        ),
-        (
-            "caused_by_variant", "hikari", "zic1/zic4 enhancer transposon insertion",
-            "kon2026", "variant genotyping",
-        ),
-        # Expression recorded as function.
-        ("associated_with_gene", "Da mutant", "zic1", "kawanishi2013", "expression analysis"),
-        # The edit removed exon 8; it did not recreate the 56-bp deletion.
-        (
-            "caused_by_variant", "orochi", "adcy5 exon8 56-bp deletion",
-            "kon2026", "variant calling and genome editing",
-        ),
-    }
-)
+#:
+#: Empty. Its eleven entries, all listed in ADR 0003 §Consequences, were fixed
+#: in the data: the kon2026 FINE_MAPPING items on aurora, hikari, hirenaga and
+#: deme became QTL_GWAS_ASSOCIATION, kawanishi2013 on Da mutant -> zic1 became
+#: EXPRESSION_ASSOCIATION, and the orochi exon-8 edit became
+#: FUNCTIONAL_VALIDATION.
+KNOWN_CEILING_VIOLATIONS: frozenset[tuple[str, str, str, str, str]] = frozenset()
 
 
 def experiment_parts(experiment_type: str) -> list[str]:

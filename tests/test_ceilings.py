@@ -48,9 +48,9 @@ def test_known_ceiling_violations_are_exactly_the_real_ones(bundle):
 
 
 def test_the_known_list_is_the_one_adr_0003_signed_off():
-    """Eleven items, each named in ADR 0003 §Consequences. Growing this list is
-    a decision, not a way to make validate pass."""
-    assert len(KNOWN_CEILING_VIOLATIONS) == 11
+    """Empty since the eleven items ADR 0003 §Consequences named were fixed in
+    the data. Growing this list is a decision, not a way to make validate pass."""
+    assert KNOWN_CEILING_VIOLATIONS == frozenset()
 
 
 def test_every_type_the_seed_uses_has_a_ceiling(bundle):

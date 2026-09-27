@@ -20,17 +20,17 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 | Target | Relation | Strongest evidence | Detail |
 |---|---|---|---|
-| kcnq5a | associated_with_gene | FINE_MAPPING | chr15 |
+| kcnq5a | associated_with_gene | QTL_GWAS_ASSOCIATION | chr15 |
 | hirenaga chr15 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr15:7,548,155-12,116,545, n=19, P=1.19e-31, 92 genes in interval |
-| kcnq5a intron1 deletion | caused_by_variant | FINE_MAPPING | chr15:11,147,312-11,148,989 |
+| kcnq5a intron1 deletion | caused_by_variant | QTL_GWAS_ASSOCIATION | chr15:11,147,312-11,148,989 |
 
 ## Mechanism
 
-- bioelectric fin size regulation — via kcnq5a (trait→gene link: FINE_MAPPING)
+- bioelectric fin size regulation — via kcnq5a (trait→gene link: QTL_GWAS_ASSOCIATION)
 
 ## Evidence
 
-• **FINE_MAPPING** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_gene → kcnq5a
   - No hirenaga-specific nonsense, frameshift or missense variant was found in the kcnq5a coding region. Instead a hirenaga-specific large deletion sits in intron 1 (Chr15:11,147,312-11,148,989). The authors write that these genetic variants may affect kcnq5a expression.
   - _Results_
@@ -44,7 +44,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Association on chromosome 15, 7,548,155-12,116,545, from 19 hirenaga individuals; best P = 1.19E-31; 92 genes; top SNV Chr15:11,377,038.
   - _Table 2_
 
-• **FINE_MAPPING** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - caused_by_variant → kcnq5a intron1 deletion
   - Hirenaga-specific intron 1 deletion; proposed to affect expression, not shown to.
   - _Results_

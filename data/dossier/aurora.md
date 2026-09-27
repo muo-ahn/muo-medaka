@@ -19,17 +19,17 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 | Target | Relation | Strongest evidence | Detail |
 |---|---|---|---|
-| kitlga | associated_with_gene | FINE_MAPPING (⚠ 1 contradicting) | chr6 |
+| kitlga | associated_with_gene | QTL_GWAS_ASSOCIATION (⚠ 1 contradicting) | chr6 |
 | aurora chr6 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr6:35,026-6,793,288, n=23, P=7.32e-17, 175 genes in interval |
-| kitlga frameshift chr6:2485888 | caused_by_variant | FINE_MAPPING | chr6 |
+| kitlga frameshift chr6:2485888 | caused_by_variant | QTL_GWAS_ASSOCIATION | chr6 |
 
 ## Mechanism
 
-- chromatophore development — via kitlga (trait→gene link: FINE_MAPPING)
+- chromatophore development — via kitlga (trait→gene link: QTL_GWAS_ASSOCIATION)
 
 ## Evidence
 
-• **FINE_MAPPING** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_gene → kitlga
   - A frameshift at Chr6:2,485,888 introduces a premature stop, giving a 164-aa truncated protein against a 233-aa wild type. The authors call kitlga a strong candidate gene.
   - > we cannot rule out the possibility that the aurora phenotype results from mutations in another gene located near kitlga
@@ -44,7 +44,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Association on chromosome 6, 35,026-6,793,288, from 23 aurora individuals; best P = 7.32E-17; 175 genes in the interval.
   - _Table 2_
 
-• **FINE_MAPPING** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - caused_by_variant → kitlga frameshift chr6:2485888
   - Frameshift variant co-segregating with aurora; not functionally validated.
   - _Results_

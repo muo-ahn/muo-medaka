@@ -21,7 +21,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 |---|---|---|---|
 | adcy5 | associated_with_gene | FUNCTIONAL_VALIDATION | chr21 |
 | orochi chr21 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr21:4,494,031-7,110,016, n=16, P=6.28e-25, 70 genes in interval |
-| adcy5 exon8 56-bp deletion | caused_by_variant | CAUSAL_VARIANT | chr21 |
+| adcy5 exon8 56-bp deletion | caused_by_variant | FUNCTIONAL_VALIDATION | chr21 |
 
 ## Mechanism
 
@@ -49,9 +49,9 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Genome-wide significant association on chromosome 21, 4,494,031-7,110,016, from 16 orochi individuals; best P = 6.28E-25; 70 genes in the interval.
   - _Table 2_
 
-• **CAUSAL_VARIANT** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **FUNCTIONAL_VALIDATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - caused_by_variant → adcy5 exon8 56-bp deletion
-  - A homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5 was found in 16 of 18 orochi individuals (89%), and recreating it by genome editing produced increased black body colour.
+  - A homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5 was found in 16 of 18 orochi individuals (89%). Founders genome-edited to delete adcy5 exon 8 showed increased black body colour.
   - > deletion of adcy5 exon8 caused hyper-melanism, similar to the orochi phenotype
   - _Results_
 

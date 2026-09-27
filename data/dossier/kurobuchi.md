@@ -30,12 +30,12 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 • **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_gene → uvrag
-  - uvrag nominated for kurobuchi at the same chr14 interval.
+  - uvrag nominated for kurobuchi inside its chr14 interval, which is nested within the sanshoku interval.
   - _Table 3_
 
 • **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_locus → kurobuchi chr14 interval
-  - Association on chromosome 14, 22,305,698-30,081,129, from 11 kurobuchi individuals; best P = 8.50E-09; 230 genes. Effectively the same interval as sanshoku.
+  - Association on chromosome 14, 22,305,698-30,081,129, from 11 kurobuchi individuals; best P = 8.50E-09; 230 genes. Nested inside the sanshoku interval (22,279,553-30,567,935, 248 genes).
   - _Table 2_
 
 • **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021

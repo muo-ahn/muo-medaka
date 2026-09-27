@@ -30,14 +30,24 @@ knowledge because one word appeared in two sentences. The defence is not
 caution in prose. It is three mechanical checks, each measured against traits
 whose answer is already known.
 
-**Measured by leave-one-out on the traits with a known gene and at least one
-phenotype — 10 eligible, 7 of which produced any nomination at all:**
+**Measured by leave-one-out on the traits with a known gene (FINE_MAPPING or
+better) and at least one phenotype.** ADR 0003 took the GWAS candidates out of
+the known answers: aurora, hikari, hirenaga and deme were never more than
+candidates in their own fish. Both columns are kept, because the new sample is
+too small to stand alone:
 
-| check | result |
-|---|---|
-| a gene arriving from one neighbour trait | 3 of 12 correct (25%) |
-| ≥2 neighbour traits **and** ≥2 papers converge on one gene | never fires — recall 0, **precision unmeasured** |
-| positional veto (wrong chromosome) | kills 5 wrong, **0 correct** |
+| check | before ADR 0003 (12 nominations, 7 traits) | now (5 nominations, 4 traits) |
+|---|---|---|
+| a gene arriving from one neighbour trait | 3 of 12 correct (25%) | 2 of 5 correct |
+| ≥2 neighbour traits **and** ≥2 papers converge on one gene | never fires | never fires — recall 0, **precision unmeasured** |
+| positional veto (wrong chromosome) | kills 5 wrong, 0 correct | kills 0 — **no measurement left** |
+
+Read "now" with care. Its two correct nominations are Da mutant's zic1 and zic4
+arriving from hikari, which is one lineage (hikari `putatively_same_as` Da),
+not two confirmations. The veto's old record came from traits that are no
+longer known answers. Its current record is one kept nomination, and that one
+is wrong (orochi → atp6ap2). Until more known answers exist, treat the veto as
+unmeasured rather than validated.
 
 The ≥2 branch has never fired on a known answer, so nothing here says it is
 right when it does fire. It is a bar the single-neighbour case demonstrably

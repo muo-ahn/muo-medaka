@@ -72,7 +72,9 @@ entities:
     unverified_labels: ["ヒメダカ", "黄"]
     description: >-
       Loss of normal melanophores from the body surface. The body colour of the
-      traditional ornamental medaka, himedaka.
+      traditional ornamental medaka, himedaka. Himedaka is the medaka b mutant
+      (the b locus, now slc45a2; fukamachi2001), so the cloning of b is this
+      trait's own evidence (ADR 0003, own subject).
     review_reasons: [UNVERIFIED_LABEL]
 
   - label: OrnamentalTrait
@@ -182,7 +184,9 @@ entities:
     unverified_labels: ["アルビノ"]
     description: >-
       Lack of melanophores throughout the body; yellow body, pink pupil. Not
-      GWAS-analysed by the seed paper.
+      GWAS-analysed by the seed paper. This is the classic medaka albino, the i
+      mutant (the i locus, tyrosinase; koga1995), so the i-locus papers are this
+      trait's own evidence (ADR 0003, own subject).
     review_reasons: [UNVERIFIED_LABEL]
 
   - label: OrnamentalTrait

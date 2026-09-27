@@ -21,10 +21,12 @@
 `## Evidence` 절에는 다른 claim 의 등급과 비교 계층(다른 종의 실험) 등급까지
 섞여 있어서, 그쪽을 보면 배지가 과대평가된다.
 
-40편 중 🟢 는 **9편**이다 — albino, da-mutant, few-melanophore, fused-centrum,
-guanineless, hikari, leucophore-free, orochi, yellow.
+40편 중 🟢 는 **8편**이다 — albino, da-mutant, few-melanophore, fused-centrum,
+guanineless, leucophore-free, orochi, yellow. hikari 는 여기 없다. 그 원인
+근거는 Da 돌연변이체에서 나온 것이라 da-mutant 쪽에 붙어 있고, hikari 자신의
+근거는 연관 구간과 유전형 일치까지다(ADR 0003).
 
-그리고 이 9편에서 시리즈의 가장 큰 사실이 나온다. **원인 근거가 2026년
+그리고 이 8편에서 시리즈의 가장 큰 사실이 나온다. **원인 근거가 2026년
 관상 품종 GWAS 에서 온 것은 오로치 하나뿐이다.**
 
 | 형질 | 원인 근거의 출처 연도 |
@@ -33,7 +35,7 @@ guanineless, hikari, leucophore-free, orochi, yellow.
 | few-melanophore | 2020 |
 | guanineless | 2017 |
 | leucophore-free | 2014 |
-| hikari / da-mutant | 2012 / 2004 |
+| da-mutant | 2012 / 2004 |
 | fused-centrum | 2010 |
 | albino | 1995, 2006 |
 | yellow | 2001 |
@@ -43,8 +45,8 @@ guanineless, hikari, leucophore-free, orochi, yellow.
 찾아 두었고 2026년 GWAS 가 그것을 품종에서 확인한 구조다. 시리즈가 반복해서
 말해야 하는 것이 이 구조다.
 
-(원논문이 새로 제시한 trait-gene 배정 26건만 따로 보면 🟢 는 오로치·히카리
-둘이다. 저장소 루트 README 의 그 문장과 위 9편은 세는 범위가 다르다.)
+(원논문이 새로 제시한 trait-gene 배정 26건만 따로 보면 🟢 는 오로치
+하나다. 저장소 루트 README 의 그 문장과 위 8편은 세는 범위가 다르다.)
 
 ## 용어 대응표
 
@@ -102,10 +104,10 @@ P = 1.33 × 10⁻⁹, 유전자 38개, 후보 지목 0건이다. 천문학적으
 | 고전 색소 좌위 | albino 🟢, yellow 🟢, white, black, gold |
 | 홍색소포·투명 | guanineless 🟢, toumeirin, fukumaku, nijikin, blue, rame |
 | 복합 무늬 | ywko, akabuchi, kurobuchi, sanshoku, kouhaku, kuroaka, blackrim, yokihi |
-| 체형 | hikari 🟢, da-mutant 🟢, fused-centrum 🟢, daruma, handaruma |
-| 지느러미 | hirenaga 🟡, longfin, reallongfin, swallow, nodorsalfin |
-| 눈 | deme 🟡, bigeye, tenme, suihougan |
-| 색소세포 돌연변이체 | few-melanophore 🟢, leucophore-free 🟢, aurora 🟡, panda-pa-lab-mutant |
+| 체형 | hikari, da-mutant 🟢, fused-centrum 🟢, daruma, handaruma |
+| 지느러미 | hirenaga, longfin, reallongfin, swallow, nodorsalfin |
+| 눈 | deme, bigeye, tenme, suihougan |
+| 색소세포 돌연변이체 | few-melanophore 🟢, leucophore-free 🟢, aurora, panda-pa-lab-mutant |
 
 브리더 품종이 아니라 **실험실 돌연변이체**인 항목: `da-mutant`,
 `few-melanophore`, `fused-centrum`, `guanineless`, `leucophore-free`,

@@ -49,10 +49,14 @@ All three end at `convergence.py` + `validate`, so the rules live in one place.
 
 - [x] Write a definition for each evidence level (PRD §5 only lists names).
       → `docs/decisions/0003-evidence-level-definitions.md`.
-- [ ] Relabel the five FINE_MAPPING gene claims, and the matching `caused_by_variant`
+- [x] Relabel the five FINE_MAPPING gene claims, and the matching `caused_by_variant`
       items, to QTL_GWAS_ASSOCIATION (ADR 0003 §Consequences). Expect the
       leave-one-out baseline to lose aurora, hikari, hirenaga and deme (hikari once
       the Da evidence below has moved too).
+      → Done in `21-claims-gwas.yaml`. Leave-one-out loses aurora, hikari and
+      hirenaga (deme was never tested: no neighbour nominates it), and
+      `Da mutant → zic4` turns correct because the new claim puts zic4 in Da's
+      truth set. Baseline not yet re-stored: that extra move needs sign-off.
 - [x] `validate`: enforce the ADR 0003 experiment_type ceiling table on
       gene, locus and variant claims. Split compound types on " and ", and reject
       unknown types. Make `is_direct` split compounds the same way. Add
@@ -60,19 +64,28 @@ All three end at `convergence.py` + `validate`, so the rules live in one place.
       → `src/medaka_ontology/ceilings.py`, `tests/test_ceilings.py`. The 11 current
       breaches are pinned in `KNOWN_CEILING_VIOLATIONS`. Each data fix below must
       remove its entry, or the test fails.
-- [ ] Move borrowed Da evidence off hikari: moriyama2012 (hikari → zic1, and the
+- [x] Move borrowed Da evidence off hikari: moriyama2012 (hikari → zic1, and the
       hikari transposon `caused_by_variant`) and ohtsuka2004 (hikari → zic4). Put
       them on the Da mutant claims. Create `Da mutant → zic4`, which does not exist
       (ohtsuka2004 at FINE_MAPPING there).
-- [ ] orochi `caused_by_variant`: kon2026 edited exon 8 out and did not recreate
+      → hikari → zic1/zic4 are now MAPPED on kon2026 alone. `Da mutant → zic4`
+      carries ohtsuka2004 at FINE_MAPPING and moriyama2012 at
+      EXPRESSION_ASSOCIATION (shared enhancer, so torn → lower).
+- [x] orochi `caused_by_variant`: kon2026 edited exon 8 out and did not recreate
       the 56-bp deletion, so it goes CAUSAL_VARIANT → FUNCTIONAL_VALIDATION.
-- [ ] ohtsuka2004 on Da mutant → zic1: set the type to `positional cloning and
+      → Done; the claim's interpretation says why.
+- [x] ohtsuka2004 on Da mutant → zic1: set the type to `positional cloning and
       morpholino knockdown`. The level stays. `is_direct` now splits compounds,
       so the claim stays DIRECT.
-- [ ] Record on the yellow and albino entries that they are the *b* and *i*
+      → Done; `tests/test_convergence.py` now pins Da mutant → zic1 as DIRECT.
+- [x] Record on the yellow and albino entries that they are the *b* and *i*
       mutants (ADR 0003 own-subject rule), with the papers that say so.
-- [ ] Lower kawanishi2013 to EXPRESSION_ASSOCIATION and add PMID 23462471. Change
+      → In each `description` (fukamachi2001, koga1995). Not an alias: PRD §8
+      keeps aliases for naming variants, not biological identity.
+- [x] Lower kawanishi2013 to EXPRESSION_ASSOCIATION and add PMID 23462471. Change
       "same" to "nested" on kurobuchi → uvrag.
+      → Done. PMID checked on Europe PMC (DOI and title match).
+      `KNOWN_CEILING_VIOLATIONS` is now empty.
 - [ ] Audit the levels on `has_phenotype`, `participates_in` and `affects_anatomy`.
       ADR 0003 leaves them out.
 

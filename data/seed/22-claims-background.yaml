@@ -176,32 +176,68 @@ claims:
     object: {label: Gene, name: zic1}
     evidence:
       - paper: ohtsuka2004
-        experiment_type: positional cloning
+        experiment_type: positional cloning and morpholino knockdown
         level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           zic1 and zic4 were identified within the Double anal fin (Da) locus and
           implicated in dorsoventral patterning of the trunk-tail region.
+      - paper: moriyama2012
+        experiment_type: mutant mapping
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer causes
+          mesoderm-specific loss of their transcription.
       - paper: kawanishi2013
         experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        level: EXPRESSION_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           Da is an enhancer mutant: zic1/zic4 expression is lost specifically in
           the dorsal half of the somites, establishing them as dorsal-module
           selector genes.
 
+  # ADR 0003 names this claim: ohtsuka2004 narrowed Da to 174 kbp holding zic1
+  # and zic4, which is FINE_MAPPING for zic4, but its morpholino targeted zic1
+  # only.
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: Da mutant}
+    object: {label: Gene, name: zic4}
+    interpretation: >-
+      zic4 is inside the cloned Da interval and loses expression in the mutant,
+      but no experiment has perturbed zic4 on its own. The lesion sits in an
+      enhancer that zic1 and zic4 share, so the data cannot say whether zic4
+      contributes to the phenotype or only travels with zic1.
+    evidence:
+      - paper: ohtsuka2004
+        experiment_type: positional cloning
+        level: FINE_MAPPING
+        species: Oryzias latipes
+        finding: >-
+          zic1 and zic4 were identified within the Double anal fin (Da) locus, a
+          174-kbp interval holding the two genes; the morpholino knockdown that
+          partly phenocopied Da targeted zic1 only.
+      - paper: moriyama2012
+        experiment_type: mutant mapping and expression analysis
+        level: EXPRESSION_ASSOCIATION
+        species: Oryzias latipes
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer causes
+          mesoderm-specific loss of their transcription.
+
   - predicate: caused_by_variant
     subject: {label: OrnamentalTrait, name: Da mutant}
     object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
     evidence:
       - paper: moriyama2012
-        experiment_type: mutant mapping
+        experiment_type: mutant mapping and expression analysis
         level: CAUSAL_VARIANT
         species: Oryzias latipes
         finding: >-
           A large transposon inserted into the zic1/zic4 enhancer region causes
-          mesoderm-specific loss of their transcription.
+          mesoderm-specific loss of their transcription and the diphycercal-like
+          caudal skeleton.
 
   # ===========================================================================
   # Breeder trait <-> laboratory mutant. PRD §8

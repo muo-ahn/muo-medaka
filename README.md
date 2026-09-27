@@ -160,7 +160,9 @@ identifier and the caveats that came with it, is in
 
 **Read this before using the genetics.** Of the seed paper's 26 trait-gene
 assignments, exactly one is functionally validated (*adcy5* / orochi, by an
-edited phenocopy). One more, *zic1/zic4* / hikari, is causal from earlier work.
+edited phenocopy). *zic1/zic4* / hikari is causal only by way of the Da mutant:
+the earlier work was done in Da, and hikari links to it through
+`putatively_same_as` (ADR 0003).
 Everything else is a candidate gene inside a GWAS interval holding 30-318 genes,
 and several rest on four to eight mutants. The dossiers say so on every trait;
 the ontology is built to stop that caveat from getting lost.

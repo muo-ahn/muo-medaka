@@ -80,7 +80,7 @@ YWKo 를 검색해서 파는 가게를 찾으려 하면 못 찾는다. 이것은
 | 복합 클래스 | 자기 신호 | 하위 형질의 신호 | 읽는 법 |
 |---|---|---|---|
 | YWKo | chr12 (61개) | [황](yellow.md) chr12, [화이트](white.md) chr12(다른 자리), [홍백](kouhaku.md) chr3 | 멤버 하나가 결과를 정했다 |
-| [검은 반점](kurobuchi.md) | chr14 (230개) | [삼색](sanshoku.md) chr14, [검붉은](kuroaka.md) chr8 | 삼색과 사실상 같은 구간 |
+| [검은 반점](kurobuchi.md) | chr14 (230개) | [삼색](sanshoku.md) chr14, [검붉은](kuroaka.md) chr8 | 삼색 구간 안에 들어간(nested) 구간 |
 | [붉은 반점](akabuchi.md) | chr4 (106개) | [삼색](sanshoku.md) chr14, [홍백](kouhaku.md) chr3 | 어느 멤버와도 안 맞는 제3의 답 |
 
 세 경우 모두에서 상위 이름의 결과는 하위 형질들의 결과를 **요약하지 않는다.**

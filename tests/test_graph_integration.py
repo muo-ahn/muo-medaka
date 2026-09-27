@@ -159,7 +159,7 @@ def test_mechanism_is_reachable_two_hops_out(session, loaded):
     rows = {
         r["mechanism"]: r
         for r in mechanisms_via_genes(
-            session, entity_id(NodeLabel.ORNAMENTAL_TRAIT, "hikari")
+            session, entity_id(NodeLabel.ORNAMENTAL_TRAIT, "Da mutant")
         )
     }
     assert "dorsoventral patterning" in rows
@@ -183,10 +183,16 @@ def test_panda_dossier_surfaces_every_conflict(session, loaded):
     assert "No causal or functionally validated variant" in text
 
 
-def test_hikari_dossier_reports_its_causal_variant(session, loaded):
+def test_hikari_dossier_reaches_the_da_lesion_only_through_putatively_same_as(
+    session, loaded
+):
+    """ADR 0003, own subject. The causal work was done in the Da mutant, so on
+    hikari's own genetics it is association-level; the Da lesion and its
+    provenance still reach the dossier through `putatively_same_as`."""
     text = render_trait(session, "hikari")
-    assert "CAUSAL_VARIANT" in text
     assert "zic1" in text and "zic4" in text
+    assert "No causal or functionally validated variant" in text
+    assert "putatively_same_as → Da mutant" in text
     assert "10.1016/j.cub.2012.01.063" in text, "provenance must reach the dossier"
 
 

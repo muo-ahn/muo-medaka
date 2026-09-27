@@ -3,9 +3,10 @@
 # EVIDENCE LEVELS. Only one assignment in this file is FUNCTIONAL_VALIDATION
 # (adcy5/orochi, genome-edited phenocopy). Gene nominations argued from a GO term
 # inside a multi-megabase interval are QTL_GWAS_ASSOCIATION, not FINE_MAPPING:
-# the peak is what was mapped, the gene is a guess inside it. FINE_MAPPING is
-# reserved for the cases where the paper also found a specific co-segregating
-# sequence variant.
+# the peak is what was mapped, the gene is a guess inside it. A candidate variant
+# found inside an interval that was never narrowed stays QTL_GWAS_ASSOCIATION
+# too (ADR 0003). No interval in this paper was narrowed, so nothing here is
+# FINE_MAPPING.
 #
 # CONTRADICTIONS. Three claims below carry evidence on both sides, and in each
 # case both sides come from this same paper - its Table 1 and its Results
@@ -36,7 +37,10 @@ claims:
       The strongest link in the whole seed dataset. Association, a co-segregating
       structural variant, a transcript consequence and an edited phenocopy all
       point the same way, which is what separates this from the paper's other 25
-      trait-gene assignments.
+      trait-gene assignments. The zebrafish adcy5 result is weaker than it
+      looks: there adcy5 loss lowers melanin, while orochi is hyper-melanic. It
+      shows adcy5 acts in melanocytes, not that its loss gives the orochi
+      phenotype.
     evidence:
       - paper: kon2026
         experiment_type: genome editing
@@ -68,16 +72,20 @@ claims:
   - predicate: caused_by_variant
     subject: {label: OrnamentalTrait, name: orochi}
     object: {label: GeneticVariant, name: adcy5 exon8 56-bp deletion}
+    interpretation: >-
+      FUNCTIONAL_VALIDATION, not CAUSAL_VARIANT (ADR 0003): the edit removed exon
+      8, while the natural variant is a 56-bp intron 7/exon 8 deletion. The gene
+      was perturbed; the variant itself was never recreated.
     evidence:
       - paper: kon2026
         experiment_type: variant calling and genome editing
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         section: Results
         finding: >-
           A homozygous 56-bp deletion spanning the intron7/exon8 boundary of adcy5
-          was found in 16 of 18 orochi individuals (89%), and recreating it by
-          genome editing produced increased black body colour.
+          was found in 16 of 18 orochi individuals (89%). Founders genome-edited
+          to delete adcy5 exon 8 showed increased black body colour.
         quote: >-
           deletion of adcy5 exon8 caused hyper-melanism, similar to the orochi
           phenotype
@@ -109,7 +117,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -134,7 +142,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -241,7 +249,10 @@ claims:
           share a genetic background.
 
   # ===========================================================================
-  # hikari -- the one trait where causality was already settled elsewhere
+  # hikari -- the one trait where causality was already settled elsewhere, in
+  # the Da mutant. That work sits on the Da mutant claims in
+  # 22-claims-background.yaml (ADR 0003, own subject); hikari reaches it only
+  # through `hikari putatively_same_as Da mutant`.
   # ===========================================================================
   - predicate: associated_with_locus
     subject: {label: OrnamentalTrait, name: hikari}
@@ -261,24 +272,20 @@ claims:
     object: {label: Gene, name: zic1}
     interpretation: >-
       The seed paper replicates an already-established locus rather than
-      discovering one. The causal work is Moriyama 2012 and the Da literature; what
-      2026 adds is that all 35 hikari individuals carry the insertion.
+      discovering one. The causal work is Moriyama 2012 and the Da literature,
+      done in the Da mutant rather than in hikari, so it is recorded on the Da
+      mutant claims. What 2026 adds is that all 35 hikari individuals carry the
+      insertion: genotype concordance inside a 40-gene GWAS interval, not a
+      narrowed one.
     evidence:
       - paper: kon2026
         experiment_type: GWAS and variant genotyping
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
           The chr20 GWAS peak coincides with the zic1/zic4 locus, and the
           insertion in that locus was confirmed in all 35 hikari individuals.
-      - paper: moriyama2012
-        experiment_type: mutant mapping
-        level: CAUSAL_VARIANT
-        species: Oryzias latipes
-        finding: >-
-          A large transposon inserted into the zic1/zic4 enhancer causes
-          mesoderm-specific loss of their transcription.
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: hikari}
@@ -286,34 +293,20 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: GWAS and variant genotyping
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
           The chr20 peak maps to the shared zic1/zic4 regulatory locus; zic4
           cannot be separated from zic1 by this data.
-      - paper: ohtsuka2004
-        experiment_type: positional cloning
-        level: FUNCTIONAL_VALIDATION
-        species: Oryzias latipes
-        finding: >-
-          zic1 and zic4 were identified within the medaka Double anal fin (Da)
-          locus and implicated in dorsoventral patterning of the trunk-tail region.
 
   - predicate: caused_by_variant
     subject: {label: OrnamentalTrait, name: hikari}
     object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
     evidence:
-      - paper: moriyama2012
-        experiment_type: mutant mapping and expression analysis
-        level: CAUSAL_VARIANT
-        species: Oryzias latipes
-        finding: >-
-          The transposon insertion in the zic1/zic4 enhancer causes mesoderm-
-          specific loss of transcription and the diphycercal-like caudal skeleton.
       - paper: kon2026
         experiment_type: variant genotyping
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: The insertion was confirmed in all 35 hikari individuals.
@@ -346,6 +339,9 @@ claims:
       wnt4b as daruma's reported locus while its Results argue the opposite. The
       underlying wnt4b work is about the fused centrum mutant, a similar phenotype
       that has not been shown to be daruma. Trust the text over the table.
+      inohaya2010 counts against the attribution only by placing wnt4b on
+      another mutant; it never mentions daruma, so it is not a negative result
+      for daruma.
     review_reasons: [CONTRADICTORY_EVIDENCE, BROKEN_CITATION]
     evidence:
       - paper: kon2026
@@ -373,7 +369,7 @@ claims:
         finding: >-
           Loss of wnt4b produces the medaka fused centrum (fsc) mutant, a
           disruption of vertebral column segmental patterning. The paper is about
-          fsc, not daruma.
+          fsc and never mentions daruma.
 
   # ===========================================================================
   # Fin morphology -- the first medaka potassium-channel candidates
@@ -402,7 +398,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -428,7 +424,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -594,7 +590,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -610,7 +606,7 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: variant calling
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
@@ -722,15 +718,16 @@ claims:
         section: Table 2
         finding: >-
           Association on chromosome 14, 22,305,698-30,081,129, from 11 kurobuchi
-          individuals; best P = 8.50E-09; 230 genes. Effectively the same interval
-          as sanshoku.
+          individuals; best P = 8.50E-09; 230 genes. Nested inside the sanshoku
+          interval (22,279,553-30,567,935, 248 genes).
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: kurobuchi}
     object: {label: Gene, name: uvrag}
     interpretation: >-
-      Same locus and same nomination as sanshoku. Because kurobuchi subsumes
-      sanshoku, this is not independent support.
+      Same nomination as sanshoku, from an interval nested inside the sanshoku
+      one (22.31-30.08 Mb and 230 genes, against 22.28-30.57 Mb and 248 genes).
+      Because kurobuchi subsumes sanshoku, this is not independent support.
     review_reasons: [LOW_RESOLUTION_CONFIDENCE]
     evidence:
       - paper: kon2026
@@ -738,7 +735,9 @@ claims:
         level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Table 3
-        finding: uvrag nominated for kurobuchi at the same chr14 interval.
+        finding: >-
+          uvrag nominated for kurobuchi inside its chr14 interval, which is nested
+          within the sanshoku interval.
 
   - predicate: associated_with_locus
     subject: {label: OrnamentalTrait, name: blackrim}

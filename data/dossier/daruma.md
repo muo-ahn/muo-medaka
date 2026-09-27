@@ -30,7 +30,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 ✗ **OBSERVATIONAL** — Production of Wnt4b by floor plate cells is essential for the segmental patterning of t... (2010) — doi:10.1242/dev.051540
   - associated_with_gene → wnt4b
-  - Loss of wnt4b produces the medaka fused centrum (fsc) mutant, a disruption of vertebral column segmental patterning. The paper is about fsc, not daruma.
+  - Loss of wnt4b produces the medaka fused centrum (fsc) mutant, a disruption of vertebral column segmental patterning. The paper is about fsc and never mentions daruma.
 
 ✗ **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_gene → wnt4b

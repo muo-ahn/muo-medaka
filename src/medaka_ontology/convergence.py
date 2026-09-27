@@ -2,8 +2,9 @@
 
 PRD §8: the failure this repo exists to prevent is a gene name becoming folk
 knowledge because one word appeared in two sentences. Measured on the traits
-whose answer is known, a single shared phenotype nominates the right gene 3
-times in 12. So a gene claim is sorted by *how* it was reached, and only the
+whose answer is known, a single shared phenotype nominated the right gene 3
+times in 12 (2 in 5 once ADR 0003 removed GWAS candidates from the known
+answers, both from one lineage). So a gene claim is sorted by *how* it was reached, and only the
 claims that were reached by inference have to show convergence:
 
 - DIRECT -- the gene was identified in medaka by an experiment that isolates

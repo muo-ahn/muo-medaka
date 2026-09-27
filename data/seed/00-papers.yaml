@@ -68,8 +68,11 @@ papers:
     year: 2013
     journal: Development
     doi: 10.1242/dev.088567
+    pmid: "23462471"
     review_reasons: [FULLTEXT_UNAVAILABLE]
-    notes: PMID not confirmed; DOI resolved via CrossRef and title matched.
+    notes: >-
+      DOI resolved via CrossRef and title matched. PMID confirmed on Europe PMC
+      (EXT_ID:23462471 AND SRC:MED returns this DOI and title), 2026-09-27.
 
   # --- Pigmentation ------------------------------------------------------------
   - key: fukamachi2001
