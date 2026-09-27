@@ -60,7 +60,7 @@ def _counts(session) -> tuple[int, int]:
 
 
 def test_ingest_writes_the_whole_bundle(loaded):
-    assert (loaded.papers, loaded.entities, loaded.claims) == (27, 157, 179)
+    assert (loaded.papers, loaded.entities, loaded.claims) == (32, 169, 193)
 
 
 def test_evidence_is_deduplicated_across_claims(session, loaded):
@@ -187,13 +187,16 @@ def test_hikari_dossier_reaches_the_da_lesion_only_through_putatively_same_as(
     session, loaded
 ):
     """ADR 0003, own subject. The causal work was done in the Da mutant, so on
-    hikari's own genetics it is association-level; the Da lesion and its
-    provenance still reach the dossier through `putatively_same_as`."""
+    hikari's own genetics it is association-level. The Da mutant reaches the
+    dossier through `putatively_same_as`, whose own evidence is kon2026's
+    genotyping. moriyama2012 studied no hikari fish, so ADR 0004 took it off
+    that link, and it must not appear here as hikari's provenance."""
     text = render_trait(session, "hikari")
     assert "zic1" in text and "zic4" in text
     assert "No causal or functionally validated variant" in text
     assert "putatively_same_as → Da mutant" in text
-    assert "10.1016/j.cub.2012.01.063" in text, "provenance must reach the dossier"
+    assert "10.1093/molbev/msag021" in text, "the link's own provenance must reach the dossier"
+    assert "10.1016/j.cub.2012.01.063" not in text, "Da-only evidence is not hikari's"
 
 
 def test_every_trait_renders(session, loaded):
@@ -203,6 +206,6 @@ def test_every_trait_renders(session, loaded):
         r["name"]
         for r in session.run("MATCH (t:OrnamentalTrait) RETURN t.name AS name")
     ]
-    assert len(names) == 42
+    assert len(names) == sum(e.label.value == "OrnamentalTrait" for e in load_dir().entities)
     for name in names:
         assert render_trait(session, name).startswith("# ")
