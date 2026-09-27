@@ -19,6 +19,7 @@ from .candidates import (
     pending_proposed_genes,
     reject_candidate,
 )
+from .ceilings import ceiling_violations
 from .config import DOSSIER_DIR, EXPORT_DIR, SEED_DIR
 from .convergence import gene_claim_violations
 from .db import Neo4jUnavailableError, graph_counts, install_schema, session_scope
@@ -93,6 +94,14 @@ def validate(
         )
         for (trait, gene), why in sorted(known.items()):
             console.print(f"  - {trait} --associated_with_gene--> {gene}: {why}")
+    ceiling = ceiling_violations(bundle)
+    if ceiling:
+        console.print(
+            f"[yellow]{len(ceiling)} evidence item(s) above their experiment's ceiling, "
+            "awaiting a data fix (ADR 0003)[/yellow]"
+        )
+        for (predicate, subject, obj, paper, _), why in sorted(ceiling.items()):
+            console.print(f"  - {subject} --{predicate}--> {obj} ({paper}): {why}")
 
 
 @app.command()

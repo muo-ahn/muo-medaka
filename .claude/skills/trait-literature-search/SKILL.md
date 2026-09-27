@@ -121,10 +121,27 @@ enforces the result:
 
 | basis | what it takes | needs convergence? |
 |---|---|---|
-| **DIRECT** | a SUPPORTS finding at `CAUSAL_VARIANT` or `FUNCTIONAL_VALIDATION`, with `species: Oryzias latipes` **written out**, and `experiment_type` one of `positional cloning`, `mutant mapping`, `mutant rescue`, `transgenic rescue`, `genome editing`, `somatic reversion analysis` | no |
+| **DIRECT** | a SUPPORTS finding at `CAUSAL_VARIANT` or `FUNCTIONAL_VALIDATION`, with `species: Oryzias latipes` **written out**, and `experiment_type` one of `positional cloning`, `mutant mapping`, `mutant rescue`, `transgenic rescue`, `genome editing`, `somatic reversion analysis`, `variant knock-in` (a compound such as `positional cloning and morpholino knockdown` counts when any part does) | no |
 | **MAPPED** | a SUPPORTS finding at `FINE_MAPPING` or `QTL_GWAS_ASSOCIATION`, species written out as medaka | no, but the positional veto applies |
 | **UNASSERTED** | nothing above `UNKNOWN` supports it (a Table 1 attribution nobody tested) | exempt; it asserts nothing |
 | **INFERRED** | anything else | **yes**, plus a consistent position |
+
+The level names mean what `docs/decisions/0003-evidence-level-definitions.md`
+says. Two rules there matter most at this step:
+- A level describes the cited paper's data **in fish carrying this trait**. A
+  result from another mutant goes on that mutant's claim.
+- `FINE_MAPPING` means the interval was narrowed to at most five genes. Finding a
+  candidate variant in a GWAS interval is still `QTL_GWAS_ASSOCIATION`.
+
+`validate` enforces a ceiling per experiment on `associated_with_gene`,
+`associated_with_locus` and `caused_by_variant`: `variant calling` cannot carry
+more than `QTL_GWAS_ASSOCIATION`, `expression analysis` no more than
+`EXPRESSION_ASSOCIATION`, and so on. The table is
+`medaka_ontology.ceilings.EXPERIMENT_CEILINGS`. An `experiment_type` missing from
+it fails. Name the experiment the paper actually did, and add a row (and a line in
+ADR 0003) only for a genuinely new kind of experiment. A ceiling is an upper bound
+only. It cannot tell that an interval was really narrowed. Reading the paper
+does that.
 
 The experiment list is closed on purpose. `mutant characterization` and
 `expression analysis` describe a gene already assumed to be the right one. If a
@@ -216,6 +233,9 @@ A candidate is not written up until these are in the same entry:
 - Every number written into a dossier or blog post appears in some dossier.
 - Every `associated_with_gene` claim is DIRECT, MAPPED, UNASSERTED, or a
   convergent INFERRED gene with positional support. `validate` checks this.
+- No gene, locus or variant evidence sits above its experiment's ceiling, apart
+  from `ceilings.KNOWN_CEILING_VIOLATIONS`, which only shrinks. `validate`
+  checks this too.
 - Every candidate left in prose survives the positional veto, or the write-up
   says why the veto could not be applied.
 - `python -m medaka_ontology.cli validate` passes, `pytest` passes, and

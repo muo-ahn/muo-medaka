@@ -31,13 +31,16 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import StrEnum
 
+from .ceilings import experiment_parts
 from .models import Claim, Evidence, SeedBundle
 from .vocabulary import EVIDENCE_RANK, EvidenceLevel, NodeLabel, Predicate, Stance
 
 #: Experiments that identify a gene in medaka rather than argue for it. Closed on
 #: purpose: `mutant characterization` and `expression analysis` describe a gene
 #: already assumed to be the right one, and `GWAS candidate nomination` picks a
-#: gene out of an interval by its GO term.
+#: gene out of an interval by its GO term. `morpholino knockdown` is left out
+#: too (ADR 0003): it tests a gene someone already chose, and morphants phenocopy
+#: off-target often enough that one knockdown should not skip convergence.
 DIRECT_EXPERIMENTS: frozenset[str] = frozenset(
     {
         "positional cloning",
@@ -46,6 +49,7 @@ DIRECT_EXPERIMENTS: frozenset[str] = frozenset(
         "transgenic rescue",
         "genome editing",
         "somatic reversion analysis",
+        "variant knock-in",
     }
 )
 
@@ -88,7 +92,9 @@ def is_direct(ev: Evidence) -> bool:
         ev.stance is Stance.SUPPORTS
         and ev.level in DIRECT_LEVELS
         and states_medaka(ev)
-        and ev.experiment_type.strip().lower() in DIRECT_EXPERIMENTS
+        # A compound type is direct when any part is: `positional cloning and
+        # morpholino knockdown` still cloned the gene.
+        and any(p in DIRECT_EXPERIMENTS for p in experiment_parts(ev.experiment_type))
     )
 
 
