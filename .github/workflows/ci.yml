@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      # Seed YAML parse and cross-check, including the gene-reach rules. No database.
+      - run: python -m medaka_ontology.cli validate
+      # The graph tests skip when Neo4j is unreachable. Port 1 makes that fail fast
+      # instead of waiting on a connection timeout.
+      - run: python -m pytest -q
+        env:
+          NEO4J_URI: bolt://127.0.0.1:1
+      # Lint only. `ruff format --check` is not enforced: 21 files predate it.
+      - run: ruff check .

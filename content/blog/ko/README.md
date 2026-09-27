@@ -55,7 +55,7 @@ guanineless, hikari, leucophore-free, orochi, yellow.
 | melanophore | 흑색소포 | 첫 등장 시 원어 병기 |
 | xanthophore | 황색소포 | |
 | iridophore | 홍색소포(구아닌 색소포) | 반짝임의 원인. 애호가 표현 "라메/광" 과 연결 |
-| leucophore | 백색소포 | 메다카 특유. 제브라피시에 없음 |
+| leucophore | 백색소포 | 메다카는 배아부터 있다. 제브라피시는 성체에만 있고 기원이 다르다 (Lewis 등 2019) |
 | GWAS | 전장유전체 연관분석 | 첫 등장 시 영문 병기 |
 | best P | 최고 P값 | **작은 P ≠ 강한 근거.** 아래 참조 |
 | QTL interval | 연관 구간 | |
