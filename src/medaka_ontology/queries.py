@@ -7,6 +7,7 @@ future API.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from typing import Any
 
 from neo4j import Session
@@ -158,10 +159,9 @@ OPTIONAL MATCH (:Evidence)-[sup:SUPPORTS]->(tc)
 WITH g, tc, collect(sup.level) AS trait_gene_levels
 MATCH (mc:Claim {predicate: 'participates_in'})-[:SUBJECT]->(g)
 MATCH (mc)-[:OBJECT]->(m:BiologicalMechanism)
-WITH m, g.name AS gene, trait_gene_levels
+WITH m, g.name AS gene, collect(trait_gene_levels) AS gene_levels
 RETURN m.name AS mechanism,
-       collect(DISTINCT gene) AS via_genes,
-       collect(trait_gene_levels) AS link_levels
+       collect({gene: gene, levels: gene_levels}) AS per_gene
 ORDER BY mechanism
 """
 
@@ -207,19 +207,42 @@ def list_traits(session: Session) -> list[dict[str, Any]]:
 def mechanisms_via_genes(session: Session, node_id: str) -> list[dict[str, Any]]:
     """Mechanisms reachable through the entity's associated genes.
 
-    Each row reports the strongest trait-gene evidence behind it, flattened from
-    the per-claim lists the query returns, so the caller can say how much the
-    mechanism link is worth.
+    Each row reports the strongest trait-gene evidence behind it, so the caller can
+    say how much the mechanism link is worth, and ``links`` -- (level, genes) pairs,
+    strongest first -- so no gene is shown at another gene's level.
     """
     rows = _rows(session, _MECHANISMS_VIA_GENES, id=node_id, gene_predicates=GENE_PREDICATES)
     for row in rows:
-        levels = [lvl for group in row.pop("link_levels") for lvl in group if lvl]
-        row["strongest_link"] = (
+        row["links"] = group_genes_by_link(
+            (g["gene"], [lvl for group in g["levels"] for lvl in group if lvl])
+            for g in row.pop("per_gene")
+        )
+        row["via_genes"] = [gene for _, genes in row["links"] for gene in genes]
+        row["strongest_link"] = row["links"][0][0]
+    return rows
+
+
+def group_genes_by_link(
+    gene_levels: Iterable[tuple[str, list[str]]],
+) -> list[tuple[str, list[str]]]:
+    """Group genes by their own strongest trait-gene level, strongest group first.
+
+    A mechanism reached through a causal gene and an unassessed one is two links,
+    not one: collapsing them would let the weaker gene borrow the stronger's level.
+    """
+    groups: dict[str, list[str]] = {}
+    for gene, levels in gene_levels:
+        best = (
             max(levels, key=lambda x: EVIDENCE_RANK.get(EvidenceLevel(x), 0))
             if levels
             else EvidenceLevel.UNKNOWN.value
         )
-    return rows
+        groups.setdefault(best, []).append(gene)
+    return sorted(
+        ((lvl, sorted(genes)) for lvl, genes in groups.items()),
+        key=lambda pair: EVIDENCE_RANK.get(EvidenceLevel(pair[0]), 0),
+        reverse=True,
+    )
 
 
 def review_queue(

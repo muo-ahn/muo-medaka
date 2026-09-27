@@ -23,6 +23,7 @@ from medaka_ontology.discovery import (
     parse_result,
     queries_for_trait,
 )
+from medaka_ontology.dossier import mechanism_lines
 from medaka_ontology.extraction import (
     PREDICATE_PREFERENCE,
     detect_level,
@@ -39,6 +40,7 @@ from medaka_ontology.lexicon import (
     sentences,
 )
 from medaka_ontology.models import MEDAKA
+from medaka_ontology.queries import group_genes_by_link
 from medaka_ontology.registry import _STATE_RANK, paper_id_for
 from medaka_ontology.resolution import propose_new_genes
 from medaka_ontology.vocabulary import (
@@ -483,3 +485,16 @@ def test_accepted_outranks_every_intermediate_state():
 
 def test_every_state_has_a_rank():
     assert set(PaperState) == set(_STATE_RANK)
+
+
+def test_a_gene_never_borrows_another_genes_level_on_a_shared_mechanism():
+    """albino reaches melanogenesis through tyr (causal) and oca2 (unassessed).
+    Grouping by mechanism alone printed both under CAUSAL_VARIANT."""
+    links = group_genes_by_link(
+        [("oca2", ["UNKNOWN"]), ("tyr", ["CAUSAL_VARIANT", "OBSERVATIONAL"])]
+    )
+    assert links == [("CAUSAL_VARIANT", ["tyr"]), ("UNKNOWN", ["oca2"])]
+    assert mechanism_lines([{"mechanism": "melanogenesis", "links": links}]) == [
+        "- melanogenesis — via tyr (trait→gene link: CAUSAL_VARIANT)",
+        "- melanogenesis — via oca2 (trait→gene link: UNKNOWN)",
+    ]
