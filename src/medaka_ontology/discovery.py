@@ -44,6 +44,12 @@ from .lexicon import AMBIGUOUS_SURFACE_FORMS
 
 EUROPE_PMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
+#: Forward (`citations`) and backward (`references`) links for one record.
+EUROPE_PMC_LINKS = "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/{pmid}/{endpoint}"
+
+#: Europe PMC's maximum page size for the two link endpoints.
+LINK_PAGE_SIZE = 1000
+
 #: Europe PMC asks for considerate use and does not require a key. One request
 #: at a time with a pause between them is well inside that.
 REQUEST_INTERVAL_SECONDS = 0.34
@@ -91,6 +97,9 @@ class DiscoveryTier(str):
     #: medaka alone. A separate tier string so `discovered_via` still says which
     #: of the two shapes found a paper -- they recover different papers.
     ANATOMY_WIDE = "anatomy-wide"
+    #: Not a query rung: the paper cites, or is cited by, a seed paper. The
+    #: origin is `<direction>:<seed pmid>`. See `citations.py`.
+    CITATION = "citation"
 
 
 @dataclass(frozen=True)
@@ -419,6 +428,32 @@ class EuropePmcBackend:
         )
         response.raise_for_status()
         return response.json().get("resultList", {}).get("result", [])
+
+    def links(self, pmid: str, direction: str) -> list[dict[str, Any]]:
+        """Every paper citing (`forward`) or cited by (`backward`) one record.
+
+        Pages until `hitCount` rows are in hand or a page comes back empty.
+        """
+        endpoint, list_key, row_key = (
+            ("citations", "citationList", "citation")
+            if direction == "forward"
+            else ("references", "referenceList", "reference")
+        )
+        rows: list[dict[str, Any]] = []
+        page = 1
+        while True:
+            self._throttle()
+            response = self._client.get(
+                EUROPE_PMC_LINKS.format(pmid=pmid, endpoint=endpoint),
+                params={"format": "json", "pageSize": LINK_PAGE_SIZE, "page": page},
+            )
+            response.raise_for_status()
+            body = response.json()
+            batch = (body.get(list_key) or {}).get(row_key, [])
+            rows.extend(batch)
+            if not batch or len(rows) >= int(body.get("hitCount") or 0):
+                return rows
+            page += 1
 
     def close(self) -> None:
         self._client.close()

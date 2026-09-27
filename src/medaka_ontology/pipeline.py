@@ -23,8 +23,15 @@ from neo4j import Session
 
 from .acquisition import EuropePmcFullTextBackend, FullTextBackend, acquire
 from .candidates import store_candidates, store_proposed_genes
+from .citations import CitationBackend, screen_citations, seed_identifiers
 from .config import REPO_ROOT
-from .discovery import EuropePmcBackend, SearchBackend, all_queries, run_queries
+from .discovery import (
+    DiscoveredPaper,
+    EuropePmcBackend,
+    SearchBackend,
+    all_queries,
+    run_queries,
+)
 from .extraction import (
     detect_paper_species,
     extract_from_abstract,
@@ -32,9 +39,11 @@ from .extraction import (
 )
 from .lexicon import build_lexicon
 from .registry import (
+    RegistryReport,
     actionable_papers,
     adopt_seed_papers,
     advance_state,
+    known_identifiers,
     papers_in_states,
     register_discovered,
     state_counts,
@@ -62,6 +71,19 @@ class RunLimits:
 
 
 @dataclass
+class CitationRequest:
+    """Discover by following citations instead of running keyword queries.
+
+    `seed_pmids` empty means every seed paper that has a PMID. `limit` caps how
+    many screened papers are registered.
+    """
+
+    directions: tuple[str, ...] = ("forward",)
+    seed_pmids: tuple[str, ...] = ()
+    limit: int | None = None
+
+
+@dataclass
 class RunReport:
     """PRD §11 and issue #1 §8: what this run added, skipped and flagged."""
 
@@ -82,6 +104,8 @@ class RunReport:
     new_paper_titles: list[str] = field(default_factory=list)
     paper_states: dict[str, int] = field(default_factory=dict)
     limits: dict[str, Any] = field(default_factory=dict)
+    #: Counts after each citation-screen step; empty for a keyword run.
+    citation_screen: dict[str, int] = field(default_factory=dict)
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), indent=2, ensure_ascii=False)
@@ -109,7 +133,38 @@ def discover(
     papers = list(run_queries(backend, specs, page_size=limits.page_size))
     report.hits = len(papers)
 
-    registry_report = register_discovered(session, papers)
+    _record_registration(report, papers, register_discovered(session, papers))
+
+
+def discover_from_citations(
+    session: Session,
+    backend: CitationBackend,
+    request: CitationRequest,
+    report: RunReport,
+) -> None:
+    """Follow citations from seed papers, screen, and register what survives.
+
+    The screen drops what the registry already holds, so a rerun registers only
+    papers that appeared since.
+    """
+    default_seeds, seed_pmids, seed_dois = seed_identifiers()
+    registry_pmids, registry_dois = known_identifiers(session)
+    screen = screen_citations(
+        backend,
+        request.seed_pmids or default_seeds,
+        directions=request.directions,
+        known_pmids=seed_pmids | registry_pmids,
+        known_dois=seed_dois | registry_dois,
+    )
+    report.citation_screen = screen.counts()
+    papers = screen.discovered(limit=request.limit)
+    report.hits = len(papers)
+    _record_registration(report, papers, register_discovered(session, papers))
+
+
+def _record_registration(
+    report: RunReport, papers: list[DiscoveredPaper], registry_report: RegistryReport
+) -> None:
     report.papers_new = registry_report.added
     report.papers_already_known = registry_report.already_known
     report.papers_rediscovered_via_new_route = registry_report.new_via_recorded
@@ -178,10 +233,14 @@ def acquire_and_extract(
 
         # REVIEW_REQUIRED only when the run actually produced something to look
         # at; a paper that yielded nothing is EXTRACTED and stops being picked up.
+        # An abstract-only paper keeps why its full text could not be had: this
+        # write replaces the INACCESSIBLE reason, and without it the blocker is
+        # lost the moment the abstract fallback succeeds.
         advance_state(
             session,
             paper["id"],
             PaperState.REVIEW_REQUIRED if candidate_report.stored else PaperState.EXTRACTED,
+            reason=None if result.ok else f"abstract only; {result.reason}",
             force=True,
         )
 
@@ -189,11 +248,13 @@ def acquire_and_extract(
 def run(
     session: Session,
     limits: RunLimits | None = None,
-    search_backend: SearchBackend | None = None,
+    search_backend: SearchBackend | CitationBackend | None = None,
     fulltext_backend: FullTextBackend | None = None,
     skip_discovery: bool = False,
+    citations: CitationRequest | None = None,
 ) -> RunReport:
-    """Execute one full cycle."""
+    """Execute one full cycle. With `citations`, discovery follows citation
+    links instead of running keyword queries; everything after is the same."""
     limits = limits or RunLimits()
     report = RunReport(started_at=datetime.now(UTC).isoformat())
     report.limits = asdict(limits)
@@ -203,7 +264,10 @@ def run(
     if not skip_discovery:
         backend = search_backend or EuropePmcBackend()
         try:
-            discover(session, backend, limits, report)
+            if citations is not None:
+                discover_from_citations(session, backend, citations, report)
+            else:
+                discover(session, backend, limits, report)
         finally:
             if search_backend is None and isinstance(backend, EuropePmcBackend):
                 backend.close()

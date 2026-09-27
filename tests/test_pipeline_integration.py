@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import pytest
 
+from medaka_ontology.acquisition import AcquisitionFailure
 from medaka_ontology.candidates import (
     AcceptanceError,
     accept_candidate,
@@ -25,10 +26,11 @@ from medaka_ontology.discovery import DiscoveredPaper
 from medaka_ontology.ingest import ingest_bundle
 from medaka_ontology.lexicon import build_lexicon
 from medaka_ontology.loader import load_dir
-from medaka_ontology.pipeline import RunLimits, run
+from medaka_ontology.pipeline import CitationRequest, RunLimits, run
 from medaka_ontology.registry import (
     adopt_seed_papers,
     current_state,
+    known_identifiers,
     register_discovered,
 )
 from medaka_ontology.vocabulary import CandidateStatus, EvidenceLevel, PaperState
@@ -387,3 +389,51 @@ def test_rejected_candidates_stay_recorded(clean_candidates):
     ).single()["s"]
     assert status == CandidateStatus.REJECTED.value
     assert candidate.id not in {r["id"] for r in pending_candidates(graph)}
+
+
+# --- discovery by citation ---------------------------------------------------
+
+
+class FakeCitationSearch:
+    """Two citers of kimura2014: one medaka paper without a PMCID, one not."""
+
+    def links(self, pmid: str, direction: str) -> list[dict]:
+        return [
+            {"id": "90000001", "source": "MED", "title": "Leucophores in medaka"},
+            {"id": "90000002", "source": "MED", "title": "Zebrafish fins"},
+        ]
+
+    def search(self, query: str, page_size: int = 25) -> list[dict]:
+        return [
+            {"id": "90000001", "source": "MED", "pmid": "90000001",
+             "title": "Leucophores in medaka", "abstractText": "Oryzias latipes."},
+            {"id": "90000002", "source": "MED", "pmid": "90000002",
+             "title": "Zebrafish fins", "abstractText": "Danio rerio."},
+        ]
+
+
+def test_a_citation_find_is_registered_with_its_route_and_its_blocker(clean_candidates):
+    graph = clean_candidates
+    claims_before = graph.run("MATCH (c:Claim) RETURN count(c) AS n").single()["n"]
+
+    report = run(
+        graph,
+        limits=RunLimits(max_papers_to_acquire=50),
+        search_backend=FakeCitationSearch(),
+        fulltext_backend=FakeFullText({}),
+        citations=CitationRequest(seed_pmids=("24803434",)),
+    )
+
+    assert report.citation_screen["medaka"] == 1
+    row = graph.run(
+        "MATCH (p:Paper {id:'paper:pmid:90000001'}) "
+        "RETURN p.discovered_via AS via, p.processing_state AS state, "
+        "       p.state_reason AS reason"
+    ).single()
+    assert row["via"] == ["citation:forward:24803434"]
+    # No PMCID: the paper stays in the registry with the reason written down.
+    assert row["state"] != PaperState.DISCOVERED.value
+    assert AcquisitionFailure.NO_PMCID in (row["reason"] or "")
+    assert "90000002" not in known_identifiers(graph)[0], "no medaka, never registered"
+    claims_after = graph.run("MATCH (c:Claim) RETURN count(c) AS n").single()["n"]
+    assert claims_after == claims_before, "a citation find is not a claim"

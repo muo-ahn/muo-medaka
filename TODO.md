@@ -74,6 +74,12 @@ Measure before building:
       al. 2004" to an i-3 (not i) cloning, left as a note. Baseline unchanged.
       For none of the 3 papers with full text would the abstract alone have
       given the right claims.
+- [x] Enrich: give the discovery pipeline a citation source.
+      → `pipeline --from-citations [--direction] [--seed-pmid] [--limit] [--dry-run]`
+      (`citations.py`). Screens on title *or* abstract. Dry run, kimura2014
+      forward: raw 85 → deduped 77 → not yet known 70 → medaka 7 (the 4 finds
+      are seed now, so they drop out as known; 3 of the 7 name medaka only in
+      the abstract). Claim proposal still needs a person to read the full text.
 
 ### Measure before building
 

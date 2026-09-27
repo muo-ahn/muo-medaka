@@ -20,15 +20,16 @@ from .candidates import (
     reject_candidate,
 )
 from .ceilings import ceiling_violations
+from .citations import DIRECTIONS, screen_citations, seed_identifiers
 from .config import DOSSIER_DIR, EXPORT_DIR, SEED_DIR
 from .convergence import gene_claim_violations
 from .db import Neo4jUnavailableError, graph_counts, install_schema, session_scope
-from .discovery import all_queries
+from .discovery import EuropePmcBackend, all_queries
 from .dossier import render_trait
 from .ingest import ingest_bundle, unprocessed_papers
 from .loader import SeedValidationError, load_dir
 from .models import slugify
-from .pipeline import RunLimits
+from .pipeline import CitationRequest, RunLimits
 from .pipeline import run as run_pipeline
 from .queries import disputed_claims, list_traits, review_queue, search, shared_genes
 from .registry import papers_in_states, state_counts
@@ -373,12 +374,47 @@ def pipeline(
     no_abstract_fallback: bool = typer.Option(
         False, help="Skip papers whose full text is unavailable rather than mining the abstract"
     ),
+    from_citations: bool = typer.Option(
+        False,
+        "--from-citations",
+        help="Discover by following Europe PMC citations from seed papers, not by keyword",
+    ),
+    direction: str = typer.Option(
+        "forward", help="With --from-citations: forward (citing), backward (cited), or both"
+    ),
+    seed_pmid: list[str] | None = typer.Option(
+        None, "--seed-pmid", help="With --from-citations: seed PMID(s); default every seed paper"
+    ),
+    limit: int | None = typer.Option(
+        None, help="With --from-citations: register at most N screened papers"
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="With --from-citations: print the screen and its counts; no Neo4j, nothing written",
+    ),
 ) -> None:
     """Run one discovery cycle: search, acquire, extract, stage for review.
 
     Nothing this command produces enters the ontology. Everything lands in the
     candidate queue; `accept` is the only path into the graph.
     """
+    citations = None
+    if from_citations:
+        if direction not in (*DIRECTIONS, "both"):
+            _fail(f"--direction must be forward, backward or both, not {direction!r}")
+            return
+        citations = CitationRequest(
+            directions=DIRECTIONS if direction == "both" else (direction,),
+            seed_pmids=tuple(seed_pmid or ()),
+            limit=limit,
+        )
+        if dry_run:
+            _citation_dry_run(citations)
+            return
+    elif dry_run:
+        _fail("--dry-run needs --from-citations")
+        return
     limits = RunLimits(
         max_traits=max_traits,
         max_queries=max_queries,
@@ -388,13 +424,17 @@ def pipeline(
     )
     try:
         with session_scope() as session:
-            report = run_pipeline(session, limits=limits, skip_discovery=skip_discovery)
+            report = run_pipeline(
+                session, limits=limits, skip_discovery=skip_discovery, citations=citations
+            )
     except Neo4jUnavailableError as exc:
         _fail(str(exc))
         return
 
     path = report.write()
     console.print("[bold]Run report[/bold]")
+    if report.citation_screen:
+        console.print(f"  citation screen: {report.citation_screen}")
     console.print(
         f"  queries: {report.queries_run}, hits: {report.hits}, "
         f"new papers: {report.papers_new}, already known: {report.papers_already_known}"
@@ -418,6 +458,44 @@ def pipeline(
             console.print(f"    - {failure['paper']}: {failure['reason'][:80]}")
     console.print(f"  paper states: {report.paper_states}")
     console.print(f"  written to {path}")
+
+
+def _citation_dry_run(request: CitationRequest) -> None:
+    """The offline measurement: the screen against the seed only, no registry."""
+    default_seeds, seed_pmids, seed_dois = seed_identifiers()
+    backend = EuropePmcBackend()
+    try:
+        screen = screen_citations(
+            backend,
+            request.seed_pmids or default_seeds,
+            directions=request.directions,
+            known_pmids=seed_pmids,
+            known_dois=seed_dois,
+        )
+    finally:
+        backend.close()
+
+    kept = screen.kept[: request.limit] if request.limit else screen.kept
+    table = Table("pmid", "year", "title", "found via")
+    for item in kept:
+        table.add_row(
+            item.paper.pmid or item.paper.doi or "",
+            str(item.paper.year or ""),
+            item.paper.title[:80],
+            ", ".join(item.routes),
+        )
+    console.print(table)
+    console.print(
+        f"seeds: {len(screen.seeds)}, directions: {', '.join(screen.directions)}"
+    )
+    console.print(
+        f"raw {screen.raw} -> deduped {screen.deduped} -> "
+        f"not yet known {screen.not_yet_known} -> medaka-mentioning {screen.medaka}"
+    )
+    console.print(
+        f"({screen.no_abstract} not-yet-known had no abstract and were judged on the "
+        "title; dry run checks the seed only, not the registry)"
+    )
 
 
 @app.command()

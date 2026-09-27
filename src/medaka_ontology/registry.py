@@ -167,6 +167,18 @@ def register_discovered(
     return report
 
 
+def known_identifiers(session: Session) -> tuple[set[str], set[str]]:
+    """Every PMID and (lowercased) DOI the registry holds, curated or discovered."""
+    pmids: set[str] = set()
+    dois: set[str] = set()
+    for r in session.run("MATCH (p:Paper) RETURN p.pmid AS pmid, p.doi AS doi"):
+        if r["pmid"]:
+            pmids.add(str(r["pmid"]))
+        if r["doi"]:
+            dois.add(str(r["doi"]).lower())
+    return pmids, dois
+
+
 def current_state(session: Session, paper_id: str) -> PaperState | None:
     record = session.run(
         "MATCH (p:Paper {id:$id}) RETURN p.processing_state AS s", id=paper_id
