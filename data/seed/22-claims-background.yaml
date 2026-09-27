@@ -247,27 +247,22 @@ claims:
     object: {label: OrnamentalTrait, name: Da mutant}
     interpretation: >-
       The best-supported breeder/lab identification in the dataset: same locus,
-      same insertion, and the insertion is present in every hikari individual
-      genotyped. Still recorded as putative rather than merged, because nobody has
-      shown the ornamental hikari strains and the laboratory Da line share a
-      genetic background beyond this one lesion.
+      and an insertion there in every hikari individual genotyped. That it is the
+      Da lesion itself was not shown at sequence level (ADR 0004). Still recorded
+      as putative rather than merged, because nobody has shown the ornamental
+      hikari strains and the laboratory Da line share a genetic background beyond
+      this one lesion.
     review_reasons: [BREEDER_ACADEMIC_LINK]
     evidence:
       - paper: kon2026
         experiment_type: variant genotyping
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
           The hikari GWAS peak coincides with the zic1/zic4 locus, and the
           insertion known from the Da mutant was confirmed in all 35 hikari
           individuals.
-      - paper: moriyama2012
-        experiment_type: mutant mapping
-        level: CAUSAL_VARIANT
-        species: Oryzias latipes
-        finding: >-
-          The Da lesion is a transposon insertion in the zic1/zic4 enhancer.
 
   - predicate: putatively_same_as
     subject: {label: OrnamentalTrait, name: daruma}
@@ -334,10 +329,11 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: genome editing
-        level: FUNCTIONAL_VALIDATION
+        level: OBSERVATIONAL
         species: Oryzias latipes
         finding: >-
           Deletion of adcy5 exon 8 increases black body colour in medaka.
+          Melanophore development itself was not measured (ADR 0004).
 
   - predicate: participates_in
     subject: {label: Gene, name: zic1}
@@ -345,7 +341,7 @@ claims:
     evidence:
       - paper: kawanishi2013
         experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        level: EXPRESSION_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           zic1/zic4 act as selector genes for the dorsal module of the teleost
@@ -356,8 +352,8 @@ claims:
     object: {label: BiologicalMechanism, name: dorsoventral patterning}
     evidence:
       - paper: ohtsuka2004
-        experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        experiment_type: fine mapping and expression analysis
+        level: FINE_MAPPING
         species: Oryzias latipes
         finding: >-
           zic1 and zic4 function in dorsoventral patterning of the trunk-tail
@@ -384,8 +380,8 @@ claims:
     object: {label: BiologicalMechanism, name: bioelectric fin size regulation}
     evidence:
       - paper: perathoner2014
-        experiment_type: mutant characterization
-        level: CAUSAL_VARIANT
+        experiment_type: positional cloning and transgenic overexpression
+        level: FUNCTIONAL_VALIDATION
         species: Danio rerio
         finding: >-
           The zebrafish longfin mutant is caused by kcnk5b; bioelectric signalling
@@ -397,7 +393,7 @@ claims:
     evidence:
       - paper: fukamachi2001
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: Mutations in slc45a2 reduce melanin content in medaka.
 
@@ -431,7 +427,7 @@ claims:
     evidence:
       - paper: kimura2017
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: pnp4a is causal for the medaka iridophore mutant guanineless.
 
@@ -441,7 +437,7 @@ claims:
     evidence:
       - paper: otsuki2020
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           kitlga loss produces the few melanophore pigment cell mutant.
@@ -451,7 +447,7 @@ claims:
     object: {label: BiologicalMechanism, name: chromatophore development}
     evidence:
       - paper: nagao2014
-        experiment_type: mutant characterization
+        experiment_type: positional cloning and morpholino knockdown
         level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
@@ -464,7 +460,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           slc2a15b loss produces the leucophore free mutant, which lacks
@@ -476,7 +472,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           pax7a is required to form the xanthophore and leucophore precursor
@@ -488,7 +484,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           slc2a11b loss produces the white leucophore mutant, whose leucophores
@@ -577,7 +573,7 @@ claims:
     evidence:
       - paper: carapito2015
         experiment_type: human genetics
-        level: CAUSAL_VARIANT
+        level: QTL_GWAS_ASSOCIATION
         species: Homo sapiens
         finding: >-
           A de novo ADCY5 mutation causes early-onset autosomal dominant chorea and

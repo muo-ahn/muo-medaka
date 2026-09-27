@@ -86,8 +86,25 @@ All three end at `convergence.py` + `validate`, so the rules live in one place.
       "same" to "nested" on kurobuchi → uvrag.
       → Done. PMID checked on Europe PMC (DOI and title match).
       `KNOWN_CEILING_VIOLATIONS` is now empty.
-- [ ] Audit the levels on `has_phenotype`, `participates_in` and `affects_anatomy`.
+- [x] Audit the levels on `has_phenotype`, `participates_in` and `affects_anatomy`.
       ADR 0003 leaves them out.
+      → Done in ADR 0004 (with `putatively_same_as`): 17 of 18 items resolved, four
+      predicates ceiled; koga1995 on tyr -> melanogenesis pinned until read.
+
+### Left over from ADR 0004
+
+- [ ] Read koga1995 in full and confirm its PMID. Then set the level on
+      tyr -> melanogenesis and drop its `KNOWN_CEILING_VIOLATIONS` entry. The
+      abstract reads as a Southern blot, not cloning.
+- [ ] zic1 -> dorsoventral patterning does not cite ohtsuka2004's zic1
+      morpholino, though that is the one experiment that perturbed zic1.
+- [ ] Two finding texts are wrong: carapito2015 (domain clustering) and
+      perathoner2014 (the longfin allele). Re-read them and correct.
+- [ ] guanineless -> pnp4a (kimura2017): check that `positional cloning` is the
+      experiment the paper actually did.
+- [ ] Dossiers for traits added in PR #7 (many leucophores-3 and others) are not
+      in `data/dossier/`. `load` only upserts, so a local Neo4j keeps stale
+      evidence. Render from a fresh database.
 
 ## Smaller follow-ups
 

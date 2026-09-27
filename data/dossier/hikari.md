@@ -51,10 +51,6 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - The insertion was confirmed in all 35 hikari individuals.
   - _Results_
 
-• **FUNCTIONAL_VALIDATION** — Modular development of the teleost trunk along the dorsoventral axis and zic1/zic4 as s... (2013) — doi:10.1242/dev.088567
-  - has_phenotype → dorsal-to-ventral identity transformation
-  - zic1/zic4 expression is lost specifically in the dorsal half of the somites, producing mirror-image duplication of the ventral half across the lateral midline from larva to adult.
-
 • **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - has_phenotype → dorsal-to-ventral identity transformation
   - The dorsal side becomes ventral: the dorsal fin is shaped like a pelvic fin and the caudal fin is diamond-shaped.
@@ -65,11 +61,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Ectopic iridophore on the back; the dorsal side shines silver.
   - _Table 1_
 
-• **CAUSAL_VARIANT** — The medaka zic1/zic4 mutant provides molecular insights into teleost caudal fin evolution (2012) — doi:10.1016/j.cub.2012.01.063
-  - putatively_same_as → Da mutant
-  - The Da lesion is a transposon insertion in the zic1/zic4 enhancer.
-
-• **FINE_MAPPING** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+• **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - putatively_same_as → Da mutant
   - The hikari GWAS peak coincides with the zic1/zic4 locus, and the insertion known from the Da mutant was confirmed in all 35 hikari individuals.
   - _Results_

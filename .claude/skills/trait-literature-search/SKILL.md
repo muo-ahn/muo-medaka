@@ -153,6 +153,13 @@ ADR 0003) only for a genuinely new kind of experiment. A ceiling is an upper bou
 only. It cannot tell that an interval was really narrowed. Reading the paper
 does that.
 
+ADR 0004 adds a table each for `participates_in` (top level
+`FUNCTIONAL_VALIDATION`), `has_phenotype` (describing a mutant is
+`OBSERVATIONAL`), `affects_anatomy` (always `OBSERVATIONAL` or below) and
+`putatively_same_as` (only data from the subject's own fish counts, so cloning
+the other trait has no row). The same experiment reaches different levels on
+each, so check `ceilings.PREDICATE_CEILINGS` for the predicate you are writing.
+
 The experiment list is closed on purpose. `mutant characterization` and
 `expression analysis` describe a gene already assumed to be the right one. If a
 paper really did clone or rescue the gene, record that experiment by its name:
@@ -243,7 +250,7 @@ A candidate is not written up until these are in the same entry:
 - Every number written into a dossier or blog post appears in some dossier.
 - Every `associated_with_gene` claim is DIRECT, MAPPED, UNASSERTED, or a
   convergent INFERRED gene with positional support. `validate` checks this.
-- No gene, locus or variant evidence sits above its experiment's ceiling, apart
+- No evidence on a ceiled predicate sits above its experiment's ceiling, apart
   from `ceilings.KNOWN_CEILING_VIOLATIONS`, which only shrinks. `validate`
   checks this too.
 - Every candidate left in prose survives the positional veto, or the write-up

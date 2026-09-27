@@ -124,14 +124,6 @@ claims:
         finding: >-
           The dorsal side becomes ventral: the dorsal fin is shaped like a pelvic
           fin and the caudal fin is diamond-shaped.
-      - paper: kawanishi2013
-        experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
-        species: Oryzias latipes
-        finding: >-
-          zic1/zic4 expression is lost specifically in the dorsal half of the
-          somites, producing mirror-image duplication of the ventral half across
-          the lateral midline from larva to adult.
 
   - predicate: has_phenotype
     subject: {label: OrnamentalTrait, name: hikari}
@@ -345,11 +337,19 @@ claims:
     evidence:
       - paper: ohtsuka2004
         experiment_type: mutant characterization
-        level: FUNCTIONAL_VALIDATION
+        level: OBSERVATIONAL
         species: Oryzias latipes
         finding: >-
           The Da mutant shows altered dorsoventral patterning of the trunk-tail
           region; zic1 and zic4 lie within the Da locus.
+      - paper: kawanishi2013
+        experiment_type: expression analysis
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        finding: >-
+          zic1/zic4 expression is lost specifically in the dorsal half of the
+          somites, producing mirror-image duplication of the ventral half across
+          the lateral midline from larva to adult.
 
   # Backfill of the traits Table 1 describes but the first load left without
   # a phenotype. Composite classes are included: the subsumes edges above
@@ -631,7 +631,7 @@ claims:
     evidence:
       - paper: moriyama2012
         experiment_type: skeletal analysis
-        level: FUNCTIONAL_VALIDATION
+        level: OBSERVATIONAL
         species: Oryzias latipes
         finding: >-
           zic1/zic4 expression in the dorsal ural mesenchyme drives asymmetric

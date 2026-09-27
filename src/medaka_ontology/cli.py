@@ -98,7 +98,7 @@ def validate(
     if ceiling:
         console.print(
             f"[yellow]{len(ceiling)} evidence item(s) above their experiment's ceiling, "
-            "awaiting a data fix (ADR 0003)[/yellow]"
+            "awaiting a data fix (ADR 0003, ADR 0004)[/yellow]"
         )
         for (predicate, subject, obj, paper, _), why in sorted(ceiling.items()):
             console.print(f"  - {subject} --{predicate}--> {obj} ({paper}): {why}")
