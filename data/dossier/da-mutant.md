@@ -24,7 +24,8 @@ Laboratory medaka mutant showing mirror-image duplication of the ventral half ac
 
 ## Mechanism
 
-- dorsoventral patterning — via zic1, zic4 (trait→gene link: CAUSAL_VARIANT)
+- dorsoventral patterning — via zic1 (trait→gene link: CAUSAL_VARIANT)
+- dorsoventral patterning — via zic4 (trait→gene link: FINE_MAPPING)
 
 ## Evidence
 

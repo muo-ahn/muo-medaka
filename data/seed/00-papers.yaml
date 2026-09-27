@@ -162,6 +162,72 @@ papers:
       (chr5), white leucophore (wl) is slc2a11b (chr9). Not cited by the seed
       paper.
 
+  # Forward citations of kimura2014, nagao2014 and kimura2017, screened in
+  # docs/research/enrich-yield-2026-09.md. Identifiers resolved via Europe PMC
+  # (EXT_ID search, resultType=core) on 2026-09-27.
+  - key: nagao2018
+    title: >-
+      Distinct interactions of Sox5 and Sox10 in fate specification of pigment
+      cells in medaka and zebrafish
+    year: 2018
+    journal: PLoS Genetics
+    doi: 10.1371/journal.pgen.1007260
+    pmid: "29621239"
+    pmcid: PMC5886393
+    open_access: true
+    notes: >-
+      Full text read (Europe PMC fullTextXML). TALEN sox10a and sox10b mutants
+      in medaka, compounds with sox5 ml-3, and a pax7a-driven sox5 transgene
+      that rescues ml-3 homozygotes. The zebrafish sox5 and sox10 work is
+      comparative for medaka claims. Not cited by the seed paper.
+
+  - key: tsunogai2021
+    title: Contribution of sox9b to pigment cell formation in medaka fish
+    year: 2021
+    journal: Development, Growth & Differentiation
+    doi: 10.1111/dgd.12760
+    pmid: "34807452"
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: >-
+      Abstract only. Europe PMC holds no PMC copy; the publisher PDF and the
+      University of Bath repository copy both sit behind bot verification
+      (2026-09-27). The abstract does not say how the sox9b allele was made.
+      Not cited by the seed paper.
+
+  - key: miyadai2023
+    title: >-
+      A gene regulatory network combining Pax3/7, Sox10 and Mitf generates
+      diverse pigment cell types in medaka and zebrafish
+    year: 2023
+    journal: Development
+    doi: 10.1242/dev.202114
+    pmid: "37823232"
+    pmcid: PMC10617610
+    open_access: true
+    notes: >-
+      Full text read (Europe PMC fullTextXML). CRISPR mitfa and mitfb and TALEN
+      pax3a and pax3b mutants in medaka; lf-2 used as the pax7a null. The
+      abstract says "medaka Mitf"; only the Results name the two paralogs and
+      show the phenotype needs both. Not cited by the seed paper.
+
+  - key: lischik2019
+    title: >-
+      Enhanced in vivo-imaging in medaka by optimized anaesthesia, fluorescent
+      protein selection and removal of pigmentation
+    year: 2019
+    journal: PLoS ONE
+    doi: 10.1371/journal.pone.0212956
+    pmid: "30845151"
+    pmcid: PMC6405165
+    open_access: true
+    notes: >-
+      Full text read (Europe PMC fullTextXML). An imaging methods paper. CRISPR
+      oca2 and pnp4a lines in the Cab strain; the oca2;pnp4a double is named
+      spooky. No albino (i) fish were studied. Its reference 27 is Fukamachi et
+      al. 2004 (Genetics, doi 10.1534/genetics.104.030494), which cloned oca2 from
+      the i-3 albino mutant: the likely target of the seed paper's unresolved
+      "Fukamachi et al. 2004" for albino -> oca2. Not cited by the seed paper.
+
   - key: lamason2005
     title: >-
       SLC24A5, a putative cation exchanger, affects pigmentation in zebrafish and

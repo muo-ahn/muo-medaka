@@ -142,6 +142,17 @@ claims:
           ml-3 maps to a 90-kbp interval on LG23 containing only sox5; the mutant
           skips exon 7, introducing a premature stop. A sox5 morpholino and two
           TILLING alleles reproduce the ml-3 phenotype.
+      - paper: nagao2018
+        experiment_type: transgenic rescue
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          In sox5 ml-3 homozygotes carrying TgBAC(pax7a:loxp-dsred-loxp-sox5WT),
+          Cre-induced wild-type sox5 in the xanthophore/leucophore progenitors
+          restored xanthophores and suppressed the excess leucophores (Fig 7).
+          The ml-3 form of Sox5, misexpressed the same way, did not alter
+          leucophores (S9 Fig).
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: fused centrum}
@@ -423,6 +434,25 @@ claims:
           causes the medaka albino mutation.
 
   - predicate: participates_in
+    subject: {label: Gene, name: oca2}
+    object: {label: BiologicalMechanism, name: melanogenesis}
+    interpretation: >-
+      Wild-type Cab fish edited for imaging, not albino fish, so this says
+      nothing about albino -> oca2. The mutant alleles are not described and the
+      readout is visual.
+    evidence:
+      - paper: lischik2019
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          CRISPR oca2 knockout (four sgRNAs) removes the black pigment of the
+          eyes and body in F0 embryos and in an established oca2-/- line (Fig 5C,
+          S4 Fig, S2 Movie). By visual inspection the loss matches that from a
+          tyr knockout. No allele sequence or melanin measurement is reported.
+
+  - predicate: participates_in
     subject: {label: Gene, name: uvrag}
     object: {label: BiologicalMechanism, name: melanogenesis}
     evidence:
@@ -468,6 +498,124 @@ claims:
         finding: >-
           Sox5 switches pigment cell fate between xanthophore and leucophore
           lineages.
+      - paper: nagao2018
+        experiment_type: transgenic rescue
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          Wild-type sox5 expressed from the pax7a promoter in ml-3 homozygotes
+          restores xanthophores and suppresses excess leucophores. In compound
+          mutants sox5 loss partly rescues the melanophore and iridophore loss
+          of sox10a mutants, but enhances their xanthophore loss and leucophore
+          excess: Sox5 antagonises Sox10 in the first two lineages and
+          cooperates with it in the last two.
+      - paper: nagao2018
+        experiment_type: comparative mutant analysis
+        level: OBSERVATIONAL
+        species: Danio rerio
+        section: Results
+        finding: >-
+          In zebrafish a CRISPR sox5 mutant has normal larval pigment cells and
+          more adult xanthophores, and sox5 loss increases xanthophores in
+          sox10 mutants. Sox5 represses xanthophores in zebrafish and promotes
+          them in medaka: the direction of effect is opposite.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: sox10a}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: nagao2018
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          TALEN sox10a alleles (E2del16, E1ins10) reduce melanophores,
+          xanthophores, iridophores and trunk leucophores in hatchlings.
+          sox10a;sox10b double homozygotes lack all pigment cells except
+          leucophores on the dorsal head.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: sox10b}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: nagao2018
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          sox10b mutants (TALEN E1del7, TILLING N108S and F110L, reported
+          alike) have no overt pigment phenotype alone, but losing one or two
+          sox10b copies in sox10a homozygotes progressively removes the
+          remaining pigment cells. The phenotype shows only in compounds.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: sox9b}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    interpretation: >-
+      Held at OBSERVATIONAL because only the abstract could be read, and it
+      does not say how the sox9b allele was made, so the experiment cannot be
+      named for the ceiling. If the full text shows an edited or TILLING allele
+      of known sequence, this is FUNCTIONAL_VALIDATION.
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    evidence:
+      - paper: tsunogai2021
+        experiment_type: mutant characterization
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Abstract
+        finding: >-
+          sox9b homozygotes form pigment cells normally. sox9b;sox10a double
+          mutants lack melanophores and xanthophores and have severely defective
+          iridophores, like sox10a;sox10b doubles, and have significantly fewer
+          leucophores than sox10a;sox10b doubles.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: mitfa}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: miyadai2023
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          A CRISPR mitfa allele (ex6del1) alone leaves pigment cells normal.
+          mitfa;mitfb double homozygotes lack melanophores, xanthophores and
+          leucophores from embryo to adult, and keep iridophores. The phenotype
+          shows only in the double.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: mitfb}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: miyadai2023
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          A CRISPR mitfb allele (ex6del7) delays melanophore formation at 2 dpf,
+          partly restored by 3 dpf and hatching. With mitfa also lost,
+          melanophores, xanthophores and leucophores are absent throughout life;
+          iridophores are retained.
+
+  - predicate: participates_in
+    subject: {label: Gene, name: pax3b}
+    object: {label: BiologicalMechanism, name: chromatophore development}
+    evidence:
+      - paper: miyadai2023
+        experiment_type: genome editing
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          TALEN pax3b homozygotes (ex2del11) are delayed in forming xanthophores
+          and leucophores, which are fewer at hatching and recover as the fish
+          grow. gch2, pax7a and mitfa expression in neural crest cells is
+          reduced. pax3a homozygotes have no pigment phenotype.
 
   - predicate: participates_in
     subject: {label: Gene, name: slc2a15b}
