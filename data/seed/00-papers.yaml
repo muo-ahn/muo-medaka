@@ -92,8 +92,15 @@ papers:
     year: 1995
     journal: Molecular and General Genetics
     doi: 10.1007/BF00287101
+    pmid: "8552044"
     review_reasons: [FULLTEXT_UNAVAILABLE]
-    notes: PMID not confirmed. Causal variant for the classic medaka albino (i locus).
+    notes: >-
+      The classic medaka albino (i locus). PMID confirmed on Europe PMC
+      (DOI:"10.1007/BF00287101" returns PMID 8552044 with this title),
+      2026-09-27. Full text not found open: Springer shows the abstract only, and
+      Europe PMC and PMC hold no copy. The abstract describes a Southern blot of
+      mutant DNA with a tyrosinase probe and sequencing of the 1.9-kb insertion
+      in exon 1; no mapping or rescue is mentioned.
 
   - key: tsutsumi2006
     title: >-
@@ -226,8 +233,10 @@ papers:
     doi: 10.1002/mds.26115
     pmid: "25545163"
     notes: >-
-      Human ADCY5 disease mutations cluster in the C1b domain, the same domain as
-      the orochi deletion. Comparative layer only. PRD §10.
+      One family, one ADCY5 splice-site variant, found by exome sequencing.
+      Comparative layer only. PRD §10. The pairing of human ADCY5 disease
+      mutations with the orochi C1b deletion is not this paper's data and rests
+      on other papers.
 
   - key: aida1921
     title: >-
@@ -247,8 +256,9 @@ papers:
     doi: 10.1371/journal.pgen.1004080
     pmid: "24453984"
     notes: >-
-      Zebrafish longfin is caused by the potassium channel kcnk5b. The canonical
-      comparative reference motivating potassium-channel candidates in medaka.
+      The zebrafish another longfin (alf) mutant carries gain-of-function
+      mutations in the potassium channel kcnk5b. Not the longfin (lof) mutant.
+      The canonical comparative reference motivating potassium-channel candidates in medaka.
 
   - key: zhangj2010
     title: Loss of fish actinotrichia proteins and the fin-to-limb transition

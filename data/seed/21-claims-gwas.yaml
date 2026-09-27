@@ -411,8 +411,9 @@ claims:
         level: OBSERVATIONAL
         species: Danio rerio
         finding: >-
-          The zebrafish longfin mutant is caused by the potassium channel kcnk5b;
-          bioelectric signalling sets fin proportion. This is the precedent
+          The zebrafish another longfin (alf) mutant carries gain-of-function
+          mutations in the potassium channel kcnk5b; bioelectric signalling sets
+          fin proportion. This is the precedent
           motivating a potassium-channel candidate, not evidence about medaka.
           Note that the medaka candidate is a different channel (kcnq5a), so even
           the homology argument is indirect.

@@ -37,7 +37,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 • **OBSERVATIONAL** — Bioelectric signaling regulates size in zebrafish fins (2014) — doi:10.1371/journal.pgen.1004080
   - associated_with_gene → kcnq5a
-  - The zebrafish longfin mutant is caused by the potassium channel kcnk5b; bioelectric signalling sets fin proportion. This is the precedent motivating a potassium-channel candidate, not evidence about medaka. Note that the medaka candidate is a different channel (kcnq5a), so even the homology argument is indirect.
+  - The zebrafish another longfin (alf) mutant carries gain-of-function mutations in the potassium channel kcnk5b; bioelectric signalling sets fin proportion. This is the precedent motivating a potassium-channel candidate, not evidence about medaka. Note that the medaka candidate is a different channel (kcnq5a), so even the homology argument is indirect.
 
 • **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - associated_with_locus → hirenaga chr15 interval

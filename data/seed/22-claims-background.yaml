@@ -60,11 +60,15 @@ claims:
     object: {label: Gene, name: pnp4a}
     evidence:
       - paper: kimura2017
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: linkage analysis and genome editing
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
+        section: Results
         finding: >-
-          pnp4a is the causal gene of the medaka iridophore mutant guanineless.
+          gu maps 0 cM from a telomeric chromosome 5 marker, and pnp4a was picked
+          by synteny with zebrafish, not by narrowing the interval. gu lacks
+          pnp4a exons 4-7; a CRISPR 13-bp exon 2 deletion reproduces the
+          phenotype and fails to complement gu. The edit is not the gu lesion.
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: few melanophore}
@@ -339,6 +343,14 @@ claims:
     subject: {label: Gene, name: zic1}
     object: {label: BiologicalMechanism, name: dorsoventral patterning}
     evidence:
+      - paper: ohtsuka2004
+        experiment_type: morpholino knockdown
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Abstract
+        finding: >-
+          Injecting a zic1 morpholino partly reproduced the early ventralized Da
+          phenotypes. zic4 was not knocked down.
       - paper: kawanishi2013
         experiment_type: expression analysis
         level: EXPRESSION_ASSOCIATION
@@ -384,8 +396,9 @@ claims:
         level: FUNCTIONAL_VALIDATION
         species: Danio rerio
         finding: >-
-          The zebrafish longfin mutant is caused by kcnk5b; bioelectric signalling
-          regulates fin size.
+          Gain-of-function kcnk5b mutations cause the zebrafish another longfin
+          (alf) mutant and raise K+ conductance; somatic transgenesis shows the
+          channel acts locally in fin and barbel mesenchyme to set their size.
 
   - predicate: participates_in
     subject: {label: Gene, name: slc45a2}
@@ -426,10 +439,12 @@ claims:
     object: {label: BiologicalMechanism, name: iridophore development}
     evidence:
       - paper: kimura2017
-        experiment_type: positional cloning
+        experiment_type: linkage analysis and genome editing
         level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
-        finding: pnp4a is causal for the medaka iridophore mutant guanineless.
+        finding: >-
+          A pnp4a null edit reproduces the guanineless loss of visible
+          iridophores and fails to complement gu.
 
   - predicate: participates_in
     subject: {label: Gene, name: kitlga}
@@ -576,5 +591,7 @@ claims:
         level: QTL_GWAS_ASSOCIATION
         species: Homo sapiens
         finding: >-
-          A de novo ADCY5 mutation causes early-onset autosomal dominant chorea and
-          dystonia; disease mutations cluster in the coiled-coil and C1b domains.
+          Exome sequencing of one three-generation family with autosomal dominant
+          chorea and dystonia found a single ADCY5 donor splice-site variant
+          (c.2088+1G>A) segregating with the disease; the authors propose
+          haploinsufficiency. No functional test is reported.

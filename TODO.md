@@ -96,15 +96,35 @@ All three end at `convergence.py` + `validate`, so the rules live in one place.
 - [ ] Read koga1995 in full and confirm its PMID. Then set the level on
       tyr -> melanogenesis and drop its `KNOWN_CEILING_VIOLATIONS` entry. The
       abstract reads as a Southern blot, not cloning.
-- [ ] zic1 -> dorsoventral patterning does not cite ohtsuka2004's zic1
+      → PMID 8552044 confirmed and added (Europe PMC `DOI:"10.1007/BF00287101"`).
+      Full text still unread, so the level stays pinned. Tried: doi.org →
+      Springer (abstract and "preview of subscription content" only), Europe PMC
+      `MED/8552044/fullTextXML` (404), PubMed→PMC elink (citing articles only, no
+      PMC copy). The albino -> tyr gene and variant items carry the same
+      `positional cloning` / CAUSAL_VARIANT question and were left as is.
+- [x] zic1 -> dorsoventral patterning does not cite ohtsuka2004's zic1
       morpholino, though that is the one experiment that perturbed zic1.
-- [ ] Two finding texts are wrong: carapito2015 (domain clustering) and
+      → Added as `morpholino knockdown`, FUNCTIONAL_VALIDATION, from the abstract.
+- [x] Two finding texts are wrong: carapito2015 (domain clustering) and
       perathoner2014 (the longfin allele). Re-read them and correct.
-- [ ] guanineless -> pnp4a (kimura2017): check that `positional cloning` is the
+      → carapito2015 is one family, one splice variant; perathoner2014 is *alf*
+      gain-of-function, not *lof*. Fixed in claims, paper notes and kcnk5b.
+- [x] guanineless -> pnp4a (kimura2017): check that `positional cloning` is the
       experiment the paper actually did.
-- [ ] Dossiers for traits added in PR #7 (many leucophores-3 and others) are not
+      → It was not: 0 cM linkage, synteny pick, CRISPR null plus complementation.
+      Both copies now `linkage analysis and genome editing`; gene claim CV → FV.
+- [x] Dossiers for traits added in PR #7 (many leucophores-3 and others) are not
       in `data/dossier/`. `load` only upserts, so a local Neo4j keeps stale
       evidence. Render from a fresh database.
+      → Rendered from a throwaway Neo4j container on another port: lf-2, ml-3,
+      wl added; guanineless and hirenaga updated for the seed changes above.
+- [x] `content/blog/ko/hirenaga.md:64` and `longfin.md:11` still say kcnk5b is
+      the zebrafish *longfin* gene. It is *another longfin* (alf).
+      → Fixed in hirenaga, longfin (section and reference) and swallow; also
+      orochi's C1b note, which leaned on carapito2015.
+- [x] `content/blog/ko/guanineless.md` says the variant type is not in the
+      dossier. It now is (exons 4-7 deleted).
+      → Bullet now says the evidence text names the deletion.
 
 ## Smaller follow-ups
 
