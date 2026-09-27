@@ -33,6 +33,54 @@ Keep one gate. Add entry points instead of growing the current skill.
 
 All three end at `convergence.py` + `validate`, so the rules live in one place.
 
+### Enrich: where to start (next session)
+
+What is already known, so the next session does not re-measure it:
+
+- Europe PMC `MED/{pmid}/citations` and `/references` work. Forward citations:
+  kimura2014 71, nagao2014 45. kon2026 has 0 forward and 100 backward, of
+  which 17 are already in the seed. Preprints duplicate published records, so
+  deduplicate by normalised title. About 1 in 6 forward citations has medaka
+  in the title, and a real screen needs the abstract.
+- Useful work in PR #7 and #8 came from reading one paper to the end:
+  kimura2014 gave lf-2 and wl, and kimura2017 turned out not to be positional
+  cloning. Harvesting sibling loci from a paper already cited is the cheapest
+  path found so far.
+- Every candidate gets its level from ADR 0003/0004, and `validate` enforces
+  the ceilings. A discovered paper enters as a proposal, never as a claim
+  (ADR 0002).
+
+Measure before building:
+
+- [x] Pick 3 seed papers. For each, pull forward citations, screen the
+      abstracts, and count how many would add or change a claim. If the yield
+      is near zero, enrich is not worth a skill.
+      → `docs/research/enrich-yield-2026-09.md`. 4 of 106 unique citers (3.8%)
+      add or change a claim; all 4 have medaka in the title (4 of 11, 36%). 9 HTTP
+      calls. Finds: sox9b, the mitf/pax7 network, sox5-sox10 epistasis, and
+      oca2 in a methods paper.
+- [x] Check whether the existing discovery pipeline (`discovery.py`,
+      `pipeline.py`, `candidates.py`) already does part of this, before
+      writing anything new.
+      → It does everything after "which papers": fetch, cache, co-mention
+      extraction, Candidate nodes, review states. It only ever finds papers by
+      keyword search; nothing uses citations. It needs Neo4j.
+- [x] Turn the 4 finds into seed data by hand, logging what it took.
+      → 4 papers, 6 new genes, 10 new evidence items (8 FV, 2 OBSERVATIONAL:
+      zebrafish sox5, and sox9b, whose full text could not be read). No new
+      `associated_with_gene`. The one trait-claim change is ml-3 → sox5 gaining
+      a transgenic rescue. The oca2 paper edited wild-type fish, so albino →
+      oca2 stays UNASSERTED. Its references resolve the broken "Fukamachi et
+      al. 2004" to an i-3 (not i) cloning, left as a note. Baseline unchanged.
+      For none of the 3 papers with full text would the abstract alone have
+      given the right claims.
+- [x] Enrich: give the discovery pipeline a citation source.
+      → `pipeline --from-citations [--direction] [--seed-pmid] [--limit] [--dry-run]`
+      (`citations.py`). Screens on title *or* abstract. Dry run, kimura2014
+      forward: raw 85 → deduped 77 → not yet known 70 → medaka 7 (the 4 finds
+      are seed now, so they drop out as known; 3 of the 7 name medaka only in
+      the abstract). Claim proposal still needs a person to read the full text.
+
 ### Measure before building
 
 - [x] Sample-audit about 20 random `associated_with_gene` / `associated_with_locus`

@@ -185,6 +185,51 @@ entities:
       Solute carrier family 2 facilitated glucose transporter, member 11b.
       Causal for the white leucophore (wl) mutant.
 
+  # Pigment cell transcription factors from the forward-citation screen
+  # (nagao2018, tsunogai2021, miyadai2023). No chromosome: none of the papers
+  # read gives one.
+  - label: Gene
+    name: sox10a
+    species: Oryzias latipes
+    symbol: sox10a
+    description: >-
+      SoxE transcription factor; the dominant of the two medaka sox10 paralogs in
+      specifying melanophores, iridophores and xanthophores.
+  - label: Gene
+    name: sox10b
+    species: Oryzias latipes
+    symbol: sox10b
+    description: >-
+      SoxE transcription factor, redundant with sox10a. Its mutants have no
+      pigment phenotype on their own.
+  - label: Gene
+    name: sox9b
+    species: Oryzias latipes
+    symbol: sox9b
+    description: >-
+      SoxE transcription factor. Reported redundant with sox10a in pigment cell
+      formation, from the abstract of tsunogai2021 only.
+  - label: Gene
+    name: mitfa
+    species: Oryzias latipes
+    symbol: mitfa
+    description: >-
+      Microphthalmia-associated transcription factor a. Redundant with mitfb.
+  - label: Gene
+    name: mitfb
+    species: Oryzias latipes
+    symbol: mitfb
+    description: >-
+      Microphthalmia-associated transcription factor b; the more central medaka
+      mitf paralog for melanophores.
+  - label: Gene
+    name: pax3b
+    species: Oryzias latipes
+    symbol: pax3b
+    description: >-
+      Paired box 3b, expressed in premigratory neural crest before pax7a. Its
+      paralog pax3a has no pigment phenotype in medaka.
+
   - label: Gene
     name: wnt4b
     species: Oryzias latipes
@@ -225,6 +270,9 @@ entities:
       list. Kept as an entity so the broken attribution stays visible and
       checkable rather than being silently dropped; see the claim carrying
       BROKEN_CITATION. The well-established medaka albino gene is tyr.
+      lischik2019 edited oca2 in wild-type medaka, and cites Fukamachi et al.
+      2004 as cloning it from i-3, a different albino mutant from the i
+      (tyrosinase) mutant this ontology calls albino.
     review_reasons: [BROKEN_CITATION]
 
   # --- Comparative genes. PRD §10 ----------------------------------------------

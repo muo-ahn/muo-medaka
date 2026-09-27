@@ -119,6 +119,31 @@ Papers carry a processing state (`medaka papers`) so a scheduled run never
 rediscovers or reprocesses what it already handled, and so a paywalled paper is
 recorded as `INACCESSIBLE` with a reason rather than silently missing.
 
+### Following citations instead of keywords
+
+```bash
+# measure first: no Neo4j, nothing written, counts after each filter step
+.venv/Scripts/python -m medaka_ontology.cli pipeline --from-citations --seed-pmid 24803434 --dry-run
+# then run it: register, acquire, extract, stage, as a keyword run does
+.venv/Scripts/python -m medaka_ontology.cli pipeline --from-citations --direction both --limit 20
+```
+
+`--from-citations` replaces the keyword queries with Europe PMC citation links
+from seed papers (every seed paper with a PMID, unless `--seed-pmid` names some).
+`forward` is papers citing the seed, `backward` the seed's own references. The
+screen deduplicates (a preprint and its published record are one paper), drops
+what the seed or registry already holds, and keeps only papers whose title *or
+abstract* names medaka or Oryzias. Everything after is the ordinary pipeline, and
+each paper's `discovered_via` reads `citation:<direction>:<seed pmid>`.
+
+Use it when a trait's literature is already anchored by a paper someone has read
+and you want what built on it: sibling loci from the same lab, and follow-up
+functional work that the ontology's own vocabulary would not search for.
+Keyword discovery stays the tool for traits that have no anchoring paper yet.
+Expect a low yield — [the measurement](docs/research/enrich-yield-2026-09.md)
+found 4 claim-changing papers in 106 citers of three seeds — so run the dry run
+first and read its counts.
+
 ## Who owns what
 
 Getting this boundary wrong loses someone's work, so it is enforced in `ingest`

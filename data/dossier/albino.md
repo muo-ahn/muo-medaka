@@ -26,6 +26,7 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Mechanism
 
 - melanogenesis — via tyr (trait→gene link: CAUSAL_VARIANT)
+- melanogenesis — via oca2 (trait→gene link: UNKNOWN)
 
 ## Evidence
 

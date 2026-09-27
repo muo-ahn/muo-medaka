@@ -35,6 +35,15 @@ _RELATED_PREDICATES = {
 _CAUSAL_LEVELS = {EvidenceLevel.CAUSAL_VARIANT.value, EvidenceLevel.FUNCTIONAL_VALIDATION.value}
 
 
+def mechanism_lines(mechanisms: list[dict[str, Any]]) -> list[str]:
+    """One line per (mechanism, trait-gene level), so each gene shows its own level."""
+    return [
+        f"- {row['mechanism']} — via {', '.join(genes)} (trait→gene link: {level})"
+        for row in mechanisms
+        for level, genes in row["links"]
+    ]
+
+
 def _cite(ev: dict[str, Any]) -> str:
     bits = []
     if ev.get("paper_title"):
@@ -151,12 +160,7 @@ def render_trait(session: Session, name: str) -> str:
     lines += ["## Mechanism", ""]
     mechanisms = mechanisms_via_genes(session, trait["id"])
     if mechanisms:
-        for row in mechanisms:
-            via = ", ".join(row["via_genes"])
-            lines.append(
-                f"- {row['mechanism']} — via {via} "
-                f"(trait→gene link: {row['strongest_link']})"
-            )
+        lines += mechanism_lines(mechanisms)
     else:
         lines.append("- _not yet linked to a developmental mechanism_")
     lines.append("")
