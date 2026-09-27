@@ -29,8 +29,9 @@ status: draft
 
 ## 이름부터 정리해야 한다
 
-제브라피시에도 *longfin* 이라는 돌연변이체가 있다. Perathoner 등(2014)이
-그 원인을 칼륨 채널 *kcnk5b* 로 밝혔고, 지느러미 비율이 생체전기 신호로
+제브라피시에도 *longfin* 이라는 돌연변이체가 있고, 이름이 비슷한 *another
+longfin* (*alf*) 도 있다. Perathoner 등(2014)이 칼륨 채널 *kcnk5b* 로 밝힌
+것은 *longfin* 이 아니라 *alf* 이고, 지느러미 비율이 생체전기 신호로
 조절된다는 그림을 제시한 논문이다. 관상 메다카 커뮤니티에서 "롱핀은 칼륨
 채널" 이라는 문장이 돌아다니는 뿌리가 여기다.
 
@@ -118,6 +119,6 @@ Kon 등(2026)은 롱핀 **10마리**로 7번 염색체 9,865,513–17,095,925 �
 - Perathoner 등 (2014) Bioelectric signaling regulates size in zebrafish fins.
   *PLoS Genetics*.
   [doi:10.1371/journal.pgen.1004080](https://doi.org/10.1371/journal.pgen.1004080)
-  — 비교 계층 참고 (제브라피시 *longfin*, 다른 종)
+  — 비교 계층 참고 (제브라피시 *another longfin*, 다른 종)
 
 ---

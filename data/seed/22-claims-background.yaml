@@ -60,11 +60,15 @@ claims:
     object: {label: Gene, name: pnp4a}
     evidence:
       - paper: kimura2017
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: linkage analysis and genome editing
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
+        section: Results
         finding: >-
-          pnp4a is the causal gene of the medaka iridophore mutant guanineless.
+          gu maps 0 cM from a telomeric chromosome 5 marker, and pnp4a was picked
+          by synteny with zebrafish, not by narrowing the interval. gu lacks
+          pnp4a exons 4-7; a CRISPR 13-bp exon 2 deletion reproduces the
+          phenotype and fails to complement gu. The edit is not the gu lesion.
 
   - predicate: associated_with_gene
     subject: {label: OrnamentalTrait, name: few melanophore}
@@ -176,32 +180,68 @@ claims:
     object: {label: Gene, name: zic1}
     evidence:
       - paper: ohtsuka2004
-        experiment_type: positional cloning
+        experiment_type: positional cloning and morpholino knockdown
         level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           zic1 and zic4 were identified within the Double anal fin (Da) locus and
           implicated in dorsoventral patterning of the trunk-tail region.
+      - paper: moriyama2012
+        experiment_type: mutant mapping
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer causes
+          mesoderm-specific loss of their transcription.
       - paper: kawanishi2013
         experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        level: EXPRESSION_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           Da is an enhancer mutant: zic1/zic4 expression is lost specifically in
           the dorsal half of the somites, establishing them as dorsal-module
           selector genes.
 
+  # ADR 0003 names this claim: ohtsuka2004 narrowed Da to 174 kbp holding zic1
+  # and zic4, which is FINE_MAPPING for zic4, but its morpholino targeted zic1
+  # only.
+  - predicate: associated_with_gene
+    subject: {label: OrnamentalTrait, name: Da mutant}
+    object: {label: Gene, name: zic4}
+    interpretation: >-
+      zic4 is inside the cloned Da interval and loses expression in the mutant,
+      but no experiment has perturbed zic4 on its own. The lesion sits in an
+      enhancer that zic1 and zic4 share, so the data cannot say whether zic4
+      contributes to the phenotype or only travels with zic1.
+    evidence:
+      - paper: ohtsuka2004
+        experiment_type: positional cloning
+        level: FINE_MAPPING
+        species: Oryzias latipes
+        finding: >-
+          zic1 and zic4 were identified within the Double anal fin (Da) locus, a
+          174-kbp interval holding the two genes; the morpholino knockdown that
+          partly phenocopied Da targeted zic1 only.
+      - paper: moriyama2012
+        experiment_type: mutant mapping and expression analysis
+        level: EXPRESSION_ASSOCIATION
+        species: Oryzias latipes
+        finding: >-
+          A large transposon inserted into the zic1/zic4 enhancer causes
+          mesoderm-specific loss of their transcription.
+
   - predicate: caused_by_variant
     subject: {label: OrnamentalTrait, name: Da mutant}
     object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
     evidence:
       - paper: moriyama2012
-        experiment_type: mutant mapping
+        experiment_type: mutant mapping and expression analysis
         level: CAUSAL_VARIANT
         species: Oryzias latipes
         finding: >-
           A large transposon inserted into the zic1/zic4 enhancer region causes
-          mesoderm-specific loss of their transcription.
+          mesoderm-specific loss of their transcription and the diphycercal-like
+          caudal skeleton.
 
   # ===========================================================================
   # Breeder trait <-> laboratory mutant. PRD §8
@@ -211,27 +251,22 @@ claims:
     object: {label: OrnamentalTrait, name: Da mutant}
     interpretation: >-
       The best-supported breeder/lab identification in the dataset: same locus,
-      same insertion, and the insertion is present in every hikari individual
-      genotyped. Still recorded as putative rather than merged, because nobody has
-      shown the ornamental hikari strains and the laboratory Da line share a
-      genetic background beyond this one lesion.
+      and an insertion there in every hikari individual genotyped. That it is the
+      Da lesion itself was not shown at sequence level (ADR 0004). Still recorded
+      as putative rather than merged, because nobody has shown the ornamental
+      hikari strains and the laboratory Da line share a genetic background beyond
+      this one lesion.
     review_reasons: [BREEDER_ACADEMIC_LINK]
     evidence:
       - paper: kon2026
         experiment_type: variant genotyping
-        level: FINE_MAPPING
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         section: Results
         finding: >-
           The hikari GWAS peak coincides with the zic1/zic4 locus, and the
           insertion known from the Da mutant was confirmed in all 35 hikari
           individuals.
-      - paper: moriyama2012
-        experiment_type: mutant mapping
-        level: CAUSAL_VARIANT
-        species: Oryzias latipes
-        finding: >-
-          The Da lesion is a transposon insertion in the zic1/zic4 enhancer.
 
   - predicate: putatively_same_as
     subject: {label: OrnamentalTrait, name: daruma}
@@ -298,18 +333,27 @@ claims:
     evidence:
       - paper: kon2026
         experiment_type: genome editing
-        level: FUNCTIONAL_VALIDATION
+        level: OBSERVATIONAL
         species: Oryzias latipes
         finding: >-
           Deletion of adcy5 exon 8 increases black body colour in medaka.
+          Melanophore development itself was not measured (ADR 0004).
 
   - predicate: participates_in
     subject: {label: Gene, name: zic1}
     object: {label: BiologicalMechanism, name: dorsoventral patterning}
     evidence:
+      - paper: ohtsuka2004
+        experiment_type: morpholino knockdown
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        section: Abstract
+        finding: >-
+          Injecting a zic1 morpholino partly reproduced the early ventralized Da
+          phenotypes. zic4 was not knocked down.
       - paper: kawanishi2013
         experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        level: EXPRESSION_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           zic1/zic4 act as selector genes for the dorsal module of the teleost
@@ -320,8 +364,8 @@ claims:
     object: {label: BiologicalMechanism, name: dorsoventral patterning}
     evidence:
       - paper: ohtsuka2004
-        experiment_type: expression analysis
-        level: FUNCTIONAL_VALIDATION
+        experiment_type: fine mapping and expression analysis
+        level: FINE_MAPPING
         species: Oryzias latipes
         finding: >-
           zic1 and zic4 function in dorsoventral patterning of the trunk-tail
@@ -348,12 +392,13 @@ claims:
     object: {label: BiologicalMechanism, name: bioelectric fin size regulation}
     evidence:
       - paper: perathoner2014
-        experiment_type: mutant characterization
-        level: CAUSAL_VARIANT
+        experiment_type: positional cloning and transgenic overexpression
+        level: FUNCTIONAL_VALIDATION
         species: Danio rerio
         finding: >-
-          The zebrafish longfin mutant is caused by kcnk5b; bioelectric signalling
-          regulates fin size.
+          Gain-of-function kcnk5b mutations cause the zebrafish another longfin
+          (alf) mutant and raise K+ conductance; somatic transgenesis shows the
+          channel acts locally in fin and barbel mesenchyme to set their size.
 
   - predicate: participates_in
     subject: {label: Gene, name: slc45a2}
@@ -361,7 +406,7 @@ claims:
     evidence:
       - paper: fukamachi2001
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: Mutations in slc45a2 reduce melanin content in medaka.
 
@@ -394,10 +439,12 @@ claims:
     object: {label: BiologicalMechanism, name: iridophore development}
     evidence:
       - paper: kimura2017
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: linkage analysis and genome editing
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
-        finding: pnp4a is causal for the medaka iridophore mutant guanineless.
+        finding: >-
+          A pnp4a null edit reproduces the guanineless loss of visible
+          iridophores and fails to complement gu.
 
   - predicate: participates_in
     subject: {label: Gene, name: kitlga}
@@ -405,7 +452,7 @@ claims:
     evidence:
       - paper: otsuki2020
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           kitlga loss produces the few melanophore pigment cell mutant.
@@ -415,7 +462,7 @@ claims:
     object: {label: BiologicalMechanism, name: chromatophore development}
     evidence:
       - paper: nagao2014
-        experiment_type: mutant characterization
+        experiment_type: positional cloning and morpholino knockdown
         level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
@@ -428,7 +475,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           slc2a15b loss produces the leucophore free mutant, which lacks
@@ -440,7 +487,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           pax7a is required to form the xanthophore and leucophore precursor
@@ -452,7 +499,7 @@ claims:
     evidence:
       - paper: kimura2014
         experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        level: FUNCTIONAL_VALIDATION
         species: Oryzias latipes
         finding: >-
           slc2a11b loss produces the white leucophore mutant, whose leucophores
@@ -541,8 +588,10 @@ claims:
     evidence:
       - paper: carapito2015
         experiment_type: human genetics
-        level: CAUSAL_VARIANT
+        level: QTL_GWAS_ASSOCIATION
         species: Homo sapiens
         finding: >-
-          A de novo ADCY5 mutation causes early-onset autosomal dominant chorea and
-          dystonia; disease mutations cluster in the coiled-coil and C1b domains.
+          Exome sequencing of one three-generation family with autosomal dominant
+          chorea and dystonia found a single ADCY5 donor splice-site variant
+          (c.2088+1G>A) segregating with the disease; the authors propose
+          haploinsufficiency. No functional test is reported.

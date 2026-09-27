@@ -2,8 +2,9 @@
 
 PRD §8: the failure this repo exists to prevent is a gene name becoming folk
 knowledge because one word appeared in two sentences. Measured on the traits
-whose answer is known, a single shared phenotype nominates the right gene 3
-times in 12. So a gene claim is sorted by *how* it was reached, and only the
+whose answer is known, a single shared phenotype nominated the right gene 3
+times in 12 (2 in 5 once ADR 0003 removed GWAS candidates from the known
+answers, both from one lineage). So a gene claim is sorted by *how* it was reached, and only the
 claims that were reached by inference have to show convergence:
 
 - DIRECT -- the gene was identified in medaka by an experiment that isolates
@@ -31,13 +32,16 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import StrEnum
 
+from .ceilings import experiment_parts
 from .models import Claim, Evidence, SeedBundle
 from .vocabulary import EVIDENCE_RANK, EvidenceLevel, NodeLabel, Predicate, Stance
 
 #: Experiments that identify a gene in medaka rather than argue for it. Closed on
 #: purpose: `mutant characterization` and `expression analysis` describe a gene
 #: already assumed to be the right one, and `GWAS candidate nomination` picks a
-#: gene out of an interval by its GO term.
+#: gene out of an interval by its GO term. `morpholino knockdown` is left out
+#: too (ADR 0003): it tests a gene someone already chose, and morphants phenocopy
+#: off-target often enough that one knockdown should not skip convergence.
 DIRECT_EXPERIMENTS: frozenset[str] = frozenset(
     {
         "positional cloning",
@@ -46,6 +50,7 @@ DIRECT_EXPERIMENTS: frozenset[str] = frozenset(
         "transgenic rescue",
         "genome editing",
         "somatic reversion analysis",
+        "variant knock-in",
     }
 )
 
@@ -88,7 +93,9 @@ def is_direct(ev: Evidence) -> bool:
         ev.stance is Stance.SUPPORTS
         and ev.level in DIRECT_LEVELS
         and states_medaka(ev)
-        and ev.experiment_type.strip().lower() in DIRECT_EXPERIMENTS
+        # A compound type is direct when any part is: `positional cloning and
+        # morpholino knockdown` still cloned the gene.
+        and any(p in DIRECT_EXPERIMENTS for p in experiment_parts(ev.experiment_type))
     )
 
 

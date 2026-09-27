@@ -2,7 +2,7 @@
 
 BODY_COLOR
 
-Loss of normal melanophores from the body surface. The body colour of the traditional ornamental medaka, himedaka.
+Loss of normal melanophores from the body surface. The body colour of the traditional ornamental medaka, himedaka. Himedaka is the medaka b mutant (the b locus, now slc45a2; fukamachi2001), so the cloning of b is this trait's own evidence (ADR 0003, own subject).
 
 ## Aliases
 

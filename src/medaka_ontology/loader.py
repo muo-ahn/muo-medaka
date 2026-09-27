@@ -11,6 +11,7 @@ from pathlib import Path
 
 import yaml
 
+from .ceilings import KNOWN_CEILING_VIOLATIONS, ceiling_violations
 from .config import SEED_DIR
 from .convergence import KNOWN_VIOLATIONS, gene_claim_violations
 from .models import COMPARATIVE_CEILING, MEDAKA, Claim, Entity, Paper, SeedBundle
@@ -144,6 +145,12 @@ def validate(bundle: SeedBundle) -> None:
     for (trait, gene), why in gene_claim_violations(bundle).items():
         if (trait, gene) not in KNOWN_VIOLATIONS:
             errors.append(f"claim associated_with_gene {trait} -> {gene}: {why}")
+
+    # ADR 0003. Same arrangement: pending data fixes are pinned, not waved through.
+    for key, why in ceiling_violations(bundle).items():
+        if key not in KNOWN_CEILING_VIOLATIONS:
+            predicate, subject, obj, paper, _ = key
+            errors.append(f"claim {predicate} {subject} -> {obj}: {paper} evidence {why}")
 
     if errors:
         raise SeedValidationError("\n".join(sorted(set(errors))))

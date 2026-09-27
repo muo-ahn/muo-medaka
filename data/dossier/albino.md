@@ -2,7 +2,7 @@
 
 BODY_COLOR
 
-Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-analysed by the seed paper.
+Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-analysed by the seed paper. This is the classic medaka albino, the i mutant (the i locus, tyrosinase; koga1995), so the i-locus papers are this trait's own evidence (ADR 0003, own subject).
 
 ## Aliases
 

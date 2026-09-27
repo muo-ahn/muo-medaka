@@ -259,6 +259,8 @@ OBSERVATIONAL
 BREEDER_OBSERVATION
 ```
 
+각 level 이 요구하는 것은 `docs/decisions/0003-evidence-level-definitions.md` 에 정의한다.
+
 Evidence level은 자동 추출 결과만으로 확정하지 않아도 된다.
 
 불명확한 경우 `UNKNOWN`으로 유지한다.

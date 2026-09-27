@@ -144,8 +144,10 @@ LAB_MUTANTS = {
 }
 
 #: The only breeder-facing ornamental traits whose genetics reach causal or
-#: functionally validated level in the current evidence base.
-CAUSAL_ORNAMENTAL_TRAITS = {"orochi", "hikari", "albino", "yellow"}
+#: functionally validated level in the current evidence base. hikari is not one:
+#: its causal evidence was done in the Da mutant and sits there (ADR 0003, own
+#: subject). hikari reaches it only through `putatively_same_as`.
+CAUSAL_ORNAMENTAL_TRAITS = {"orochi", "albino", "yellow"}
 
 
 def test_causal_level_genetics_stays_on_the_traits_that_earned_it(bundle):

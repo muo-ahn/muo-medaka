@@ -165,17 +165,27 @@ SYMMETRIC_PREDICATES: frozenset[Predicate] = frozenset(
 
 
 class EvidenceLevel(StrEnum):
-    """PRD §5, strongest first.
+    """PRD §5, strongest first. Definitions: docs/decisions/0003.
+
+    A level is what the cited paper's own data showed, in fish carrying this
+    claim's subject. It is not the paper's conclusion, and not another mutant's
+    result.
 
     `UNKNOWN` is not a failure state. PRD §5: "잘못된 확신보다 불확실성을 보존하는
     것을 우선한다."
     """
 
+    #: The lesion itself: mapped to in crosses, or recreated/reverted.
     CAUSAL_VARIANT = "CAUSAL_VARIANT"
+    #: The gene perturbed or restored in medaka, and the phenotype follows.
     FUNCTIONAL_VALIDATION = "FUNCTIONAL_VALIDATION"
+    #: The interval narrowed to at most five genes. Not a variant found in a wide one.
     FINE_MAPPING = "FINE_MAPPING"
+    #: The trait maps to an interval holding the gene, however it was nominated.
     QTL_GWAS_ASSOCIATION = "QTL_GWAS_ASSOCIATION"
+    #: Expression differs with the trait. Nothing was perturbed.
     EXPRESSION_ASSOCIATION = "EXPRESSION_ASSOCIATION"
+    #: Named or discussed without the paper's own data testing it.
     OBSERVATIONAL = "OBSERVATIONAL"
     BREEDER_OBSERVATION = "BREEDER_OBSERVATION"
     UNKNOWN = "UNKNOWN"

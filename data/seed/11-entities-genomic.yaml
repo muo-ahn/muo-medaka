@@ -234,9 +234,9 @@ entities:
     species: Danio rerio
     symbol: kcnk5b
     description: >-
-      Zebrafish two-pore potassium channel; causal for the zebrafish longfin
-      mutant. The precedent that motivates potassium-channel candidates in medaka,
-      not a medaka finding.
+      Zebrafish two-pore potassium channel; gain-of-function alleles cause the
+      zebrafish another longfin (alf) mutant. The precedent that motivates
+      potassium-channel candidates in medaka, not a medaka finding.
 
   - label: HumanGene
     name: ADCY5
