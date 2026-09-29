@@ -21,6 +21,9 @@ data/cache/
 data/fulltext/
 *.pdf
 
+# Third-party page texts fetched for scripts/vocab/ - not committed
+scripts/vocab/raw/
+
 # OS / editor
 .DS_Store
 Thumbs.db
