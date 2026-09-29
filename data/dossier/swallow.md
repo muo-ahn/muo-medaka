@@ -1,4 +1,4 @@
-# swallow
+# swallow (スワロー)
 
 FIN_MORPHOLOGY
 
@@ -7,9 +7,6 @@ Some fin rays longer than wild type; fin membranes do NOT elongate. Membrane inv
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- スワロー
 
 ## Phenotypes
 
@@ -50,5 +47,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 3 claim(s) awaiting human review.

@@ -26,6 +26,12 @@ entities:
     name: kagamirin
     category: SCALE
     japanese_name: カガミ鱗
+    # AC-6 (spec, 2026-09-29): checked against the JMA 5th ed. manual
+    # (01-sources-breeder.yaml, `jma5`) now that it has been read in full.
+    # カガミ鱗 does not appear anywhere in it -- no trait section, and no hit in
+    # a full-text search of the extracted manual. The CSV survey's own source for
+    # this term is piscesbook, not JMA (bv:0256). This trait's evidence stays
+    # exactly what it was below: swampcreek_kagamirin and medakayaen_ryuurin.
     description: >-
       Scales markedly larger than wild type, arranged in an orderly lateral row
       and bilaterally symmetric. Named for the mirror scale of carp. Distinct in

@@ -9,7 +9,8 @@ Small pupil; small eyeballs in some cases.
 - _none recorded_
 
 Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 天眼
+- スモールアイ
+- 点目
 
 ## Phenotypes
 

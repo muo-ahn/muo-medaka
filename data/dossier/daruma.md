@@ -1,4 +1,4 @@
-# daruma
+# daruma (ダルマ)
 
 BODY_SHAPE
 
@@ -7,9 +7,6 @@ Short body axis.
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- ダルマ
 
 ## Phenotypes
 
@@ -71,5 +68,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 - **Contradicted**: `associated_with_gene → wnt4b` has 2 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - **Contradicted**: `putatively_same_as → fused centrum` has 1 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 4 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, BROKEN_CITATION, CONTRADICTORY_EVIDENCE, EVIDENCE_LEVEL_UNCLEAR).

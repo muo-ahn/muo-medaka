@@ -1,4 +1,4 @@
-# kurobuchi
+# kurobuchi (黒斑)
 
 BODY_COLOR · composite class
 
@@ -7,9 +7,6 @@ Body colour pattern with black spots. Declared by the source as a superset inclu
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 黒斑
 
 ## Phenotypes
 
@@ -61,5 +58,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 5 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE).

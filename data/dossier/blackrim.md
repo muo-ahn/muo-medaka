@@ -1,4 +1,4 @@
-# blackrim
+# blackrim (ブラックリム)
 
 BODY_COLOR
 

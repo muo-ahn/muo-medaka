@@ -49,13 +49,13 @@ Laboratory medaka mutant showing mirror-image duplication of the ventral half ac
   - caused_by_variant → zic1/zic4 enhancer transposon insertion
   - A large transposon inserted into the zic1/zic4 enhancer region causes mesoderm-specific loss of their transcription and the diphycercal-like caudal skeleton.
 
-• **OBSERVATIONAL** — Possible roles of zic1 and zic4, identified within the medaka Double anal fin (Da) locu... (2004) — doi:10.1016/j.mod.2004.04.006
-  - has_phenotype → dorsal-to-ventral identity transformation
-  - The Da mutant shows altered dorsoventral patterning of the trunk-tail region; zic1 and zic4 lie within the Da locus.
-
 • **OBSERVATIONAL** — Modular development of the teleost trunk along the dorsoventral axis and zic1/zic4 as s... (2013) — doi:10.1242/dev.088567
   - has_phenotype → dorsal-to-ventral identity transformation
   - zic1/zic4 expression is lost specifically in the dorsal half of the somites, producing mirror-image duplication of the ventral half across the lateral midline from larva to adult.
+
+• **OBSERVATIONAL** — Possible roles of zic1 and zic4, identified within the medaka Double anal fin (Da) locu... (2004) — doi:10.1016/j.mod.2004.04.006
+  - has_phenotype → dorsal-to-ventral identity transformation
+  - The Da mutant shows altered dorsoventral patterning of the trunk-tail region; zic1 and zic4 lie within the Da locus.
 
 ## Related traits
 

@@ -1,4 +1,4 @@
-# orochi
+# orochi (オロチ)
 
 BODY_COLOR
 
@@ -7,9 +7,6 @@ Blackness greater than the black strain; increased melanophores. Table 1 records
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- オロチ
 
 ## Phenotypes
 
@@ -66,5 +63,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 ## Open questions
 
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 4 claim(s) awaiting human review (NEW_CAUSAL_VARIANT).

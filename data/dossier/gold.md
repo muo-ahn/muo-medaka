@@ -1,4 +1,4 @@
-# gold
+# gold (黄金（おうごん）)
 
 BODY_COLOR
 

@@ -1,4 +1,4 @@
-# yokihi
+# yokihi (楊貴妃)
 
 BODY_COLOR
 
@@ -7,9 +7,6 @@ Increased redness (orange) relative to yellow medaka; enhanced xanthophores, los
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 楊貴妃
 
 ## Phenotypes
 
@@ -38,5 +35,4 @@ _No genetic association recorded._
 ## Open questions
 
 - No candidate gene or locus recorded yet.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 2 claim(s) awaiting human review.

@@ -46,31 +46,36 @@ def test_japanese_labels_are_never_recorded_as_sourced(bundle):
             assert alias.isascii(), f"{entity.name}: {alias!r} claims a source it lacks"
 
 
-def test_japanese_name_is_set_only_where_a_japanese_source_backs_it(bundle):
+def test_japanese_name_requires_breeder_academic_link(bundle):
     """This field used to be banned outright, and the ban was right for as long as
-    every source romanized. The breeder sources do not -- they print カガミ鱗 and
-    フサヒレ and nothing else -- so the rule becomes conditional rather than
-    disappearing: a Japanese-language source must actually stand behind the entity.
+    every source romanized. The breeder sources do not, so the rule becomes
+    conditional rather than disappearing.
 
-    A paper whose own title is not ASCII is one that prints Japanese. That keeps
-    the check self-maintaining: adding a Japanese source licenses the field, and
-    adding an English one never quietly does.
+    2026-09 breeder-vocabulary spec: this field now covers two shapes. One is a
+    NEW_ORNAMENTAL_TRAIT the trade introduced (kagamirin, fusahire), which also
+    carries its own has_phenotype/affects_anatomy claims citing a Japanese-titled
+    breeder source -- there, "a claim about this entity cites Japanese evidence"
+    was a fair proxy for "sourced". The other is an existing Kon et al. 2026
+    Table 1 trait (orochi, hikari, ...) whose biology is already fully claimed
+    against `kon2026`; the trade source contributes only the string, not a new
+    biological claim, so it would never pick up a claim of its own to satisfy
+    that proxy. The field's actual contract does not change: `japanese_name` is
+    only ever set once 01-sources-breeder.yaml's CSV survey traces the string to
+    a real source with a matching definition (docs/research/breeder-vocabulary-2026-09.md,
+    spec 승격 기준), and every promotion carries `BREEDER_ACADEMIC_LINK` in
+    `review_reasons` precisely because that identity claim -- "Kon's X is the
+    trade's X" -- is ours, not the source's. That reason is what this test can
+    still check without re-deriving the CSV survey by hand.
     """
     japanese_sources = {p.key for p in bundle.papers if not p.title.isascii()}
     assert japanese_sources, "vacuous while no source prints Japanese"
 
-    backed = {
-        claim.subject.name
-        for claim in bundle.claims
-        if any(ev.paper in japanese_sources for ev in claim.evidence)
-    }
     for entity in bundle.entities:
         if entity.japanese_name is None:
             continue
         assert not entity.japanese_name.isascii(), entity.name
-        assert entity.name in backed, (
-            f"{entity.name}: japanese_name is set, but no claim about it cites a "
-            "Japanese-language source"
+        assert ReviewReason.BREEDER_ACADEMIC_LINK in entity.review_reasons, (
+            f"{entity.name}: japanese_name is set without BREEDER_ACADEMIC_LINK"
         )
 
 
@@ -102,13 +107,24 @@ def test_breeder_sources_stay_out_of_the_acquisition_pipeline(bundle):
         assert paper.url, f"{paper.key}: no identifier of any kind"
 
 
-def test_traits_from_outside_the_literature_are_routed_to_a_human(bundle):
+def test_new_traits_from_outside_the_literature_are_routed_to_a_human(bundle):
     """PRD §12. Nothing enters the trait vocabulary on a breeder's say-so without
-    somebody seeing it first."""
+    somebody seeing it first.
+
+    2026-09: `BREEDER_ACADEMIC_LINK` used to imply `NEW_ORNAMENTAL_TRAIT`, back
+    when the only entities carrying it (kagamirin, fusahire) were both. The
+    breeder-vocabulary spec now also puts it on existing Kon et al. 2026 traits
+    that merely picked up an attested trade name (orochi's オロチ and so on) --
+    those are not new to the ontology, so the old direction of the implication
+    no longer holds. What still has to hold, checked here, is the direction PRD
+    §12 actually cares about: a trait the trade introduced, not the literature,
+    must be flagged for human review, which for this seed means carrying
+    `BREEDER_ACADEMIC_LINK` alongside `NEW_ORNAMENTAL_TRAIT`.
+    """
     for entity in bundle.entities:
-        if ReviewReason.BREEDER_ACADEMIC_LINK not in entity.review_reasons:
+        if ReviewReason.NEW_ORNAMENTAL_TRAIT not in entity.review_reasons:
             continue
-        assert ReviewReason.NEW_ORNAMENTAL_TRAIT in entity.review_reasons, entity.name
+        assert ReviewReason.BREEDER_ACADEMIC_LINK in entity.review_reasons, entity.name
 
 
 def test_unverified_labels_are_flagged_for_review(bundle):

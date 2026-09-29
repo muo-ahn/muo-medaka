@@ -1,4 +1,4 @@
-# aurora
+# aurora (オーロラ)
 
 BODY_COLOR
 
@@ -7,9 +7,6 @@ Mild iridophore depletion; loss of opercular iridophores makes the red gills vis
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- オーロラ
 
 ## Phenotypes
 
@@ -62,5 +59,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 - **Contradicted**: `associated_with_gene → kitlga` has 1 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 4 claim(s) awaiting human review (CONTRADICTORY_EVIDENCE, LOW_RESOLUTION_CONFIDENCE, NEW_CAUSAL_VARIANT).

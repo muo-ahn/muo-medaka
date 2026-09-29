@@ -1,4 +1,4 @@
-# reallongfin
+# reallongfin (リアルロングフィン)
 
 FIN_MORPHOLOGY
 

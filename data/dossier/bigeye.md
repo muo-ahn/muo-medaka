@@ -1,4 +1,4 @@
-# bigeye
+# bigeye (ビッグアイ)
 
 EYE_MORPHOLOGY
 

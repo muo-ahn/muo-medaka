@@ -29,6 +29,10 @@ where = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# One-off research build scripts, kept so docs/research/breeder-vocabulary-*
+# stays regenerable. They are mostly inline Japanese data tables; reflowing
+# them for lint would put the byte-identical regeneration at risk for no gain.
+extend-exclude = ["scripts/vocab"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

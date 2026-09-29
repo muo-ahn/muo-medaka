@@ -92,6 +92,18 @@ claims:
           The elongated portions of the dorsal and anal fin rays divide into
           branches.
         review_reasons: [BREEDER_ACADEMIC_LINK]
+      # AC-6 (spec, 2026-09-29): JMA 5th ed. manual §3.6.11 フサヒレ, read in
+      # full now that it is a seed source (01-sources-breeder.yaml, `jma5`).
+      # Independently corroborates the branching, in JMA's own words rather than
+      # by way of medakazukan_mariage2021.
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.6.11 フサヒレ"
+        finding: >-
+          Fin rays that have elongated branch partway along their length into a
+          tuft shape (軟条が途中で分岐し房状になる).
+        review_reasons: [BREEDER_ACADEMIC_LINK]
 
   - predicate: has_phenotype
     subject: {label: OrnamentalTrait, name: fusahire}
@@ -104,6 +116,17 @@ claims:
         finding: >-
           The branching occurs in rays that have already elongated; elongation is
           described as the precondition rather than as the trait itself.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+      # AC-6, same manual section as above: frames elongation as the precondition
+      # medaka must already show before this trait is seen on them, matching the
+      # interpretation already recorded from medakazukan_mariage2021.
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.6.11 フサヒレ"
+        finding: >-
+          Seen on medaka whose fins have already elongated
+          (ヒレが伸長するメダカに見られる).
         review_reasons: [BREEDER_ACADEMIC_LINK]
 
   - predicate: has_phenotype

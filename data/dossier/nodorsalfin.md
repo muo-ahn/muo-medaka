@@ -1,4 +1,4 @@
-# nodorsalfin
+# nodorsalfin (マルコ)
 
 FIN_MORPHOLOGY
 
