@@ -1,4 +1,4 @@
-# yellow
+# yellow (黄)
 
 BODY_COLOR
 
@@ -10,7 +10,6 @@ Loss of normal melanophores from the body surface. The body colour of the tradit
 
 Unverified labels (no source; not usable as identifiers — PRD §2.4):
 - ヒメダカ
-- 黄
 
 ## Phenotypes
 

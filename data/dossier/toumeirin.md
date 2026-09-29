@@ -1,4 +1,4 @@
-# toumeirin
+# toumeirin (透明鱗)
 
 SCALE
 
@@ -7,9 +7,6 @@ Decreased iridophore throughout the body EXCLUDING the iris and peritoneum; near
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 透明鱗
 
 ## Phenotypes
 
@@ -37,5 +34,4 @@ _No genetic association recorded._
 ## Open questions
 
 - No candidate gene or locus recorded yet.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 1 claim(s) awaiting human review.

@@ -1,4 +1,4 @@
-# albino
+# albino (アルビノ)
 
 BODY_COLOR
 
@@ -7,9 +7,6 @@ Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-anal
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- アルビノ
 
 ## Phenotypes
 
@@ -62,5 +59,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 
 ## Open questions
 
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 4 claim(s) awaiting human review (BROKEN_CITATION, EVIDENCE_LEVEL_UNCLEAR, NEW_CAUSAL_VARIANT).

@@ -1,4 +1,4 @@
-# suihougan
+# suihougan (水泡眼)
 
 EYE_MORPHOLOGY
 
@@ -7,9 +7,6 @@ Enlargement of the anterior segment of the eyeball; corneal cyst. Not GWAS-analy
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 水泡眼
 
 ## Phenotypes
 
@@ -38,5 +35,4 @@ _No genetic association recorded._
 ## Open questions
 
 - No candidate gene or locus recorded yet.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 2 claim(s) awaiting human review.

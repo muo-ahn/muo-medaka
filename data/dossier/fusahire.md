@@ -27,9 +27,19 @@ _No genetic association recorded._
 
 ## Evidence
 
+• **BREEDER_OBSERVATION** — 改良メダカ品種分類マニュアル 第５版 (2025) — https://jma-medaka.com/wp-content/uploads/2022/08/250901_【公式】品種分類マニュアル_第５版.pdf
+  - has_phenotype → fin ray branching
+  - Fin rays that have elongated branch partway along their length into a tuft shape (軟条が途中で分岐し房状になる).
+  - _3.6.11 フサヒレ_
+
 • **BREEDER_OBSERVATION** — マリアージュロングフィン (2021.9) — 最新メダカ紹介 (2021) — https://medakazukan.net/202109mariagelongfin/
   - has_phenotype → fin ray branching
   - The elongated portions of the dorsal and anal fin rays divide into branches.
+
+• **BREEDER_OBSERVATION** — 改良メダカ品種分類マニュアル 第５版 (2025) — https://jma-medaka.com/wp-content/uploads/2022/08/250901_【公式】品種分類マニュアル_第５版.pdf
+  - has_phenotype → fin ray elongation
+  - Seen on medaka whose fins have already elongated (ヒレが伸長するメダカに見られる).
+  - _3.6.11 フサヒレ_
 
 • **BREEDER_OBSERVATION** — マリアージュロングフィン (2021.9) — 最新メダカ紹介 (2021) — https://medakazukan.net/202109mariagelongfin/
   - has_phenotype → fin ray elongation

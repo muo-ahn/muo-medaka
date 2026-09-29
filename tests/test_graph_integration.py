@@ -60,7 +60,7 @@ def _counts(session) -> tuple[int, int]:
 
 
 def test_ingest_writes_the_whole_bundle(loaded):
-    assert (loaded.papers, loaded.entities, loaded.claims) == (32, 169, 193)
+    assert (loaded.papers, loaded.entities, loaded.claims) == (33, 169, 193)
 
 
 def test_evidence_is_deduplicated_across_claims(session, loaded):

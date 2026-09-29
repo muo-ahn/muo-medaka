@@ -1,4 +1,4 @@
-# deme
+# deme (出目)
 
 EYE_MORPHOLOGY
 
@@ -7,9 +7,6 @@ Protrusion of the eyeballs from the skull caused by skeletal dysplasia of the he
 ## Aliases
 
 - _none recorded_
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- 出目
 
 ## Phenotypes
 
@@ -56,5 +53,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
 - 4 claim(s) awaiting human review (LOW_RESOLUTION_CONFIDENCE, NEW_CAUSAL_VARIANT).

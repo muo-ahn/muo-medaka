@@ -19,15 +19,55 @@
 # either trait below, so this is the whole of the record. Recording it as weak
 # evidence is more honest than the silence of leaving it out.
 #
-# NOT CITED, DELIBERATELY. The JMA (日本メダカ協会) 改良メダカ品種分類マニュアル
+# READ, AND CITED (2026-09-29). The JMA (日本メダカ協会) 改良メダカ品種分類マニュアル
 # 第五版, September 2025, is the nearest thing this hobby has to a standards body
-# and is the right anchor for both axes. It is not below because nobody here has
-# read it -- citing a classification manual for a classification we inferred from
-# shop pages would be exactly the fabricated provenance PRD §2.4 forbids. Acquire
-# it, then revisit every claim in 23-claims-breeder.yaml.
-# https://jma-medaka.com/medaka-variety-classification-manual/
+# and is the anchor source for docs/research/breeder-vocabulary-2026-09.md and
+# its two CSVs. It used to sit here only as a comment -- unread, uncited -- on
+# the reasoning that citing a classification manual for a classification we
+# inferred from shop pages would be exactly the fabricated provenance PRD §2.4
+# forbids. It has now actually been read (full text extracted to
+# scripts/vocab/raw/jma5.txt, gitignored, third-party text) and is the `jma5`
+# paper below. Every `japanese_name` promotion in 10-entities-traits.yaml that
+# cites `bv:NNNN (JMA ...)` rests on it, directly or via the CSV survey it
+# anchors.
 
 papers:
+  - key: jma5
+    title: 改良メダカ品種分類マニュアル 第５版
+    year: 2025
+    journal: 日本メダカ協会 (JMA)
+    url: https://jma-medaka.com/wp-content/uploads/2022/08/250901_【公式】品種分類マニュアル_第５版.pdf
+    authors: [日本メダカ協会]
+    open_access: true
+    notes: >-
+      Accessed 2026-09-28/29 (docs/research/breeder-vocabulary-2026-09.md). Free
+      public PDF, no purchase involved. The closest thing the hobby has to a
+      standards body: defines the 形質 (trait) / 形質補足 (trait qualifier) /
+      共通補足 (common qualifier) / 珍種 (rare form) taxonomy the trade largely
+      follows, and gives per-trait sections (◆由来・概要 origin, ◆特徴 feature,
+      ◆形質補足, ◆類似した形質 similar traits) for the traits it covers. It is
+      the primary source behind the 2026-09 breeder-vocabulary survey and behind
+      most `japanese_name` promotions in 10-entities-traits.yaml and
+      12-entities-breeder-traits.yaml.
+      WHAT IT DOES NOT SAY. It does not mention カガミ鱗 (kagamirin) anywhere --
+      checked by full-text search of the extracted manual, not just its own
+      trait index -- so kagamirin rests on piscesbook/note.com alone, as before
+      (12-entities-breeder-traits.yaml). It does not use 天眼 for any eye trait
+      (10-entities-traits.yaml tenme). Its 共通補足 summary table prints a
+      terse "カガミ" cell next to 黄金 with no corresponding §3.8 subsection
+      elsewhere in the manual -- almost certainly an unrelated 共通補足 name or
+      an extraction artifact of the table's column layout, not a second mention
+      of kagamirin; not treated as one.
+      WHAT IT DOES SAY, confirmed by direct text search rather than by the CSV
+      survey alone: フサヒレ (§3.6.11) is described as elongated fin rays that
+      branch partway into a tuft shape (軟条が途中で分岐し房状になる), matching
+      the fin ray branching/elongation claims in 23-claims-breeder.yaml; ヒカリ
+      (§3.7.1)'s dorsal fin is described as shaped like the ANAL fin, not the
+      pelvic fin Kon et al. 2026 Table 1 uses (10-entities-traits.yaml hikari);
+      腹膜青 (§3.8.2) is peritoneal iridophore turning blue in a white tank only,
+      explicitly distinguished from 腹膜光 (§3.8.3 area), which is the opposite
+      condition (black tank only).
+
   # --- Scale axis --------------------------------------------------------------
   - key: swampcreek_kagamirin
     title: カガミ鱗幹之ってどんなメダカ？大きな鱗が並ぶ不思議な魅力
