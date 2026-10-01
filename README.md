@@ -11,6 +11,14 @@ and their genetic background. Built to answer, with sources attached:
 It is a knowledge layer, not a breeding tool. Mating recommendation, cross
 simulation, pedigree management and phenotype prediction are explicit non-goals
 (see [the PRD](Medaka%20Ornamental%20Trait%20Ontology%20%E2%80%94%20Rough%20PRD.md), §14).
+The one exception is a validation query over the genetic layer, described
+[below](#the-genetic-layer), which exists to test the data and lifts nothing.
+
+**The ontology has no language restriction.** Names may be English, Japanese,
+Korean or any other language, mixed freely in one graph and on one entity. For
+strains and traits from the trade the Japanese original is the reference, and
+renderings in other languages sit beside it as synonyms
+([ADR 0005](docs/decisions/0005-multilingual-labels.md)).
 
 ## The shape of the graph
 
@@ -82,6 +90,7 @@ cp .env.example .env
 | `candidates` | Staged proposals awaiting a decision. |
 | `accept <id> --level X` / `reject <id>` | Decide one candidate. |
 | `proposed-genes` | Gene symbols seen but not in the ontology. |
+| `cross --mother "b/b r/r" --father "b/b r/R"` | Offspring of a cross from the genetic layer, by sex, with the weakest evidence under each trait. No database needed. |
 
 The Neo4j browser is at <http://localhost:7474> (user `neo4j`, password from
 `.env`).
@@ -203,15 +212,52 @@ Three source-level conflicts are preserved rather than resolved:
 ## Naming
 
 Trait identifiers are the **romanized** names, because that is what the source
-prints. The seed paper gives no Japanese orthography, so every kanji and kana
-string in this repository sits in `unverified_labels`, flagged
-`UNVERIFIED_LABEL`, and is waiting on a native-speaker pass. It is reconstruction
-and is not treated as sourced.
+prints. They are identifiers, not anybody's spelling.
+
+Names are written as `labels`, in **any language, mixed freely** (English,
+Japanese, Korean ...). Each label carries a BCP 47 language tag, a kind
+(preferred, synonym, romanisation, variant), an optional kana reading, and its
+source: a paper key and/or a row of the breeder-vocabulary survey in
+`docs/research/`. The trade's Japanese name is the reference for a strain or trait
+and other languages' renderings sit beside it as synonyms. A label with no source
+is kept but marked `UNVERIFIED`, and its entity carries `UNVERIFIED_LABEL`, so
+unsourced text never reads as sourced. `japanese_name`, `aliases` and
+`unverified_labels` are derived from the labels for the read paths that predate
+them ([ADR 0005](docs/decisions/0005-multilingual-labels.md)).
 
 Breeder traits and laboratory mutants are separate entities joined by
 `putatively_same_as`, never merged. `hikari` and the `Da mutant` share a lesion;
 that they share a genetic background is a claim with evidence, not a naming fact
 (PRD §8).
+
+## The genetic layer
+
+Beyond *which gene*, the seed records *how a trait is inherited*
+([ADR 0006](docs/decisions/0006-genetic-layer.md)): the mode (recessive, dominant,
+incompletely dominant, multilocus, sex-linked), the alleles of the classical loci
+(b, r, i ...) and which is dominant, the alleles a trait requires, what is
+sex-linked, what masks what, and which strains are combinations of which traits.
+Each claim carries its paper and level. A conclusion we drew ourselves is marked
+`INFERRED`, the lowest level, with the reasoning on the claim.
+
+`cross` reads those claims and computes the offspring of two genotypes, or of two
+parents known only by what they show (a range over the genotypes consistent with
+it):
+
+```bash
+.venv/Scripts/python -m medaka_ontology.cli cross --symbols
+.venv/Scripts/python -m medaka_ontology.cli cross --mother "b/b r/r" --father "b/b r/R"
+.venv/Scripts/python -m medaka_ontology.cli cross --mother-shows yellow --father-shows blue
+```
+
+At the sex-linked r locus a male's two alleles are written X first, so `r/R` is
+X^r Y^R. The output is exact fractions per sex, the weakest-evidence claim under
+each predicted trait, every assumption made, and what it refuses to predict
+(`orochi`: multilocus). **This is a validation query, not a breeding tool**: it
+reproduces published crosses to show the layer is honest enough
+([docs/research/cross-validation-2026-10.md](docs/research/cross-validation-2026-10.md)).
+It recommends nothing, and whether to lift the PRD §14 non-goal is the owner's
+decision.
 
 ## Layout
 
@@ -226,6 +272,7 @@ src/medaka_ontology/
   ingest.py       Idempotent upserts; human review decisions survive re-runs
   queries.py      Read paths over the graph
   dossier.py      Trait dossier rendering
+  genetics.py     The cross query: offspring from the genetic layer, no database
 tests/            Includes assertions about the seed data's honesty
 ```
 
