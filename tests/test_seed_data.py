@@ -18,6 +18,7 @@ from medaka_ontology.loader import load_dir
 from medaka_ontology.vocabulary import (
     EvidenceLevel,
     LabelStatus,
+    NodeLabel,
     Predicate,
     ReviewReason,
     Stance,
@@ -174,7 +175,10 @@ def test_japanese_name_requires_breeder_academic_link(bundle):
     assert japanese_sources, "vacuous while no source prints Japanese"
 
     for entity in bundle.entities:
-        if entity.japanese_name is None:
+        # An InheritanceMode's Japanese term (顕性) is a word for a concept, not an
+        # identity claim between a trade trait and an academic one, so the reason
+        # that marks such a claim has no meaning on it.
+        if entity.japanese_name is None or entity.label is NodeLabel.INHERITANCE_MODE:
             continue
         assert not entity.japanese_name.isascii(), entity.name
         assert ReviewReason.BREEDER_ACADEMIC_LINK in entity.review_reasons, (
@@ -343,9 +347,14 @@ def test_composite_traits_declare_what_they_subsume(bundle):
 
 def test_every_gwas_locus_records_what_the_hit_rests_on(bundle):
     """n and interval width are what tell a reader whether a P-value means
-    anything. A locus without them can be quoted misleadingly."""
+    anything. A locus without them can be quoted misleadingly.
+
+    2026-10: only loci that have an interval. The genetic layer adds classical
+    loci (the r locus, the Da enhancer) that no GWAS ever scanned; they have no
+    coordinates and so no hit for these fields to describe.
+    """
     for entity in bundle.entities:
-        if entity.label.value != "Locus":
+        if entity.label.value != "Locus" or entity.start is None:
             continue
         assert entity.n_cases, entity.name
         assert entity.best_p_value, entity.name

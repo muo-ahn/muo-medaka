@@ -4,6 +4,10 @@ SCALE
 
 Scales markedly larger than wild type, arranged in an orderly lateral row and bilaterally symmetric. Named for the mirror scale of carp. Distinct in kind from rame and toumeirin, which are about how much a scale reflects; this is about how large each scale is and how the scales sit relative to one another, and is judged in side view only.
 
+## Names
+
+- ja: カガミ鱗 [swampcreek_kagamirin; medakayaen_ryuurin; bv:0256]
+
 ## Aliases
 
 - _none recorded_

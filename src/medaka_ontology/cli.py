@@ -26,6 +26,7 @@ from .convergence import gene_claim_violations
 from .db import Neo4jUnavailableError, graph_counts, install_schema, session_scope
 from .discovery import EuropePmcBackend, all_queries
 from .dossier import render_trait
+from .genetics import GeneticModel, ModelError, format_cross, format_range
 from .ingest import ingest_bundle, unprocessed_papers
 from .loader import SeedValidationError, load_dir
 from .models import slugify
@@ -709,6 +710,61 @@ def export(
         _fail(str(exc))
         return
     console.print(f"[green]exported[/green] {nodes_path.name}, {rels_path.name}")
+
+
+
+@app.command()
+def cross(
+    mother: str | None = typer.Option(None, help='Mother genotype, e.g. "b/b r/r"'),
+    father: str | None = typer.Option(
+        None, help='Father genotype; at the r locus X allele first, so "r/R" is X^r Y^R'
+    ),
+    mother_shows: str | None = typer.Option(
+        None, "--mother-shows", help="Instead of a genotype: traits she shows, e.g. yellow"
+    ),
+    father_shows: str | None = typer.Option(None, "--father-shows", help="As --mother-shows"),
+    true_breeding: bool = typer.Option(
+        False, "--true-breeding", help="With --*-shows: homozygotes only, as a fixed strain"
+    ),
+    symbols: bool = typer.Option(False, "--symbols", help="List the alleles a genotype can use"),
+    seed_dir: Path = typer.Option(SEED_DIR, help="Directory of seed YAML files"),
+) -> None:
+    """Offspring of a cross from the genetic layer. Touches no database. ADR 0006.
+
+    A validation query, not a breeding tool (PRD §14): it shows what the seed's
+    claims imply and which claim is the weakest link under each trait.
+    """
+    try:
+        model = GeneticModel(load_dir(seed_dir))
+    except (SeedValidationError, ModelError) as exc:
+        _fail(f"seed unusable for crosses:\n{exc}")
+        return
+    if symbols:
+        for name, locus in sorted(model.loci.items()):
+            tag = " (sex-linked)" if locus.sex_linked else ""
+            alleles = ", ".join(
+                f"{a.symbol}{' [wild type]' if a.wild_type else ''}" for a in locus.alleles.values()
+            )
+            console.print(f"{name}{tag}: {alleles}", markup=False, highlight=False)
+        return
+    try:
+        if mother and father and not (mother_shows or father_shows):
+            text = format_cross(model.cross(mother, father))
+        elif mother_shows and father_shows and not (mother or father):
+            text = format_range(
+                model.cross_from_phenotypes(
+                    [t.strip() for t in mother_shows.split(",") if t.strip()],
+                    [t.strip() for t in father_shows.split(",") if t.strip()],
+                    true_breeding=true_breeding,
+                )
+            )
+        else:
+            _fail("give --mother and --father, or --mother-shows and --father-shows")
+            return
+    except ModelError as exc:
+        _fail(str(exc))
+        return
+    console.print(text, markup=False, highlight=False)
 
 
 if __name__ == "__main__":

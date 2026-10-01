@@ -4,9 +4,16 @@ BODY_COLOR
 
 Decreased iridophore throughout the body INCLUDING the iris and peritoneum. The inclusion of iris and peritoneum is what distinguishes panda from toumeirin.
 
+## Names
+
+- ja: パンダ (ぱんだ) [jma5; bv:0060]
+- ko: 판다 [bv:0060]
+- ko: 팬더 [bv:0060]
+
 ## Aliases
 
-- _none recorded_
+- 판다
+- 팬더
 
 ## Phenotypes
 
@@ -19,6 +26,14 @@ Decreased iridophore throughout the body INCLUDING the iris and peritoneum. The 
 | pnp4a | associated_with_gene | UNKNOWN (⚠ 1 contradicting) | Gene |
 | slc24a5 | associated_with_gene | QTL_GWAS_ASSOCIATION (⚠ 2 contradicting) | chr3 |
 | panda chr3 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr3:12,944,237-16,837,085, n=16, P=1.12e-16, 113 genes in interval |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | recessive | OBSERVATIONAL |
+| requires_allele | panda locus: pd | QTL_GWAS_ASSOCIATION |
+| masked by | albino | see that trait |
 
 ## Mechanism
 
@@ -60,6 +75,11 @@ Decreased iridophore throughout the body INCLUDING the iris and peritoneum. The 
   - Decreased iridophore throughout the body, including the iris and peritoneum.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → recessive
+  - Table 1 gives the hereditary mode of panda as "Recessive"; reported loci pnp4a (Kimura et al. 2017).
+  - _Table 1_
+
 ✗ **UNKNOWN** — Discovery of the novel iridophore mutant medaka 'panda (pa)' and identification of the ... (2024) — doi:10.22541/au.173204448.88130877/v1
   - putatively_same_as → panda (pa) lab mutant
   - A newly discovered laboratory iridophore mutant is also named "panda (pa)" and attributed to mpv17. It is a different mutant from the ornamental panda strain, is reported only in a preprint, and is not cited by the seed paper. Nothing in either source asserts that the two share a genetic background.
@@ -74,4 +94,4 @@ Decreased iridophore throughout the body INCLUDING the iris and peritoneum. The 
 - **Contradicted**: `associated_with_gene → slc24a5` has 2 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - **Contradicted**: `putatively_same_as → panda (pa) lab mutant` has 1 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 5 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, CONTRADICTORY_EVIDENCE, EVIDENCE_LEVEL_UNCLEAR, LOW_RESOLUTION_CONFIDENCE, NAME_COLLISION).
+- 7 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, CONTRADICTORY_EVIDENCE, EVIDENCE_LEVEL_UNCLEAR, LOW_RESOLUTION_CONFIDENCE, NAME_COLLISION).

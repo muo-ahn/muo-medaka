@@ -1,0 +1,256 @@
+# The genetic layer: inheritance modes, classical loci and their alleles, and
+# strains defined as combinations of traits. ADR 0006. Claims are in
+# 24-claims-inheritance.yaml.
+#
+# WHAT AN ALLELE IS HERE. A `GeneticVariant` that is the object of an
+# `allele_of` claim. Most carry a classical symbol (B/b, R/r, I/i) in `symbol`,
+# which is what a genotype is written in and what the cross query parses. The
+# wild-type allele of each locus is an entity too, with `variant_type: wild
+# type`, because dominance is a relation between two alleles and the cross query
+# needs both ends.
+#
+# SYMBOLS THAT ARE OURS. b, r, i and Da are the literature's own symbols. The
+# daruma, panda, nodorsalfin and RLF alleles have none -- no source names them,
+# and for daruma and panda the gene itself is unknown (Kon et al. 2026 reject
+# the earlier attributions). They are written d, pd, ndf, RLF with a `+` for the
+# wild type, and each such allele says so in its description. A symbol is a
+# handle, not a claim.
+#
+# NAMES. Entity ids are lower-cased slugs, so `B` and `b` would collide; allele
+# names spell the locus out instead ("b locus: B (wild type)").
+
+entities:
+  # --- Inheritance modes. InheritanceModeName in vocabulary.py is the closed set.
+  - label: InheritanceMode
+    name: recessive
+    description: >-
+      The phenotype shows only when both copies carry the allele (relative to the
+      wild type). Kon et al. 2026 Table 1 "Recessive".
+    labels:
+      - {text: recessive, lang: en, kind: PREFERRED, sources: [kon2026]}
+      - {text: 潜性, lang: ja, kind: PREFERRED, status: UNVERIFIED,
+         note: "The current term, paired with 顕性 the way himemedaka_rlf pairs 顕性 with 優性; no collected source prints 潜性 itself."}
+      - {text: 劣性, lang: ja, kind: SYNONYM, status: UNVERIFIED}
+      - {text: 열성, lang: ko, kind: PREFERRED, status: UNVERIFIED,
+         note: "Standard Korean genetics term; no breeder source collected prints it."}
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: InheritanceMode
+    name: dominant
+    description: The phenotype shows with one copy of the allele.
+    labels:
+      - {text: dominant, lang: en, kind: PREFERRED, sources: [himemedaka_rlf]}
+      - {text: 顕性, lang: ja, kind: PREFERRED, sources: [himemedaka_rlf]}
+      - {text: 優性, lang: ja, kind: SYNONYM, sources: [himemedaka_rlf],
+         note: "Printed by the source as the old term: 顕性遺伝（旧：優性遺伝子）."}
+      - {text: 우성, lang: ko, kind: PREFERRED, status: UNVERIFIED}
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: InheritanceMode
+    name: incompletely dominant
+    description: >-
+      The heterozygote is intermediate between the two homozygotes. Kon et al.
+      2026 Table 1 uses "Incomplete dominant" for daruma's dorsal fin.
+    labels:
+      - {text: incompletely dominant, lang: en, kind: PREFERRED, sources: [kon2026]}
+      - {text: 不完全優性, lang: ja, kind: PREFERRED, sources: [jma5],
+         note: "JMA Q46 uses the word when saying non-Mendelian traits still count as traits."}
+      - {text: 반우성, lang: ko, kind: PREFERRED, status: UNVERIFIED}
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: InheritanceMode
+    name: multilocus
+    description: >-
+      Inherited, but not as one Mendelian locus. Kon et al. 2026 Table 1
+      "Multilocus". The cross query refuses to predict a trait recorded only
+      this way.
+    labels:
+      - {text: multilocus, lang: en, kind: PREFERRED, sources: [kon2026]}
+      - {text: 다인자, lang: ko, kind: PREFERRED, status: UNVERIFIED}
+    review_reasons: [UNVERIFIED_LABEL]
+
+  - label: InheritanceMode
+    name: sex-linked
+    description: >-
+      Carried on the sex chromosomes. Medaka males are XY, with the
+      sex-determining gene dmy on the Y. A sex-linked medaka locus can carry an
+      allele on the Y as well as on the X -- the R allele of the d-rR strains
+      sits on the Y -- so which chromosome a male's allele is on is part of his
+      genotype.
+    labels:
+      - {text: sex-linked, lang: en, kind: PREFERRED, sources: [hayasaka2019]}
+      - {text: 伴性遺伝, lang: ja, kind: PREFERRED, status: UNVERIFIED}
+      - {text: 반성 유전, lang: ko, kind: PREFERRED, status: UNVERIFIED}
+    review_reasons: [UNVERIFIED_LABEL]
+
+  # --- Sex determination ------------------------------------------------------
+  - label: Gene
+    name: dmy
+    species: Oryzias latipes
+    symbol: dmy
+    description: >-
+      dmy / dmrt1bY, the Y-chromosomal sex-determining gene of medaka. In the
+      ontology only as the anchor that sex-linked loci are linked to.
+    labels:
+      - {text: dmrt1bY, lang: en, kind: SYNONYM, sources: [hayasaka2019]}
+
+  # --- The r locus. Gene unknown, so a Locus, not a Gene. --------------------
+  - label: Locus
+    name: r locus
+    description: >-
+      Classical medaka body-colour locus, responsible for xanthophore
+      differentiation; its protein is unidentified (sasano2012). Sex-linked: the
+      dominant R allele can sit on the Y (hayasaka2019). Not a GWAS interval, so
+      it has no coordinates.
+
+  # --- Loci without coordinates. The seed has no GWAS interval for these. ------
+  - label: Locus
+    name: Da locus
+    description: >-
+      The enhancer shared by zic1 and zic4 on chromosome 20, interrupted by the
+      transposon insertion of the laboratory Da mutant. A locus rather than
+      either gene, because the enhancer drives both (zic4 cannot be separated
+      from zic1 by Kon et al. 2026's data).
+
+  - label: Locus
+    name: nodorsalfin locus
+    description: >-
+      Wherever the nodorsalfin lesion lies. Kon et al. 2026 Table 1 cites lmbr1
+      (Letelier et al. 2018) for it without analysing the trait, so nothing here
+      asserts the gene; this entity holds the allele pair until a source does.
+
+  # --- Alleles ----------------------------------------------------------------
+  - label: GeneticVariant
+    name: "b locus: B (wild type)"
+    symbol: B
+    variant_type: wild type
+    description: Wild-type allele at b (slc45a2). Melanin is made.
+
+  - label: GeneticVariant
+    name: "b locus: b"
+    symbol: b
+    variant_type: loss of function
+    description: >-
+      The b allele of slc45a2, carried by himedaka. No melanin in the
+      melanophores of the body surface. fukamachi2001 cloned b; which of the b
+      alleles an ornamental strain carries is not recorded here.
+
+  - label: GeneticVariant
+    name: "r locus: R (wild type)"
+    symbol: R
+    variant_type: wild type
+    description: Wild-type allele at r. Xanthophores differentiate and colour.
+
+  - label: GeneticVariant
+    name: "r locus: r"
+    symbol: r
+    variant_type: loss of function
+    description: The r allele. No coloured xanthophores on the body surface.
+
+  - label: GeneticVariant
+    name: "i locus: I (wild type)"
+    symbol: I
+    variant_type: wild type
+    description: Wild-type allele at i (tyrosinase).
+
+  - label: GeneticVariant
+    name: "i locus: i (albino)"
+    symbol: i
+    variant_type: loss of function
+    description: >-
+      An albino allele of tyrosinase, the classical medaka i locus. Medaka has
+      more than one albino locus -- oca2 is another (see the oca2 entity) -- and
+      no ornamental albino strain here has been genotyped, so two albino strains
+      crossed together may complement each other. The cross query assumes both
+      parents carry this allele and says so.
+
+  - label: GeneticVariant
+    name: "Da locus: Da+ (wild type)"
+    symbol: Da+
+    variant_type: wild type
+    description: Wild-type zic1/zic4 enhancer.
+
+  - label: GeneticVariant
+    name: "daruma locus: d+ (wild type)"
+    symbol: d+
+    variant_type: wild type
+    description: Wild-type allele at the daruma chr4 interval. Symbol ours.
+
+  - label: GeneticVariant
+    name: "daruma locus: d"
+    symbol: d
+    description: >-
+      Whatever lesion in the chr4 GWAS interval underlies daruma (Kon et al.
+      2026). The gene is unknown -- the paper's own data argue against wnt4b --
+      so this allele is defined by the trait and the interval, not by a
+      sequence. Symbol ours.
+
+  - label: GeneticVariant
+    name: "panda locus: pd+ (wild type)"
+    symbol: pd+
+    variant_type: wild type
+    description: Wild-type allele at the panda chr3 interval. Symbol ours.
+
+  - label: GeneticVariant
+    name: "panda locus: pd"
+    symbol: pd
+    description: >-
+      The lesion in the chr3 GWAS interval underlying panda. Kon et al. 2026
+      reject the earlier pnp4a attribution and conclude a functionally unknown
+      gene in the interval is responsible. Symbol ours.
+
+  - label: GeneticVariant
+    name: "nodorsalfin locus: ndf+ (wild type)"
+    symbol: ndf+
+    variant_type: wild type
+    description: Wild-type allele at nodorsalfin's locus. Symbol ours.
+
+  - label: GeneticVariant
+    name: "nodorsalfin locus: ndf"
+    symbol: ndf
+    description: >-
+      The nodorsalfin allele. Kon et al. 2026 Table 1 names lmbr1 as its reported
+      locus (Letelier et al. 2018) without data of its own, so the allele's
+      identity with lmbr1 is held at UNKNOWN. Symbol ours.
+
+  - label: GeneticVariant
+    name: "reallongfin locus: rlf+ (wild type)"
+    symbol: rlf+
+    variant_type: wild type
+    description: Wild-type allele at the reallongfin chr17 interval. Symbol ours.
+
+  - label: GeneticVariant
+    name: "reallongfin locus: RLF"
+    symbol: RLF
+    description: >-
+      The reallongfin allele, in the chr17 GWAS interval (Kon et al. 2026; and2
+      nominated). RLF is the trade's own abbreviation for the trait
+      (himemedaka_rlf), reused as the allele symbol.
+
+  # --- Strains defined as combinations, `composed_of` -------------------------
+  # Only strains whose composition JMA itself prints and whose every part is a
+  # trait in this seed. The rest of the 356 collected strain names are an open
+  # decision (docs/handoff-breeder-vocabulary.md).
+  - label: Strain
+    name: seethrough
+    description: >-
+      Albino with the iridophores of eye, gills and belly also absent, so the
+      organs show through. JMA §3.8.10: the albino's missing melanophores and
+      panda's missing iridophores combined.
+    labels:
+      - {text: シースルー, lang: ja, kind: PREFERRED, sources: [jma5], vocab: [bv:0057]}
+      - {text: see-through, lang: en, kind: SYNONYM, status: UNVERIFIED,
+         note: "Our rendering of the katakana."}
+    review_reasons: [BREEDER_ACADEMIC_LINK, UNVERIFIED_LABEL]
+
+  - label: Strain
+    name: Hitomi
+    description: >-
+      The representative strain fixing suihougan, on a big-eye body: JMA §3.3.8
+      calls it ビックアイ水泡眼の「Hitomi（ひとみ）」. Not the JMA-registered strain
+      瞳 (No. 2, アルビノパンダ), which is read the same.
+    labels:
+      - {text: Hitomi, lang: ja-Latn, kind: PREFERRED, sources: [jma5], vocab: [bv:0238]}
+      - {text: ひとみ, lang: ja, kind: PREFERRED, sources: [jma5], vocab: [bv:0238],
+         note: "JMA prints the reading beside the Latin name. 瞳 (bv:0521) is a different strain."}
+    review_reasons: [BREEDER_ACADEMIC_LINK, NAME_COLLISION]

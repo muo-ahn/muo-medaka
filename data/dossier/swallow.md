@@ -4,6 +4,10 @@ FIN_MORPHOLOGY
 
 Some fin rays longer than wild type; fin membranes do NOT elongate. Membrane involvement is the discriminator from hirenaga.
 
+## Names
+
+- ja: スワロー (すわろー) [jma5; bv:0196]
+
 ## Aliases
 
 - _none recorded_

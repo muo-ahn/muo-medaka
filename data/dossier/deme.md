@@ -4,6 +4,10 @@ EYE_MORPHOLOGY
 
 Protrusion of the eyeballs from the skull caused by skeletal dysplasia of the head; the eyeballs themselves are not enlarged.
 
+## Names
+
+- ja: 出目 (でめ) [jma5; bv:0234]
+
 ## Aliases
 
 - _none recorded_

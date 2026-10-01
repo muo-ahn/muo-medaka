@@ -4,9 +4,16 @@ BODY_COLOR · composite class
 
 Body colour pattern with black spots. Declared by the source as a superset including sanshoku and kuroaka.
 
+## Names
+
+- ja: 黒斑 (くろぶち) [jma5; bv:0121]
+- ja: 斑 (ぶち) [jma5; bv:0118]
+- ko: 부치 [bv:0118]
+
 ## Aliases
 
-- _none recorded_
+- 斑
+- 부치
 
 ## Phenotypes
 

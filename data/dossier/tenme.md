@@ -1,15 +1,19 @@
-# tenme
+# tenme (スモールアイ)
 
 EYE_MORPHOLOGY
 
 Small pupil; small eyeballs in some cases.
+
+## Names
+
+- ja: スモールアイ (すもーるあい) [jma5; bv:0239]
+- ja: 点目 (てんめ) [bv:0240] UNVERIFIED
 
 ## Aliases
 
 - _none recorded_
 
 Unverified labels (no source; not usable as identifiers — PRD §2.4):
-- スモールアイ
 - 点目
 
 ## Phenotypes

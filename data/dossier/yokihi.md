@@ -4,9 +4,20 @@ BODY_COLOR
 
 Increased redness (orange) relative to yellow medaka; enhanced xanthophores, loss of normal melanophores.
 
+## Names
+
+- ja: 楊貴妃 (ようきひ) [jma5; bv:0135]
+- ja: 朱赤 (しゅあか) [jma5; bv:0018]
+- ko: 양귀비 [bv:0135]
+- ja-Latn: Youkihi [bv:0135]
+- ja-Latn: Yohkihi [bv:0135]
+
 ## Aliases
 
-- _none recorded_
+- 朱赤
+- 양귀비
+- Youkihi
+- Yohkihi
 
 ## Phenotypes
 

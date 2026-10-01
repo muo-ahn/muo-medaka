@@ -4,6 +4,10 @@ BODY_COLOR
 
 Ectopic iridophore expression throughout the muscle. Not GWAS-analysed.
 
+## Names
+
+- ja: 虹金 [no source] UNVERIFIED
+
 ## Aliases
 
 - _none recorded_

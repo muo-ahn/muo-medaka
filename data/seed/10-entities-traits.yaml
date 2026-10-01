@@ -461,7 +461,7 @@ entities:
       - {text: リアルロングフィン, lang: ja, kind: PREFERRED, reading: りあるろんぐふぃん, sources: [jma5], vocab: [bv:0201]}
       - {text: 리얼롱핀, lang: ko, kind: PREFERRED, vocab: [bv:0201]}
       - {text: 리얼 롱핀, lang: ko, kind: VARIANT, vocab: [bv:0201]}
-      - {text: RLF, lang: en, kind: SYNONYM, vocab: [bv:0201]}
+      - {text: RLF, lang: en, kind: SYNONYM, sources: [himemedaka_rlf], vocab: [bv:0201]}
     description: >-
       All fins longer than wild type; not only the fin rays but also the fin
       membranes are elongated.

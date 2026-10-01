@@ -4,9 +4,14 @@ BODY_SHAPE
 
 Mildly short body axis; longer than daruma, shorter than wild type. Not GWAS-analysed.
 
+## Names
+
+- ja: 半ダルマ (はんだるま) [jma5; bv:0184]
+- ko: 반달마 [bv:0184]
+
 ## Aliases
 
-- _none recorded_
+- 반달마
 
 ## Phenotypes
 

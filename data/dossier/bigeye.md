@@ -4,9 +4,14 @@ EYE_MORPHOLOGY
 
 Enlarged eyeballs that do NOT protrude from the skull. Clean contrast with deme, which is protrusion without enlargement.
 
+## Names
+
+- ja: ビッグアイ (びっぐあい) [jma5; bv:0236]
+- ja: ビックアイ (びっぐあい) [jma5; bv:0627]
+
 ## Aliases
 
-- _none recorded_
+- ビックアイ
 
 ## Phenotypes
 

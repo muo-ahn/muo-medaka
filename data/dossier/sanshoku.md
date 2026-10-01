@@ -4,9 +4,14 @@ BODY_COLOR
 
 Body partly white with both orange and black spots.
 
+## Names
+
+- ja: 三色 (さんしょく) [jma5; bv:0128]
+- ko: 삼색 [bv:0128]
+
 ## Aliases
 
-- _none recorded_
+- 삼색
 
 ## Phenotypes
 

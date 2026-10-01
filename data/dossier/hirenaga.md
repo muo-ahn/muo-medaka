@@ -4,9 +4,16 @@ FIN_MORPHOLOGY
 
 All five types of fin ray longer than wild type; fin membranes elongate partially.
 
+## Names
+
+- ja: ヒレ長 (ひれなが) [jma5; bv:0193]
+- ja: ヒレナガ (ひれなが) [bv:0625]
+- ko: 히레나가 [bv:0193]
+
 ## Aliases
 
-- _none recorded_
+- ヒレナガ
+- 히레나가
 
 ## Phenotypes
 

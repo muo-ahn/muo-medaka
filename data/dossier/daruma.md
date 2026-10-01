@@ -4,9 +4,22 @@ BODY_SHAPE
 
 Short body axis.
 
+## Names
+
+- ja: ダルマ (だるま) [jma5; bv:0183]
+- ja: ショートボディ [jma5; bv:0186]
+- ja: バルーンメダカ [jma5; bv:0187]
+- ja: 縮みメダカ [jma5; bv:0188]
+- ko: 다루마 [bv:0183]
+- ko: 달마 [bv:0183]
+
 ## Aliases
 
-- _none recorded_
+- ショートボディ
+- バルーンメダカ
+- 縮みメダカ
+- 다루마
+- 달마
 
 ## Phenotypes
 
@@ -18,6 +31,14 @@ Short body axis.
 |---|---|---|---|
 | wnt4b | associated_with_gene | UNKNOWN (⚠ 2 contradicting) | chr16 |
 | daruma chr4 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr4:775,070-6,879,644, n=6, P=9.61e-38, 211 genes in interval |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | incompletely dominant | OBSERVATIONAL |
+| inherited_as | recessive | OBSERVATIONAL |
+| requires_allele | daruma locus: d | QTL_GWAS_ASSOCIATION |
 
 ## Mechanism
 
@@ -49,6 +70,11 @@ Short body axis.
   - Short body axis.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → incompletely dominant
+  - Table 1 gives the hereditary mode of daruma as "Recessive, Incomplete dominant (dorsalfin)"; reported loci wnt4b (Inohaya et al. 2010).
+  - _Table 1_
+
 ✗ **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - putatively_same_as → fused centrum
   - The reported wnt4b mutation was found in at least two daruma individuals but does not appear to be the major cause; wnt4b is on chr16 while the daruma peak is on chr4.
@@ -68,4 +94,4 @@ Short body axis.
 - **Contradicted**: `associated_with_gene → wnt4b` has 2 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - **Contradicted**: `putatively_same_as → fused centrum` has 1 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 4 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, BROKEN_CITATION, CONTRADICTORY_EVIDENCE, EVIDENCE_LEVEL_UNCLEAR).
+- 7 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, BROKEN_CITATION, CONTRADICTORY_EVIDENCE, EVIDENCE_LEVEL_UNCLEAR).
