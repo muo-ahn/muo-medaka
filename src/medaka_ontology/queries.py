@@ -65,6 +65,7 @@ _TRAIT = """
 MATCH (t:OrnamentalTrait {id: $id})
 RETURN t.id AS id, t.name AS name, t.japanese_name AS japanese_name,
        t.aliases AS aliases, t.unverified_labels AS unverified_labels,
+       t.labels_display AS labels_display,
        t.description AS description, t.category AS category,
        t.is_composite AS is_composite,
        t.review_status AS review_status, t.review_reasons AS review_reasons

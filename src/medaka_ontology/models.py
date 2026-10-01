@@ -14,7 +14,7 @@ import unicodedata
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr, field_validator, model_validator
 
 from .vocabulary import (
     ENTITY_LABELS,
@@ -22,6 +22,8 @@ from .vocabulary import (
     LABEL_PREFIX,
     SYMMETRIC_PREDICATES,
     EvidenceLevel,
+    LabelKind,
+    LabelStatus,
     NodeLabel,
     Predicate,
     ReviewReason,
@@ -145,6 +147,69 @@ class Paper(_Record):
         return self
 
 
+#: BCP 47 shape: a 2-3 letter language, then optional script/region subtags.
+#: `ja`, `ja-Latn`, `ko`, `en`, `zh-Hant` all pass. ADR 0005: the ontology has
+#: no language restriction, but it does need to know which language a string is.
+_LANG_TAG = re.compile(r"^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$")
+_VOCAB_ID = re.compile(r"^bv:\d{4}$")
+
+
+class Label(_Record):
+    """One name of an entity, in one language, with its own provenance. ADR 0005.
+
+    The ontology places no restriction on language. A trait may be named in
+    Japanese, Korean, English or anything else, and in several at once; for an
+    ornamental strain the Japanese trade name is usually the original and the
+    others render it. What every label must carry is which language it is in and
+    who prints it -- a string with no source is kept, but as UNVERIFIED, so that
+    unsourced text never reads as sourced. PRD §2.4.
+    """
+
+    text: str
+    lang: str = Field(description="BCP 47 tag: ja, ja-Latn, ko, en ...")
+    kind: LabelKind = LabelKind.SYNONYM
+    reading: str | None = Field(
+        default=None,
+        description=(
+            "How the text is read, in kana for Japanese. Separate from `text` so an "
+            "exact search for 黄金 finds 黄金 while おうごん still tells it apart "
+            "from the GEX strain 黄金 (こがね)."
+        ),
+    )
+    status: LabelStatus = LabelStatus.ATTESTED
+    sources: list[str] = Field(
+        default_factory=list, description="Paper.key of each source printing the string"
+    )
+    vocab: list[str] = Field(
+        default_factory=list,
+        description="bv:NNNN rows of docs/research/breeder-vocabulary-2026-09.csv",
+    )
+    note: str | None = None
+
+    @model_validator(mode="after")
+    def _check(self) -> Label:
+        if not self.text.strip():
+            raise ValueError("label text is empty")
+        if not _LANG_TAG.match(self.lang):
+            raise ValueError(f"label {self.text!r}: {self.lang!r} is not a BCP 47 tag")
+        bad = [v for v in self.vocab if not _VOCAB_ID.match(v)]
+        if bad:
+            raise ValueError(f"label {self.text!r}: vocab ids must look like bv:0001, got {bad}")
+        if self.status is LabelStatus.ATTESTED and not (self.sources or self.vocab):
+            raise ValueError(
+                f"label {self.text!r} is ATTESTED but names no source or vocabulary row; "
+                "mark it UNVERIFIED instead. PRD §2.4."
+            )
+        return self
+
+    def display(self) -> str:
+        """`ja: 黄金 (おうごん) [jma5; bv:0016]`, the form the dossier prints."""
+        reading = f" ({self.reading})" if self.reading else ""
+        where = "; ".join([*self.sources, *self.vocab]) or "no source"
+        flag = "" if self.status is LabelStatus.ATTESTED else " UNVERIFIED"
+        return f"{self.lang}: {self.text}{reading} [{where}]{flag}"
+
+
 class Entity(_Record):
     """Any node that can be the subject or object of a claim. PRD §3."""
 
@@ -164,7 +229,17 @@ class Entity(_Record):
             "so unsourced text never masquerades as sourced. PRD §2.4."
         ),
     )
+    labels: list[Label] = Field(
+        default_factory=list,
+        description=(
+            "Names in any language, each with its own source. ADR 0005. When set, "
+            "japanese_name, aliases and unverified_labels are derived from it."
+        ),
+    )
     description: str | None = None
+    # Set once `labels` has been folded into the older name fields; see
+    # `_derive_from_labels`.
+    _labels_derived: bool = PrivateAttr(default=False)
     # OrnamentalTrait
     category: TraitCategory | None = None
     japanese_name: str | None = Field(
@@ -240,6 +315,63 @@ class Entity(_Record):
         if isinstance(value, int):
             return str(value)
         return value
+
+    @model_validator(mode="after")
+    def _derive_from_labels(self) -> Entity:
+        """Fill the three older name fields from `labels`. ADR 0005.
+
+        Every read path -- dossier, lexicon, resolution, full-text search -- knows
+        `japanese_name`, `aliases` and `unverified_labels`. Deriving them keeps
+        those paths working while `labels` is the one place a name is written.
+        Writing both for one entity would be two sources of truth, so it is an
+        error rather than a merge.
+
+        Pydantic runs after-validators again when an already-built Entity is
+        passed into a SeedBundle, so the fold must be idempotent: the second run
+        would otherwise see its own output as a hand-written japanese_name.
+        """
+        if not self.labels or self._labels_derived:
+            return self
+        if self.japanese_name is not None or self.unverified_labels:
+            raise ValueError(
+                f"{self.name}: write names in `labels` only; japanese_name and "
+                "unverified_labels are derived from it"
+            )
+        preferred: dict[str, Label] = {}
+        for lab in self.labels:
+            if lab.kind is LabelKind.PREFERRED:
+                if lab.lang in preferred:
+                    raise ValueError(
+                        f"{self.name}: two PREFERRED labels in {lab.lang!r}: "
+                        f"{preferred[lab.lang].text!r} and {lab.text!r}"
+                    )
+                preferred[lab.lang] = lab
+        seen: set[tuple[str, str]] = set()
+        for lab in self.labels:
+            key = (lab.lang, lab.text)
+            if key in seen:
+                raise ValueError(f"{self.name}: label {lab.text!r} ({lab.lang}) appears twice")
+            seen.add(key)
+        ja = preferred.get("ja")
+        if ja is not None and ja.status is LabelStatus.ATTESTED:
+            self.japanese_name = ja.text
+        aliases = list(self.aliases)
+        for lab in self.labels:
+            if lab.status is LabelStatus.ATTESTED:
+                if lab is not ja and lab.text not in aliases:
+                    aliases.append(lab.text)
+            elif lab.text not in self.unverified_labels:
+                self.unverified_labels.append(lab.text)
+        self.aliases = aliases
+        self._labels_derived = True
+        return self
+
+    @property
+    def japanese_reading(self) -> str | None:
+        for lab in self.labels:
+            if lab.lang == "ja" and lab.kind is LabelKind.PREFERRED:
+                return lab.reading
+        return None
 
     @model_validator(mode="after")
     def _check(self) -> Entity:
@@ -440,6 +572,7 @@ __all__ = [
     "Entity",
     "EntityRef",
     "Evidence",
+    "Label",
     "Paper",
     "SeedBundle",
     "claim_id",

@@ -7,10 +7,28 @@ that drops one side of a contradiction, would pass every other test in this suit
 
 from __future__ import annotations
 
+import csv
+import re
+import unicodedata
+from pathlib import Path
+
 import pytest
 
 from medaka_ontology.loader import load_dir
-from medaka_ontology.vocabulary import EvidenceLevel, Predicate, ReviewReason, Stance
+from medaka_ontology.vocabulary import (
+    EvidenceLevel,
+    LabelStatus,
+    Predicate,
+    ReviewReason,
+    Stance,
+)
+
+SURVEY = (
+    Path(__file__).resolve().parents[1] / "docs" / "research" / "breeder-vocabulary-2026-09.csv"
+)
+#: Only the JMA 5th-edition manual is a paper in the seed; its rows are the ones
+#: whose source_urls carry this fragment of the manual's file name.
+JMA5_URL_FRAGMENT = "250901_"
 
 STRONG = {EvidenceLevel.CAUSAL_VARIANT, EvidenceLevel.FUNCTIONAL_VALIDATION}
 
@@ -37,13 +55,98 @@ def test_every_paper_is_traceable(bundle):
         assert paper.doi or paper.pmid or paper.pmcid or paper.url
 
 
-def test_japanese_labels_are_never_recorded_as_sourced(bundle):
-    """`aliases` reads as sourced, so no Japanese string may sit there. The
-    literature romanizes throughout, which makes every kanji form derived from it
-    our reconstruction; `unverified_labels` is where reconstruction goes."""
+def test_a_label_without_a_verifying_source_carries_the_flag(bundle):
+    """Replaces the 2026-09 rule that no Japanese string may sit in `aliases`.
+
+    That rule existed because `aliases` read as sourced while every Japanese
+    string was our reconstruction from a romanising paper. Labels (ADR 0005) put
+    the status on the string itself, and the survey in docs/research/ attests
+    most of the Japanese, so a blanket ban on non-ASCII aliases no longer says
+    anything true. What still has to hold is the PRD §2.4 direction: any label
+    that is not ATTESTED makes its entity carry UNVERIFIED_LABEL, and an
+    ATTESTED one names a source or a survey row (the model enforces that too,
+    checked here against the loaded data rather than only on construction).
+    """
+    saw_unverified = False
     for entity in bundle.entities:
-        for alias in entity.aliases:
-            assert alias.isascii(), f"{entity.name}: {alias!r} claims a source it lacks"
+        for lab in entity.labels:
+            if lab.status is LabelStatus.ATTESTED:
+                assert lab.sources or lab.vocab, f"{entity.name}: {lab.text!r}"
+            else:
+                saw_unverified = True
+                assert ReviewReason.UNVERIFIED_LABEL in entity.review_reasons, (
+                    f"{entity.name}: {lab.text!r} is UNVERIFIED but the entity is not flagged"
+                )
+                assert lab.text in entity.unverified_labels, entity.name
+    assert saw_unverified, "vacuous while every label is attested"
+
+
+def _fold(text: str) -> str:
+    """NFKC, katakana to hiragana, no spaces, dots or brackets, lower case."""
+    t = unicodedata.normalize("NFKC", text).lower()
+    t = "".join(chr(ord(c) - 0x60) if "ァ" <= c <= "ヶ" else c for c in t)
+    return re.sub(r"[\s・･　()（）\-/,;]", "", t)
+
+
+@pytest.fixture(scope="module")
+def survey():
+    with SURVEY.open(encoding="utf-8-sig") as fh:
+        return {row["id"]: row for row in csv.DictReader(fh)}
+
+
+def _row_prints(row: dict, lab) -> bool:
+    """Does this survey row print the label's string, in the label's language?
+
+    Japanese: the row's term, its reading or a listed variant (a Hitomi label in
+    kana matches the row's reading), or -- for a string that has no row of its
+    own, 赤黒 (R-31) -- its definition or notes. Korean and English: the row's own
+    rendering. The test is whether the string the seed claims a source for is the
+    one the source row carries, which is what an id that merely exists would not
+    show.
+    """
+    want = _fold(lab.text)
+    if lab.lang.startswith("ja"):
+        own = [row["term_ja"], row["reading"], *re.split(r"[;,、]", row["variants"])]
+        if lab.lang == "ja-Latn":
+            own.append(row["term_en"])
+        if any(want == _fold(re.sub(r"[（(].*?[）)]", "", c)) for c in own if c):
+            return True
+        if any(want in _fold(c) for c in (row["term_ja"], row["term_en"]) if c):
+            return True
+        return want in _fold(row["definition"] + row["notes"])
+    column = "term_ko" if lab.lang.startswith("ko") else "term_en"
+    return want in _fold(row[column])
+
+
+def test_every_label_matches_the_survey_row_it_cites(bundle, survey):
+    """AC-3. A `vocab` id has to exist, print the label's string, and -- for the
+    JMA manual -- a `jma5` source has to be one the row actually lists. Fixes the
+    failure the first pass could not see: 'Daタイプ on the wrong entity' was a
+    correct id attached to the wrong thing, and a bare existence check passes it.
+    """
+    cited = 0
+    for entity in bundle.entities:
+        for lab in entity.labels:
+            if "jma5" in lab.sources and lab.vocab:
+                assert any(
+                    JMA5_URL_FRAGMENT in survey[v]["source_urls"] for v in lab.vocab if v in survey
+                ), f"{entity.name}: {lab.text!r} cites jma5 but no cited row lists the manual"
+            for vid in lab.vocab:
+                assert vid in survey, f"{entity.name}: {lab.text!r} cites unknown {vid}"
+                cited += 1
+            if lab.vocab:
+                assert any(_row_prints(survey[v], lab) for v in lab.vocab), (
+                    f"{entity.name}: no cited row {lab.vocab} prints {lab.text!r} ({lab.lang})"
+                )
+    assert cited > 50, "vacuous while few labels cite the survey"
+
+
+def test_label_sources_are_papers_in_the_seed(bundle):
+    keys = {p.key for p in bundle.papers}
+    for entity in bundle.entities:
+        for lab in entity.labels:
+            for key in lab.sources:
+                assert key in keys, f"{entity.name}: {lab.text!r} cites unknown paper {key!r}"
 
 
 def test_japanese_name_requires_breeder_academic_link(bundle):

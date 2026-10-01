@@ -39,7 +39,7 @@ from .models import PIPELINE_VERSION, Claim, Entity, Paper, SeedBundle
 from .vocabulary import NodeLabel, ReviewStatus, Stance
 
 #: Fields handled explicitly by the Cypher below rather than copied as properties.
-_ENTITY_SKIP = {"label", "review_status", "review_reasons"}
+_ENTITY_SKIP = {"label", "review_status", "review_reasons", "labels"}
 _PAPER_SKIP = {"key", "review_reasons"}
 
 
@@ -150,15 +150,54 @@ def ingest_paper(session: Session, paper: Paper, now: datetime) -> str:
     return paper.id
 
 
-def ingest_entity(session: Session, entity: Entity, now: datetime) -> str:
+# One node per name, ADR 0005, so a synonym can point at the source that prints
+# it. Keyed on the entity, language and text: the same string in two languages,
+# or on two entities, is two labels.
+_MERGE_LABEL = """
+MATCH (n:%(label)s {id: $entity_id})
+MERGE (l:Label {id: $id})
+ON CREATE SET l.created_at = $now
+SET l += $props, l.updated_at = $now
+MERGE (l)-[:LABEL_OF]->(n)
+WITH l
+UNWIND $paper_ids AS pid
+MATCH (p:Paper {id: pid})
+MERGE (l)-[:ATTESTED_BY]->(p)
+"""
+
+
+def label_id(entity_id: str, lang: str, text: str) -> str:
+    from .models import content_digest
+
+    return f"label:{content_digest(entity_id, lang, text)}"
+
+
+def ingest_entity(
+    session: Session, entity: Entity, now: datetime, paper_ids: dict[str, str] | None = None
+) -> str:
+    props = _props(entity, _ENTITY_SKIP)
+    if entity.labels:
+        # Flat copies for the read paths that predate Label nodes.
+        props["labels_display"] = [lab.display() for lab in entity.labels]
+        if entity.japanese_reading:
+            props["japanese_reading"] = entity.japanese_reading
     session.run(
         _MERGE_ENTITY % {"label": entity.label.value},
         id=entity.id,
-        props=_props(entity, _ENTITY_SKIP),
+        props=props,
         review_status=entity.review_status.value,
         review_reasons=[r.value for r in entity.review_reasons],
         now=now,
     )
+    for lab in entity.labels:
+        session.run(
+            _MERGE_LABEL % {"label": entity.label.value},
+            entity_id=entity.id,
+            id=label_id(entity.id, lab.lang, lab.text),
+            props=_props(lab, {"sources"}),
+            paper_ids=[paper_ids[k] for k in lab.sources if paper_ids and k in paper_ids],
+            now=now,
+        )
     return entity.id
 
 
@@ -228,7 +267,7 @@ def ingest_bundle(session: Session, bundle: SeedBundle) -> IngestReport:
         report.papers += 1
 
     for entity in bundle.entities:
-        ingest_entity(session, entity, now)
+        ingest_entity(session, entity, now, paper_ids)
         report.entities += 1
 
     for claim in bundle.claims:

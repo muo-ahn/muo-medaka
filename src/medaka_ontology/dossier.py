@@ -110,6 +110,13 @@ def render_trait(session: Session, name: str) -> str:
     if trait.get("description"):
         lines += [trait["description"], ""]
 
+    # -- Names ---------------------------------------------------------------
+    # Every name with its language, reading and source (ADR 0005). Written from the
+    # flat `labels_display` copy on the node, so a graph loaded before labels
+    # existed simply has no section.
+    if trait.get("labels_display"):
+        lines += ["## Names", "", *[f"- {label}" for label in trait["labels_display"]], ""]
+
     # -- Aliases -------------------------------------------------------------
     lines += ["## Aliases", ""]
     if trait.get("aliases"):

@@ -5,14 +5,13 @@
 # vocabulary at the strains its 181 fish happened to cover; the hobby did not stop
 # there.
 #
-# ORTHOGRAPHY, INVERTED. Every trait in 10-entities-traits.yaml carries its
-# Japanese string in `unverified_labels`, because the seed paper romanises
-# throughout and the kanji are our reconstruction. Here the relation runs the
-# other way: the sources are Japanese and print カガミ鱗 and フサヒレ directly,
-# while the romanisation is ours. So the Japanese goes in `japanese_name` where it
-# is attested, and these are the first traits in the ontology entitled to that
-# field. The romanised `name` remains the identifier for consistency with the rest
-# of the graph -- it is not claimed to be anybody's spelling.
+# NAMES. The sources here are Japanese and print カガミ鱗 and フサヒレ directly,
+# while the romanisation is ours: the Japanese is the attested PREFERRED label and
+# the romanised `name` is only the identifier, kept for consistency with the rest
+# of the graph -- it is not claimed to be anybody's spelling. (Until 2026-09 these
+# were the only traits entitled to a Japanese name; the survey in
+# docs/research/breeder-vocabulary-2026-09.md extended it to the Kon traits in
+# 10-entities-traits.yaml, and ADR 0005 moved all of it to `labels`.)
 #
 # NAMING HAZARD. `longfin` already exists here as Kon et al.'s "six fins, all but
 # the caudal, longer than wild type". The hobby's ロングフィン is a different unit
@@ -25,13 +24,14 @@ entities:
   - label: OrnamentalTrait
     name: kagamirin
     category: SCALE
-    japanese_name: カガミ鱗
     # AC-6 (spec, 2026-09-29): checked against the JMA 5th ed. manual
     # (01-sources-breeder.yaml, `jma5`) now that it has been read in full.
     # カガミ鱗 does not appear anywhere in it -- no trait section, and no hit in
     # a full-text search of the extracted manual. The CSV survey's own source for
     # this term is piscesbook, not JMA (bv:0256). This trait's evidence stays
     # exactly what it was below: swampcreek_kagamirin and medakayaen_ryuurin.
+    labels:
+      - {text: カガミ鱗, lang: ja, kind: PREFERRED, sources: [swampcreek_kagamirin, medakayaen_ryuurin], vocab: [bv:0256]}
     description: >-
       Scales markedly larger than wild type, arranged in an orderly lateral row
       and bilaterally symmetric. Named for the mirror scale of carp. Distinct in
@@ -44,11 +44,13 @@ entities:
   - label: OrnamentalTrait
     name: fusahire
     category: FIN_MORPHOLOGY
-    japanese_name: フサヒレ
     # The sources print katakana throughout. 房ヒレ is the kanji form the trait is
     # also known by and which gives the romanisation its reading, but no source we
     # hold actually writes it, so it cannot sit beside an attested label.
-    unverified_labels: ["房ヒレ"]
+    labels:
+      - {text: フサヒレ, lang: ja, kind: PREFERRED, reading: ふさひれ, sources: [jma5], vocab: [bv:0217]}
+      - {text: 房ヒレ, lang: ja, kind: SYNONYM, status: UNVERIFIED, note: "The kanji the trait is also known by; no source we hold writes it."}
+      - {text: 후사히레, lang: ko, kind: PREFERRED, vocab: [bv:0217]}
     description: >-
       Elongated dorsal and anal fin rays that branch, with guanine collecting on
       the branches to give a white feathery fringe. A third mode on an axis the
