@@ -5,9 +5,10 @@ Run from anywhere:
     python audit_vocab.py <repo-root> [<out.csv>]
 
 Reads the two CSVs under docs/research/ and the seed YAML, prints a report and
-writes one row per finding. It changes no data: every fix lives in the seed or
-in the second-pass rulings, so a finding and the decision taken on it stay
-separable.
+writes one row per finding to <out.csv>, by default
+<repo-root>/docs/research/vocabulary-audit-2026-10.csv (never the cwd). It
+changes no data: every fix lives in the seed or in the second-pass rulings, so
+a finding and the decision taken on it stay separable.
 
 Checks, the three the 2026-10 job asked for:
 
@@ -36,7 +37,7 @@ ROOT = Path(sys.argv[1])
 TERMS = ROOT / "docs/research/breeder-vocabulary-2026-09.csv"
 RELS = ROOT / "docs/research/breeder-vocabulary-relations-2026-09.csv"
 SEED = ROOT / "data/seed"
-OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "vocabulary-audit.csv"
+OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "docs/research/vocabulary-audit-2026-10.csv"
 
 _HIRA = {chr(c): chr(c + 0x60) for c in range(0x3041, 0x3097)}
 

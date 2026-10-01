@@ -341,7 +341,7 @@ def test_inferred_evidence_cites_the_literature_and_explains_itself(bundle):
             p = papers[e.paper]
             assert p.doi or p.pmid or p.pmcid, f"{claim.id}: INFERRED cites a non-literature source"
             assert e.experiment_type == "inference"
-        assert any(e.level is EvidenceLevel.INFERRED for e in claim.evidence)
+        assert (claim.interpretation or "").strip(), f"{claim.id}: INFERRED, no interpretation"
 
 
 def test_every_locus_has_two_alleles_and_exactly_one_wild_type(model):

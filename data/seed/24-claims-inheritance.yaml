@@ -371,14 +371,18 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "i locus: I (wild type)"}
     object: {label: Gene, name: tyr}
+    interpretation: >-
+      A wild-type allele belongs to its locus by definition; no source writes
+      the sentence, so it is ours. koga1995 shows i is a mutant allele of tyr, so
+      the wild-type allele it is a mutant of, I, is an allele of the same gene.
     evidence:
       - paper: koga1995
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          i is a mutant allele of tyr (koga1995), so the wild-type allele it
-          is a mutant of, I, is an allele of the same gene.
+          Insertion of a novel transposable element into the tyrosinase gene
+          is responsible for an albino mutation in medaka.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
@@ -400,15 +404,17 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "Da locus: Da+ (wild type)"}
     object: {label: Locus, name: Da locus}
+    interpretation: >-
+      The Da allele is an insertion in the zic1/zic4 enhancer, so the wild-type
+      enhancer it interrupts is the other allele of the same locus. No source
+      writes the sentence, so it is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          The Da allele is an insertion in the zic1/zic4 enhancer, so the
-          wild-type enhancer it interrupts is the other allele of the same
-          locus.
+          The insertion was confirmed in all 35 hikari individuals.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "daruma locus: d"}
@@ -430,15 +436,19 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "daruma locus: d+ (wild type)"}
     object: {label: Locus, name: daruma chr4 interval}
+    interpretation: >-
+      d is the allele at the daruma chr4 interval that causes daruma, so the
+      allele of the non-daruma fish at the same interval is its wild-type
+      counterpart. No source writes the sentence, so it is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          d is the allele at the daruma chr4 interval that causes daruma, so
-          the allele of the non-daruma fish at the same interval is its
-          wild-type counterpart.
+          Association on chromosome 4, 775,070-6,879,644, from 6 daruma
+          individuals; best P = 9.61E-38; 211 genes in the interval and no
+          candidate gene nominated.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "panda locus: pd"}
@@ -460,15 +470,18 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "panda locus: pd+ (wild type)"}
     object: {label: Locus, name: panda chr3 interval}
+    interpretation: >-
+      pd is the allele at the panda chr3 interval that causes panda, so the
+      allele of the non-panda fish at the same interval is its wild-type
+      counterpart. No source writes the sentence, so it is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          pd is the allele at the panda chr3 interval that causes panda, so
-          the allele of the non-panda fish at the same interval is its
-          wild-type counterpart.
+          Association on chromosome 3, 12,944,237-16,837,085, from 16 panda
+          individuals; best P = 1.12E-16; 113 genes in the interval.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "nodorsalfin locus: ndf"}
@@ -489,14 +502,18 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "nodorsalfin locus: ndf+ (wild type)"}
     object: {label: Locus, name: nodorsalfin locus}
+    interpretation: >-
+      ndf is the allele that causes nodorsalfin, so the allele of fish with a
+      dorsal fin at the same locus is its wild-type counterpart. No source
+      writes the sentence, so it is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          ndf is the allele that causes nodorsalfin, so the allele of fish
-          with a dorsal fin at the same locus is its wild-type counterpart.
+          Table 1 names lmbr1 (Letelier et al. 2018) as the reported locus of
+          nodorsalfin; the paper did not analyse the trait.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "reallongfin locus: RLF"}
@@ -516,15 +533,18 @@ claims:
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "reallongfin locus: rlf+ (wild type)"}
     object: {label: Locus, name: reallongfin chr17 interval}
+    interpretation: >-
+      RLF is the allele at the reallongfin chr17 interval that causes the trait,
+      so the allele of normal-finned fish at the same interval is its wild-type
+      counterpart. No source writes the sentence, so it is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
         level: INFERRED
         species: Oryzias latipes
         finding: >-
-          RLF is the allele at the reallongfin chr17 interval that causes the
-          trait, so the allele of normal-finned fish at the same interval is
-          its wild-type counterpart.
+          Association on chromosome 17, 26,828,411-31,743,217, from 8
+          reallongfin individuals; best P = 1.10E-33; 197 genes.
 
   # ---------------------------------------------------------------------------
   # dominant_over -- B and R from sasano2012's Methods (stated). I, Da+, d+, pd+ and
@@ -848,6 +868,10 @@ claims:
   - predicate: requires_allele
     subject: {label: OrnamentalTrait, name: nodorsalfin}
     object: {label: GeneticVariant, name: "nodorsalfin locus: ndf"}
+    interpretation: >-
+      Table 1 calls the trait Recessive, so it is the homozygote of one allele
+      at the locus Table 1 attributes to it. The paper states the mode, not the
+      genotype; the reading is ours.
     evidence:
       - paper: kon2026
         experiment_type: inference
@@ -855,8 +879,7 @@ claims:
         species: Oryzias latipes
         finding: >-
           Table 1 lists nodorsalfin as Recessive with lmbr1 (Letelier et al.
-          2018) as the reported locus, so the trait is the homozygote of one
-          allele at that locus.
+          2018) as the reported locus.
 
   - predicate: requires_allele
     subject: {label: OrnamentalTrait, name: reallongfin}
