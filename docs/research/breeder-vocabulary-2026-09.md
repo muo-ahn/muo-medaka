@@ -1,5 +1,11 @@
 # 개량 메다카 브리딩 용어 목록과 용어 간 매핑 (2026-09)
 
+> **2차 정제 (2026-10).** 이 문서의 1차 결과를 기계로 다시 읽어 잘못된 병합 5건(ブラック=オロチ, akabuchi→白朱赤,
+> hikari/Da mutant 의 Daタイプ, 사슬로 이어진 충돌 2쌍), 흩어진 동의어 1건, 표기 문제를 고쳤다. 관계 표와 seed 대응표가
+> 그에 맞게 바뀌었다(seed 대응: 대응 32, 이름만 충돌 1, lab only 9, no match found 3). 발견·판정·근거 번호는
+> [vocabulary-audit-2026-10.md](vocabulary-audit-2026-10.md), 감사 스크립트는 `scripts/vocab/audit_vocab.py`.
+> 이 문서의 "ontology에 들어간 것은 없다"는 1차 시점의 서술이고, 라벨은 이후 seed 의 `labels` 로 들어갔다(ADR 0005).
+
 **Status: 수집·매핑·출처 검증(AC-6) 완료. ontology에 들어간 것은 없다.** seed YAML은 건드리지
 않았다. 이 문서는 요약이고, 행 단위 자료는 같은 폴더의 CSV 두 개에 있다.
 
@@ -109,7 +115,7 @@
 ## seed 대응표
 
 seed OrnamentalTrait 45개 전부. 관계는 관계 표에 `object_id = seed:<name>`으로 들어 있다.
-상태: 대응 34, 이름만 충돌 1, lab only 8, no match found 2.
+상태: 대응 32, 이름만 충돌 1, lab only 9, no match found 3. (2026-10 2차 정제로 akabuchi 는 no match found, Da mutant 는 lab only 로 바뀌었다 — vocabulary-audit-2026-10.md)
 
 | seed trait | 상태 | 업계 용어 (id, 관계) | seed 라벨 | 라벨 대조 |
 |---|---|---|---|---|
@@ -117,7 +123,7 @@ seed OrnamentalTrait 45개 전부. 관계는 관계 표에 `object_id = seed:<na
 | aurora | 대응 | オーロラ (bv:0052, seed_match); 半透明鱗 (bv:0051, seed_match) | オーロラ | 일치 (단 계통명·형질명 동음) |
 | sanshoku | 대응 | 三色 (bv:0128, seed_match) | 三色 | 일치 |
 | kurobuchi | 대응 | 黒斑 (bv:0121, seed_match); 斑 (bv:0118, seed_match) | 黒斑 | 일치 — JMA 후리가나 くろぶち로 로마자 kurobuchi 확인 |
-| akabuchi | 대응 | 白朱赤 (bv:0023, seed_match) | 赤斑 | 불일치 — 赤斑은 업계 표기로 확인 안 됨. 비슷한 朱赤斑(しゅあかぶち)은 朱赤 바탕에 흑반(斑)이라 뜻이 다름 |
+| akabuchi | no match found | 업계 용어 없음 (白朱赤·紅白은 하위 형질 kouhaku 의 이름) | 赤斑 | 불일치 — 赤斑은 업계 표기로 확인 안 됨. 비슷한 朱赤斑(しゅあかぶち)은 朱赤 바탕에 흑반(斑)이라 뜻이 다름 |
 | blackrim | 대응 | ブラックリム (bv:0123, seed_match) | — | 라벨 없음 |
 | yellow | 대응 | 黄 (bv:0003, seed_match); ヒメダカ (bv:0004, seed_match) | ヒメダカ, 黄 | 일치 |
 | YWKo | no match found | 업계 용어 없음 (Kon의 분석용 합성 클래스: 黄·白·紅白) | — | 라벨 없음 |
@@ -129,13 +135,13 @@ seed OrnamentalTrait 45개 전부. 관계는 관계 표에 `object_id = seed:<na
 | rame | 대응 | ラメ (bv:0062, seed_match) | ラメ | 일치 |
 | kouhaku | 대응 | 紅白 (bv:0124, seed_match); 白朱赤 (bv:0023, seed_match) | 紅白 | 일치 |
 | kuroaka | 대응 | 黒オレンジ (bv:0025, seed_match) | 黒赤 | 불일치 — 黒赤 표기 미확인, 업계는 赤黒 순서 |
-| fukumaku | 대응 | 腹膜青 (bv:0034, seed_match); 腹膜光 (bv:0098, seed_match) | 腹膜 | 불일치 — 腹膜은 해부 부위명이고 형질명은 腹膜青 또는 腹膜光 |
+| fukumaku | 대응 | 腹膜青 (bv:0034, seed_match); 腹膜光 (bv:0098, collides_with) | 腹膜 | 불일치 — 腹膜은 해부 부위명이고 형질명은 腹膜青 또는 腹膜光 |
 | yokihi | 대응 | 楊貴妃 (bv:0135, seed_match); 朱赤 (bv:0018, seed_match) | 楊貴妃 | 일치 |
 | gold | 대응 | 黄金 (bv:0016, seed_match) | — | 라벨 없음 — 붙일 때 黄金(こがね) 품종과 충돌 주의 |
 | toumeirin | 대응 | 透明鱗 (bv:0046, seed_match) | 透明鱗 | 일치 |
 | albino | 대응 | アルビノ (bv:0058, seed_match) | アルビノ | 일치 |
 | nijikin | no match found | 대응 용어 못 찾음 (가장 가까운 후보: 全身体内光, 추론·약함) | 虹金 | 불일치 — 虹金은 어떤 출처에도 없음 |
-| hikari | 대응 | ヒカリ (bv:0178, seed_match) | 光 | 불일치 — 업계는 ヒカリ. 한자 光는 광택 축(体外光 등)과 충돌 |
+| hikari | 대응 | ヒカリ (bv:0178, seed_match); Daタイプ (bv:0179, seed_match) | 光 | 불일치 — 업계는 ヒカリ. 한자 光는 광택 축(体外光 등)과 충돌 |
 | daruma | 대응 | ダルマ (bv:0183, seed_match) | ダルマ | 일치 |
 | handaruma | 대응 | 半ダルマ (bv:0184, seed_match) | 半ダルマ | 일치 |
 | hirenaga | 대응 | ヒレ長 (bv:0193, seed_match) | ヒレ長 | 일치 |
@@ -147,7 +153,7 @@ seed OrnamentalTrait 45개 전부. 관계는 관계 표에 `object_id = seed:<na
 | bigeye | 대응 | ビッグアイ (bv:0236, seed_match) | — | 라벨 없음 |
 | tenme | 대응 | スモールアイ (bv:0239, seed_match); 点目 (bv:0240, seed_match) | 天眼 | 불일치 — 天眼은 어떤 출처에도 없음. 天眼은 てんがん으로 읽혀 tenme가 안 됨. 頂点眼(위를 향한 눈)과도 다름 |
 | suihougan | 대응 | 水泡眼 (bv:0237, seed_match) | 水泡眼 | 일치 |
-| Da mutant | 대응 | Daタイプ (bv:0179, seed_match); ヒカリ (bv:0178, seed_match) | — | 라벨 없음 |
+| Da mutant | lab only | lab only (업계의 Daタイプ 는 hikari 의 표기; 둘의 관계는 seed 의 putatively_same_as) | — | — |
 | guanineless | lab only | lab only | — | — |
 | few melanophore | lab only | lab only | — | — |
 | leucophore free | lab only | lab only | — | — |

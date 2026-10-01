@@ -46,11 +46,20 @@ check("AC-3 relation in closed set", [r["relation"] for r in R if r["relation"] 
 
 
 def basis_ok(b):
+    """source:/inferred: carry the evidence. The 2026-10 second pass adds two
+    annotations that may ride along but never stand alone: revised: (which
+    ruling changed the edge) and disputed: (sources disagree on it)."""
     parts = [p.strip() for p in b.split(" | ")]
-    return parts and all(re.match(r"source:https?://\S+", p) or re.match(r"inferred:\S", p) for p in parts)
+    evidence = [p for p in parts if re.match(r"source:https?://\S+", p) or re.match(r"inferred:\S", p)]
+    notes = [p for p in parts if re.match(r"(revised|disputed):\S", p)]
+    return bool(evidence) and len(evidence) + len(notes) == len(parts)
 
 
 check("AC-3 basis non-empty and source:/inferred:", [r["subject_id"] for r in R if not basis_ok(r["basis"])], len(R))
+collide = {frozenset((r["subject_id"], r["object_id"])) for r in R if r["relation"] == "collides_with"}
+check("2nd pass: a same_as on a colliding pair is marked disputed:",
+      [f'{r["subject_id"]}~{r["object_id"]}' for r in R if r["relation"] == "same_as"
+       and frozenset((r["subject_id"], r["object_id"])) in collide and "disputed:" not in r["basis"]], len(R))
 check("AC-3 subject_id exists", [r["subject_id"] for r in R if r["subject_id"] not in ids], len(R))
 check("AC-3 object_id exists / seed / blank",
       [r["object_id"] for r in R if r["object_id"] and r["object_id"] not in ids

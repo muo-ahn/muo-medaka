@@ -2,7 +2,7 @@
  "rows_in": 711,
  "terms": 628,
  "merged_groups": 86,
- "rels": 967,
+ "rels": 963,
  "unresolved_rel_rows": 111,
  "dropped": {
   "contrasts": 146,
@@ -112,10 +112,10 @@
   ]
  ],
  "seed_status": {
-  "M": 34,
-  "N": 2,
+  "M": 32,
+  "N": 3,
   "C": 1,
-  "L": 8
+  "L": 9
  },
  "unverified_terms": 104,
  "unverified_breakdown": {
