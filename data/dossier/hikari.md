@@ -4,9 +4,20 @@ BODY_SHAPE
 
 The dorsal side takes on ventral character: the dorsal fin is shaped like a pelvic fin, the caudal fin is diamond-shaped, and ectopic iridophore on the back makes the dorsal side shine silver.
 
+## Names
+
+- ja: ヒカリ (ひかり) [jma5; bv:0178]
+- ja: Daタイプ [bv:0179]
+- ja: ホタルメダカ [jma5; bv:0180]
+- ja: 光りメダカ [jma5; bv:0181]
+- ko: 히카리 [bv:0178]
+
 ## Aliases
 
-- _none recorded_
+- Daタイプ
+- ホタルメダカ
+- 光りメダカ
+- 히카리
 
 ## Phenotypes
 
@@ -21,6 +32,13 @@ The dorsal side takes on ventral character: the dorsal fin is shaped like a pelv
 | zic4 | associated_with_gene | QTL_GWAS_ASSOCIATION | chr20 |
 | hikari chr20 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr20:18,018,142-19,345,542, n=35, P=1.84e-21, 40 genes in interval |
 | zic1/zic4 enhancer transposon insertion | caused_by_variant | QTL_GWAS_ASSOCIATION | chr20 |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | recessive | OBSERVATIONAL |
+| requires_allele | zic1/zic4 enhancer transposon insertion | QTL_GWAS_ASSOCIATION |
 
 ## Mechanism
 
@@ -58,6 +76,11 @@ The dorsal side takes on ventral character: the dorsal fin is shaped like a pelv
   - Ectopic iridophore on the back; the dorsal side shines silver.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → recessive
+  - Table 1 gives the hereditary mode of hikari as "Recessive"; reported loci zic1/4 (Moriyama et al. 2012).
+  - _Table 1_
+
 • **QTL_GWAS_ASSOCIATION** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - putatively_same_as → Da mutant
   - The hikari GWAS peak coincides with the zic1/zic4 locus, and the insertion known from the Da mutant was confirmed in all 35 hikari individuals.
@@ -70,4 +93,4 @@ The dorsal side takes on ventral character: the dorsal fin is shaped like a pelv
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 7 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, NEW_CAUSAL_VARIANT).
+- 9 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK, NEW_CAUSAL_VARIANT).

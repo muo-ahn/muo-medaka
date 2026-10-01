@@ -24,6 +24,10 @@ class NodeLabel(StrEnum):
     BIOLOGICAL_MECHANISM = "BiologicalMechanism"
     ANATOMY = "Anatomy"
     STRAIN = "Strain"
+    # Genetic layer, ADR 0006. A closed set of modes a trait, locus or allele is
+    # inherited by. A node rather than a property so that two sources disagreeing
+    # on a trait's mode become two claims with their own evidence, not an overwrite.
+    INHERITANCE_MODE = "InheritanceMode"
     # Comparative layer, PRD §10. Distinct labels so that a human phenotype can
     # never be reached from a medaka gene by a careless query.
     HUMAN_GENE = "HumanGene"
@@ -47,6 +51,7 @@ ENTITY_LABELS: frozenset[NodeLabel] = frozenset(
         NodeLabel.BIOLOGICAL_MECHANISM,
         NodeLabel.ANATOMY,
         NodeLabel.STRAIN,
+        NodeLabel.INHERITANCE_MODE,
         NodeLabel.HUMAN_GENE,
         NodeLabel.HUMAN_PHENOTYPE,
     }
@@ -62,6 +67,7 @@ LABEL_PREFIX: dict[NodeLabel, str] = {
     NodeLabel.BIOLOGICAL_MECHANISM: "mech",
     NodeLabel.ANATOMY: "anat",
     NodeLabel.STRAIN: "strain",
+    NodeLabel.INHERITANCE_MODE: "mode",
     NodeLabel.HUMAN_GENE: "hgene",
     NodeLabel.HUMAN_PHENOTYPE: "hpheno",
     NodeLabel.PAPER: "paper",
@@ -106,9 +112,41 @@ class Predicate(StrEnum):
     # PRD §10. A human phenotype attaches to a human gene, never to a medaka one.
     HUMAN_GENE_ASSOCIATED_WITH = "human_gene_associated_with"
 
+    # --- Genetic layer, ADR 0006 ------------------------------------------------
+    # What breeding prediction needs and `epistatic_with` (undirected, gene-level)
+    # cannot say. Each was checked against the existing set first (PRD §4):
+    #
+    # A source's statement of how a trait, locus or allele is inherited. Kon et al.
+    # 2026 Table 1 has a column for exactly this.
+    INHERITED_AS = "inherited_as"
+    # A classical allele (b, r, i ...) is a variant of this gene or locus. Two
+    # variants of one locus are alleles of each other; that is the 대립 relation,
+    # derived from two allele_of edges rather than stored as a third.
+    ALLELE_OF = "allele_of"
+    # Allele-level dominance. Directed: the subject's phenotype shows in the
+    # heterozygote. `incompletely_dominant_over` is the 반우성 case, where the
+    # heterozygote is intermediate.
+    DOMINANT_OVER = "dominant_over"
+    INCOMPLETELY_DOMINANT_OVER = "incompletely_dominant_over"
+    # The trait is shown only when the genotype expresses this allele. Several
+    # edges are a conjunction: white requires b and r. How many copies that takes
+    # follows from the dominance edges, so it is not repeated here.
+    REQUIRES_ALLELE = "requires_allele"
+    # Two loci that do not assort independently, sex-determining locus included.
+    LINKED_TO = "linked_to"
+    # Phenotype-level epistasis, directed: when the subject is expressed the
+    # object cannot be seen, whatever the genotype at the object's own loci.
+    MASKS = "masks"
+    # A strain or composite trait defined as the combination of basic traits.
+    # Unlike `subsumes` (an umbrella over alternatives) every part must be present.
+    COMPOSED_OF = "composed_of"
+
 
 _TRAIT_OR_PHENO = frozenset({NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.PHENOTYPE})
 _GENOMIC = frozenset({NodeLabel.GENE, NodeLabel.LOCUS, NodeLabel.GENETIC_VARIANT})
+_GENE_OR_LOCUS = frozenset({NodeLabel.GENE, NodeLabel.LOCUS})
+_ALLELE = frozenset({NodeLabel.GENETIC_VARIANT})
+_TRAIT = frozenset({NodeLabel.ORNAMENTAL_TRAIT})
 
 #: predicate -> (allowed subject labels, allowed object labels)
 PREDICATE_SHAPES: dict[Predicate, tuple[frozenset[NodeLabel], frozenset[NodeLabel]]] = {
@@ -151,6 +189,20 @@ PREDICATE_SHAPES: dict[Predicate, tuple[frozenset[NodeLabel], frozenset[NodeLabe
         frozenset({NodeLabel.HUMAN_GENE}),
         frozenset({NodeLabel.HUMAN_PHENOTYPE}),
     ),
+    Predicate.INHERITED_AS: (
+        frozenset({NodeLabel.ORNAMENTAL_TRAIT, *_GENOMIC}),
+        frozenset({NodeLabel.INHERITANCE_MODE}),
+    ),
+    Predicate.ALLELE_OF: (_ALLELE, _GENE_OR_LOCUS),
+    Predicate.DOMINANT_OVER: (_ALLELE, _ALLELE),
+    Predicate.INCOMPLETELY_DOMINANT_OVER: (_ALLELE, _ALLELE),
+    Predicate.REQUIRES_ALLELE: (_TRAIT, _ALLELE),
+    Predicate.LINKED_TO: (_GENE_OR_LOCUS, _GENE_OR_LOCUS),
+    Predicate.MASKS: (_TRAIT, _TRAIT),
+    Predicate.COMPOSED_OF: (
+        frozenset({NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.STRAIN}),
+        _TRAIT,
+    ),
 }
 
 #: Predicates whose subject and object are interchangeable. Claim ids for these are
@@ -163,6 +215,7 @@ SYMMETRIC_PREDICATES: frozenset[Predicate] = frozenset(
         Predicate.EPISTATIC_WITH,
         Predicate.PLEIOTROPIC_WITH,
         Predicate.PUTATIVELY_SAME_AS,
+        Predicate.LINKED_TO,
     }
 )
 
@@ -191,6 +244,9 @@ class EvidenceLevel(StrEnum):
     #: Named or discussed without the paper's own data testing it.
     OBSERVATIONAL = "OBSERVATIONAL"
     BREEDER_OBSERVATION = "BREEDER_OBSERVATION"
+    #: Ours, not the source's: a conclusion we drew from what the cited source
+    #: does state. ADR 0006. Below every stated level, because no source said it.
+    INFERRED = "INFERRED"
     UNKNOWN = "UNKNOWN"
 
 
@@ -204,6 +260,7 @@ EVIDENCE_RANK: dict[EvidenceLevel, int] = {
     EvidenceLevel.EXPRESSION_ASSOCIATION: 30,
     EvidenceLevel.OBSERVATIONAL: 20,
     EvidenceLevel.BREEDER_OBSERVATION: 10,
+    EvidenceLevel.INFERRED: 5,
     EvidenceLevel.UNKNOWN: 0,
 }
 
@@ -225,6 +282,25 @@ class TraitCategory(StrEnum):
     EYE_MORPHOLOGY = "EYE_MORPHOLOGY"
     SCALE = "SCALE"
     OTHER = "OTHER"
+
+
+class InheritanceModeName(StrEnum):
+    """The closed set of `InheritanceMode` entity names. ADR 0006.
+
+    Dominance is stated relative to the wild type: a recessive trait shows only
+    when both copies carry it. Sex linkage is orthogonal to dominance -- the
+    medaka r allele is both recessive and sex-linked -- so a trait or locus may
+    carry two `inherited_as` claims.
+    """
+
+    RECESSIVE = "recessive"
+    DOMINANT = "dominant"
+    INCOMPLETELY_DOMINANT = "incompletely dominant"
+    #: Inherited, but not as one Mendelian locus. Kon et al. 2026 Table 1's
+    #: "Multilocus". A cross query must refuse to predict these.
+    MULTILOCUS = "multilocus"
+    #: Carried on the X/Y pair. In medaka, XY males (dmy on the Y).
+    SEX_LINKED = "sex-linked"
 
 
 class LabelKind(StrEnum):

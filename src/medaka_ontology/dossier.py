@@ -23,6 +23,15 @@ _GENETIC_PREDICATES = {
     Predicate.CAUSED_BY_VARIANT.value,
     Predicate.MODIFIED_BY.value,
 }
+#: ADR 0006. How the trait is inherited, which alleles it needs, and what hides it
+#: or is built from it. Kept apart from `_GENETIC_PREDICATES`: those say which
+#: gene a trait maps to, these say how it is passed on.
+_INHERITANCE_PREDICATES = {
+    Predicate.INHERITED_AS.value,
+    Predicate.REQUIRES_ALLELE.value,
+    Predicate.MASKS.value,
+    Predicate.COMPOSED_OF.value,
+}
 _RELATED_PREDICATES = {
     Predicate.RESEMBLES.value,
     Predicate.CO_OCCURS_WITH.value,
@@ -159,6 +168,28 @@ def render_trait(session: Session, name: str) -> str:
     else:
         lines.append("_No genetic association recorded._")
     lines.append("")
+
+    # -- Inheritance ---------------------------------------------------------
+    # ADR 0006. The level is printed beside each line because three of the four
+    # kinds can be INFERRED, which is ours rather than a source's.
+    inheritance = [r for r in outbound if r["predicate"] in _INHERITANCE_PREDICATES]
+    masked_by = [
+        r for r in inbound if r["predicate"] == Predicate.MASKS.value
+    ]
+    if inheritance or masked_by:
+        lines += [
+            "## Inheritance",
+            "",
+            "| Relation | Target | Strongest evidence |",
+            "|---|---|---|",
+        ]
+        for row in inheritance:
+            supports = [e for e in row["evidence"] if e["stance"] == "SUPPORTS"]
+            level = supports[0]["level"] if supports else "—"
+            lines.append(f"| {row['predicate']} | {row['object_name']} | {level} |")
+        for row in masked_by:
+            lines.append(f"| masked by | {row['subject_name']} | see that trait |")
+        lines.append("")
 
     # -- Mechanism -----------------------------------------------------------
     # Two hops: trait -> gene -> mechanism. The trait-gene hop's strength is shown

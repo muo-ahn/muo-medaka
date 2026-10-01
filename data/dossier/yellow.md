@@ -4,12 +4,20 @@ BODY_COLOR
 
 Loss of normal melanophores from the body surface. The body colour of the traditional ornamental medaka, himedaka. Himedaka is the medaka b mutant (the b locus, now slc45a2; fukamachi2001), so the cloning of b is this trait's own evidence (ADR 0003, own subject).
 
+## Names
+
+- ja: 黄 (き) [jma5; bv:0003]
+- ja: ヒメダカ (ひめだか) [jma5; bv:0004]
+- ja: 緋目高 (ひめだか) [jma5; bv:0624]
+- ko: 히메다카 [bv:0004]
+- ja-Latn: himedaka [bv:0004]
+
 ## Aliases
 
-- himedaka
-
-Unverified labels (no source; not usable as identifiers — PRD §2.4):
 - ヒメダカ
+- 緋目高
+- 히메다카
+- himedaka
 
 ## Phenotypes
 
@@ -21,6 +29,14 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 |---|---|---|---|
 | slc45a2 | associated_with_gene | CAUSAL_VARIANT | chr12 |
 | yellow chr12 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr12:8,533,986-11,509,087, n=77, P=3.19e-06, 100 genes in interval |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | recessive | OBSERVATIONAL |
+| requires_allele | b locus: b | OBSERVATIONAL |
+| requires_allele | r locus: R (wild type) | OBSERVATIONAL |
 
 ## Mechanism
 
@@ -47,9 +63,20 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
   - Loss of normal melanophores from the body surface.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → recessive
+  - Table 1 gives the hereditary mode of yellow as "Recessive"; reported loci slc45a2 (Fukamachi et al. 2001).
+  - _Table 1_
+
 ✗ **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - putatively_same_as → few melanophore
   - yellow maps to the chr12 slc45a2 region, while few melanophore is caused by kitlga on chr6. Shared loss of melanophores does not imply a shared genetic basis.
+
+• **OBSERVATIONAL** — Reassessment of the function of somatolactin alpha in lipid metabolism using medaka mut... (2012) — doi:10.1186/1471-2156-13-64
+  - requires_allele → b locus: b
+  - Table 3 classes the F2 siblings of genotype b/b R/r as showing orange xanthophores only, without black melanophores.
+  - > orange
+  - _Table 3_
 
 ## Related traits
 
@@ -59,5 +86,4 @@ Unverified labels (no source; not usable as identifiers — PRD §2.4):
 ## Open questions
 
 - **Contradicted**: `putatively_same_as → few melanophore` has 1 contradicting finding(s); both sides are kept (PRD §9). See Evidence above.
-- Japanese orthography is unverified reconstruction, not sourced from the literature; needs a native-speaker pass before use as a display label.
-- 4 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK).
+- 7 claim(s) awaiting human review (BREEDER_ACADEMIC_LINK).

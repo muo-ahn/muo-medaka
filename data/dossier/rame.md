@@ -4,9 +4,14 @@ SCALE
 
 Increased number of iridophore-expressing silver-coloured scales.
 
+## Names
+
+- ja: ラメ (らめ) [jma5; bv:0062]
+- ko: 라메 [bv:0062]
+
 ## Aliases
 
-- _none recorded_
+- 라메
 
 ## Phenotypes
 

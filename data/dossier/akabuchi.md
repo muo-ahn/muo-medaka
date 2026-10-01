@@ -4,6 +4,10 @@ BODY_COLOR · composite class
 
 Body colour pattern with red spots. Declared by the source as a superset including sanshoku and kouhaku.
 
+## Names
+
+- ja: 赤斑 [no source] UNVERIFIED
+
 ## Aliases
 
 - _none recorded_

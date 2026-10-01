@@ -4,9 +4,14 @@ BODY_COLOR
 
 Body surface partly orange with some black spots formed by melanophores.
 
+## Names
+
+- ja: 赤黒 [bv:0154; bv:0383]
+- ja: 黒オレンジ (くろおれんじ) [bv:0025]
+
 ## Aliases
 
-- _none recorded_
+- 黒オレンジ
 
 ## Phenotypes
 

@@ -1,12 +1,17 @@
-# gold (黄金（おうごん）)
+# gold (黄金)
 
 BODY_COLOR
 
 Brown or wild-type-like; brighter than wild type, with decreased blackness.
 
+## Names
+
+- ja: 黄金 (おうごん) [jma5; bv:0016]
+- ko: 황금 [bv:0016]
+
 ## Aliases
 
-- _none recorded_
+- 황금
 
 ## Phenotypes
 

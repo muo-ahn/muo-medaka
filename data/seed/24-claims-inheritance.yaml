@@ -1,0 +1,1037 @@
+# The genetic layer's claims: how each trait is inherited, which alleles it needs,
+# which alleles are dominant, what is sex-linked, what masks what, and which
+# strains are made of which traits. ADR 0006. Entities are in
+# 13-entities-genetics.yaml.
+#
+# WHAT IS CLAIMED, AND AT WHAT LEVEL. Three sources carry this layer.
+#
+#   kon2026       Table 1 lists a hereditary mode for 11 traits, with the locus it
+#                 cites from earlier work. That is a statement, not Kon et al.'s own
+#                 cross -- OBSERVATIONAL, experiment_type `literature attribution`.
+#   sasano2012    A BMC Genetics paper about somatolactin that happens to cross
+#                 b and r strains. Its Methods state the dominance of every allele
+#                 and that the loci are unlinked; Table 3 gives phenotype by
+#                 genotype; Table 4 counts a backcross. Read in full 2026-10-01.
+#   hayasaka2019  Background paragraph: the R allele of r sits on the Y.
+#
+# What those sources do not say is filled in by us, and marked INFERRED, the
+# lowest level (ADR 0006). An INFERRED claim cites the literature paper it starts
+# from (experiment_type `inference`) and gives the reasoning in `interpretation`.
+# Every wild-type allele is such a case: nobody wrote "B is an allele of slc45a2",
+# it follows from b being one. So are the dominance edges for daruma, panda, hikari,
+# nodorsalfin and albino, which rest on Table 1 calling the trait Recessive.
+#
+# TRADE SOURCES are BREEDER_OBSERVATION whatever they say (test_seed_data): jma5 for
+# what masks what and what strains are made of, himemedaka_rlf for RLF dominance.
+#
+# WHAT IS NOT CLAIMED.
+#   - No recombination fraction anywhere. `linked_to` between r and dmy records that
+#     the R allele is on the Y; the cross query assumes the two never recombine and
+#     says so in its output. No source gives a rate.
+#   - pnp4a is not made the panda locus. Table 1's Recessive for panda sits on the
+#     row that cites pnp4a, which Kon et al. then reject in their own data. The
+#     mode is recorded as the earlier literature's, on the trait.
+#   - albino heterogeneity is not resolved. Table 1 cites oca2 for albino, the seed
+#     (and koga1995) say tyr; two albino parents may carry different loci. The i
+#     allele is tyr's, and the query reports the assumption.
+#   - Nothing from the trade's ロングフィン: himemedaka_rlf says it lengthens only
+#     the male's dorsal and anal fins, which is sex-limited expression, not
+#     sex linkage, and it is not Kon et al.'s longfin.
+
+claims:
+  # ---------------------------------------------------------------------------
+  # inherited_as -- Kon et al. 2026 Table 1, twelve claims for eleven traits
+  # (daruma has two modes in one cell), then reallongfin from the trade and the
+  # sex-linked r locus.
+  # ---------------------------------------------------------------------------
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: InheritanceMode, name: recessive}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of white as "Recessive"; reported
+          loci slc45a2 (Fukamachi et al. 2001), r locus (Aida 1921).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: blue}
+    object: {label: InheritanceMode, name: recessive}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of blue as "Recessive"; reported
+          loci r locus (Aida 1921).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: InheritanceMode, name: recessive}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of yellow as "Recessive"; reported
+          loci slc45a2 (Fukamachi et al. 2001).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: YWKo}
+    object: {label: InheritanceMode, name: recessive}
+    interpretation: >-
+      YWKo is an analysis class (yellow, white or kouhaku), not a strain.
+      Table 1 gives it the b-locus mode of yellow; the cross query does not
+      predict it, because it has no alleles of its own.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of YWKo as "Recessive"; reported
+          loci slc45a2 (Fukamachi et al. 2001).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: InheritanceMode, name: recessive}
+    interpretation: >-
+      The mode is attached to the pnp4a (Kimura et al. 2017) row, and Kon et
+      al. conclude from their own data that pnp4a is not the panda gene (see
+      panda's associated_with_gene claims). So Recessive is the earlier
+      literature's finding about a panda-like fish, carried onto the trait by
+      Table 1; this paper's crosses do not test it.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of panda as "Recessive"; reported
+          loci pnp4a (Kimura et al. 2017).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: InheritanceMode, name: recessive}
+    interpretation: >-
+      Table 1 cites oca2 (a reference that is not in its own list,
+      BROKEN_CITATION on the oca2 entity); the classic medaka albino is the
+      i/tyr mutant. The mode is taken for the trait, whichever locus carries
+      it.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of albino as "Recessive"; reported
+          loci oca2 (Fukamachi et al. 2004).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: InheritanceMode, name: recessive}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of hikari as "Recessive"; reported
+          loci zic1/4 (Moriyama et al. 2012).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: nodorsalfin}
+    object: {label: InheritanceMode, name: recessive}
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of nodorsalfin as "Recessive";
+          reported loci lmbr1 (Letelier et al. 2018).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: orochi}
+    object: {label: InheritanceMode, name: multilocus}
+    interpretation: >-
+      Inherited, but Kon et al. give no single locus. The cross query refuses
+      to predict it rather than guess a Mendelian ratio.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of orochi as "Multilocus"; no
+          reported locus (blank).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: miyuki}
+    object: {label: InheritanceMode, name: multilocus}
+    interpretation: >-
+      As orochi. Miyuki is also a strain nickname; this is the trait.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of miyuki as "Multilocus"; no
+          reported locus (blank).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: InheritanceMode, name: recessive}
+    interpretation: >-
+      The cell lists two modes. Recessive is read as the short body axis; the
+      cross query models that character and nothing else about daruma.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of daruma as "Recessive,
+          Incomplete dominant (dorsalfin)"; reported loci wnt4b (Inohaya et
+          al. 2010).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: InheritanceMode, name: incompletely dominant}
+    interpretation: >-
+      The second mode in the same cell, tagged '(dorsalfin)': the
+      heterozygote's dorsal fin is intermediate. It describes a character of
+      daruma, not the trait as a whole, and is recorded so that the cell is
+      not read as saying 'Recessive' alone. The cross query does not model the
+      dorsal-fin character.
+    evidence:
+      - paper: kon2026
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 1
+        finding: >-
+          Table 1 gives the hereditary mode of daruma as "Recessive,
+          Incomplete dominant (dorsalfin)"; reported loci wnt4b (Inohaya et
+          al. 2010).
+
+  - predicate: inherited_as
+    subject: {label: OrnamentalTrait, name: reallongfin}
+    object: {label: InheritanceMode, name: dominant}
+    interpretation: >-
+      A trade statement about the trade's リアルロングフィン, which JMA (jma5) defines
+      as the trait Kon et al. call reallongfin (see its label). No crosses are
+      counted; 'a fixed number' of F1 are RLF, not 'all'.
+    evidence:
+      - paper: himemedaka_rlf
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: >-
+          The shop states RLF is inherited dominantly (the old term is also
+          given), so that crossing it to a normal-finned fish gives RLF
+          offspring in the F1.
+        quote: "ＲＬＦ（リアルロングフィン）顕性遺伝（旧：優性遺伝子）するため普通ヒレの個体とかけ合わせることで次世代＝Ｆ１（子の世代）からＲＬＦ（リアルロングフィン）の特徴を持った子供が一定数産まれてきます"
+
+  - predicate: inherited_as
+    subject: {label: Locus, name: r locus}
+    object: {label: InheritanceMode, name: sex-linked}
+    interpretation: >-
+      Sex linkage is orthogonal to dominance: R is dominant to r and sits on
+      the Y as well as the X. The r locus has no other `inherited_as` claim;
+      its recessive character is the dominant_over edge below. Hayasaka states
+      it as background with a citation; the paper's own data are on sex
+      reversal.
+    evidence:
+      - paper: hayasaka2019
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        strain: Hd-rRII1
+        finding: >-
+          Background: the R allele of the r locus, a sex-linked pigment gene,
+          lies on the Y chromosome of the Hd-rRII1 strain, so XrXr females are
+          white and XrYR males orange-red.
+        quote: "The allele R of the r locus (a sex-linked pigment gene) is located on the Y chromosome."
+      - paper: sasano2012
+        experiment_type: strain description
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Methods
+        strain: Hd-rr
+        finding: >-
+          The double mutant Hd-rr is described as the Hd-rR inbred strain
+          whose Y chromosome carries the mutated r allele, which puts the r
+          locus on the sex chromosomes.
+        quote: "identical to the Hd-rR inbred strain except that its Y chromosome has the mutated r allele"
+
+  # ---------------------------------------------------------------------------
+  # allele_of -- which gene or locus each classical allele belongs to.
+  # Mutant alleles of cloned genes carry the cloning paper (CAUSAL_VARIANT, its own
+  # level); the others rest on the source's genotype notation or on a GWAS interval.
+  # ---------------------------------------------------------------------------
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "b locus: b"}
+    object: {label: Gene, name: slc45a2}
+    interpretation: >-
+      himedaka is the b mutant and b was cloned as slc45a2 (fukamachi2001).
+      Which of the b alleles an ornamental strain carries is not recorded;
+      this is the classical b.
+    evidence:
+      - paper: fukamachi2001
+        experiment_type: positional cloning
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        finding: >-
+          Mutations in slc45a2 reduce melanin content in medaka.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "b locus: B (wild type)"}
+    object: {label: Gene, name: slc45a2}
+    interpretation: >-
+      A wild-type allele belongs to its locus by definition; no source writes
+      the sentence, so it is ours.
+    evidence:
+      - paper: fukamachi2001
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          b is a mutant allele of slc45a2 (fukamachi2001), so the wild-type
+          allele it is a mutant of, B, is an allele of the same gene.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "r locus: r"}
+    object: {label: Locus, name: r locus}
+    interpretation: >-
+      Methods treat R and r as the two alleles at the r locus. Whether the
+      locus is the protein Aida 1921 first described is not claimed; its
+      protein is unidentified.
+    evidence:
+      - paper: sasano2012
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Methods
+        finding: >-
+          Methods write b/b and r/r for the double mutant Hd-rr and B/B R/R
+          for the strains that carry the wild-type alleles, treating B and b,
+          R and r as alleles at one locus each.
+        quote: "Hd-rr Ci / Ci ; SLa – / SLa – ; b / b ; r / r"
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "r locus: R (wild type)"}
+    object: {label: Locus, name: r locus}
+    evidence:
+      - paper: sasano2012
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Methods
+        finding: >-
+          Methods write b/b and r/r for the double mutant Hd-rr and B/B R/R
+          for the strains that carry the wild-type alleles, treating B and b,
+          R and r as alleles at one locus each.
+        quote: "Hd-rr Ci / Ci ; SLa – / SLa – ; b / b ; r / r"
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "i locus: i (albino)"}
+    object: {label: Gene, name: tyr}
+    interpretation: >-
+      The albino of the i locus is the tyrosinase Tol-1 insertion mutant
+      (koga1995). Medaka has other albino loci (oca2); a strain called albino
+      here has not been genotyped, which is why the cross query lists the
+      assumption.
+    evidence:
+      - paper: koga1995
+        experiment_type: positional cloning
+        level: CAUSAL_VARIANT
+        species: Oryzias latipes
+        finding: >-
+          Insertion of a novel transposable element into the tyrosinase gene
+          is responsible for an albino mutation in medaka.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "i locus: I (wild type)"}
+    object: {label: Gene, name: tyr}
+    evidence:
+      - paper: koga1995
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          i is a mutant allele of tyr (koga1995), so the wild-type allele it
+          is a mutant of, I, is an allele of the same gene.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
+    object: {label: Locus, name: Da locus}
+    interpretation: >-
+      The Da lesion is an insertion in the enhancer shared by zic1 and zic4,
+      so the locus is the enhancer, not either gene (zic4 cannot be separated
+      from zic1 by this data). The symbol Da is the literature's; the evidence
+      is Kon et al.'s genotyping of hikari fish, which carry it.
+    evidence:
+      - paper: kon2026
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          The insertion was confirmed in all 35 hikari individuals.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "Da locus: Da+ (wild type)"}
+    object: {label: Locus, name: Da locus}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          The Da allele is an insertion in the zic1/zic4 enhancer, so the
+          wild-type enhancer it interrupts is the other allele of the same
+          locus.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "daruma locus: d"}
+    object: {label: Locus, name: daruma chr4 interval}
+    interpretation: >-
+      The allele is defined by the interval: whatever lesion there underlies
+      daruma. The gene is unknown and the paper's data argue against wnt4b.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 4, 775,070-6,879,644, from 6 daruma
+          individuals; best P = 9.61E-38; 211 genes in the interval and no
+          candidate gene nominated.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "daruma locus: d+ (wild type)"}
+    object: {label: Locus, name: daruma chr4 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          d is the allele at the daruma chr4 interval that causes daruma, so
+          the allele of the non-daruma fish at the same interval is its
+          wild-type counterpart.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "panda locus: pd"}
+    object: {label: Locus, name: panda chr3 interval}
+    interpretation: >-
+      As daruma's d. Kon et al. reject pnp4a for panda and conclude a
+      functionally unknown gene in the interval is responsible.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 3, 12,944,237-16,837,085, from 16 panda
+          individuals; best P = 1.12E-16; 113 genes in the interval. The
+          authors describe the chr3 peak as unexpected.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "panda locus: pd+ (wild type)"}
+    object: {label: Locus, name: panda chr3 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          pd is the allele at the panda chr3 interval that causes panda, so
+          the allele of the non-panda fish at the same interval is its
+          wild-type counterpart.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "nodorsalfin locus: ndf"}
+    object: {label: Locus, name: nodorsalfin locus}
+    interpretation: >-
+      The ontology does not assert nodorsalfin is lmbr1: the gene appears only
+      as the source's citation of earlier work.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 names lmbr1 (Letelier et al. 2018) as the reported locus of
+          nodorsalfin; the paper did not analyse the trait, so the allele is
+          held at the trait level with no coordinates.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "nodorsalfin locus: ndf+ (wild type)"}
+    object: {label: Locus, name: nodorsalfin locus}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          ndf is the allele that causes nodorsalfin, so the allele of fish
+          with a dorsal fin at the same locus is its wild-type counterpart.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "reallongfin locus: RLF"}
+    object: {label: Locus, name: reallongfin chr17 interval}
+    interpretation: >-
+      As daruma's d.
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 17, 26,828,411-31,743,217, from 8
+          reallongfin individuals; best P = 1.10E-33; 197 genes.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "reallongfin locus: rlf+ (wild type)"}
+    object: {label: Locus, name: reallongfin chr17 interval}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          RLF is the allele at the reallongfin chr17 interval that causes the
+          trait, so the allele of normal-finned fish at the same interval is
+          its wild-type counterpart.
+
+  # ---------------------------------------------------------------------------
+  # dominant_over -- B and R from sasano2012's Methods (stated). I, Da+, d+, pd+ and
+  # ndf+ over the mutant allele are inferred from Table 1 calling the trait Recessive.
+  # RLF over rlf+ is the trade's statement.
+  # ---------------------------------------------------------------------------
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "b locus: B (wild type)"}
+    object: {label: GeneticVariant, name: "b locus: b"}
+    evidence:
+      - paper: sasano2012
+        experiment_type: genotype notation
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Methods
+        finding: >-
+          Methods write the genotypes of the four strains and state which
+          allele is dominant at each locus: the wild-type B and R alleles are
+          dominant to b and r.
+        quote: "The Ci SLa+ B, and R alleles are dominant to the ci SLa– b, and r alleles, respectively."
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "r locus: R (wild type)"}
+    object: {label: GeneticVariant, name: "r locus: r"}
+    interpretation: >-
+      R is dominant on the X and on the Y; the cross query applies it to
+      whichever chromosome carries the allele.
+    evidence:
+      - paper: sasano2012
+        experiment_type: genotype notation
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Methods
+        finding: >-
+          Methods write the genotypes of the four strains and state which
+          allele is dominant at each locus: the wild-type B and R alleles are
+          dominant to b and r.
+        quote: "The Ci SLa+ B, and R alleles are dominant to the ci SLa– b, and r alleles, respectively."
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "i locus: I (wild type)"}
+    object: {label: GeneticVariant, name: "i locus: i (albino)"}
+    interpretation: >-
+      A recessive trait means the wild-type allele is dominant to the trait's
+      allele. Neither source writes it at the allele level, so it is ours.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 gives the hereditary mode of albino as Recessive (the cell
+          reads "Recessive"), so a heterozygote does not show the trait and
+          the wild-type allele is dominant to the one that causes it.
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "Da locus: Da+ (wild type)"}
+    object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
+    interpretation: >-
+      A recessive trait means the wild-type allele is dominant to the trait's
+      allele. Neither source writes it at the allele level, so it is ours.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 gives the hereditary mode of hikari as Recessive (the cell
+          reads "Recessive"), so a heterozygote does not show the trait and
+          the wild-type allele is dominant to the one that causes it.
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "daruma locus: d+ (wild type)"}
+    object: {label: GeneticVariant, name: "daruma locus: d"}
+    interpretation: >-
+      A recessive trait means the wild-type allele is dominant to the trait's
+      allele. Neither source writes it at the allele level, so it is ours. The
+      same Table 1 cell also records incomplete dominance for the dorsal fin;
+      this edge is for the short body axis only.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 gives the hereditary mode of daruma as Recessive (the cell
+          reads "Recessive, Incomplete dominant (dorsalfin)"), so a
+          heterozygote does not show the trait and the wild-type allele is
+          dominant to the one that causes it.
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "panda locus: pd+ (wild type)"}
+    object: {label: GeneticVariant, name: "panda locus: pd"}
+    interpretation: >-
+      A recessive trait means the wild-type allele is dominant to the trait's
+      allele. Neither source writes it at the allele level, so it is ours. The
+      mode is the earlier literature's, not tested by Kon et al. (see
+      inherited_as).
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 gives the hereditary mode of panda as Recessive (the cell
+          reads "Recessive"), so a heterozygote does not show the trait and
+          the wild-type allele is dominant to the one that causes it.
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "nodorsalfin locus: ndf+ (wild type)"}
+    object: {label: GeneticVariant, name: "nodorsalfin locus: ndf"}
+    interpretation: >-
+      A recessive trait means the wild-type allele is dominant to the trait's
+      allele. Neither source writes it at the allele level, so it is ours.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 gives the hereditary mode of nodorsalfin as Recessive (the
+          cell reads "Recessive"), so a heterozygote does not show the trait
+          and the wild-type allele is dominant to the one that causes it.
+
+  - predicate: dominant_over
+    subject: {label: GeneticVariant, name: "reallongfin locus: RLF"}
+    object: {label: GeneticVariant, name: "reallongfin locus: rlf+ (wild type)"}
+    interpretation: >-
+      The trade's trait-level statement read as allele-level dominance of the
+      one allele at the interval.
+    evidence:
+      - paper: himemedaka_rlf
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        finding: >-
+          RLF is inherited dominantly: crossing to a normal-finned fish gives
+          RLF offspring in the F1.
+        quote: "ＲＬＦ（リアルロングフィン）顕性遺伝（旧：優性遺伝子）するため普通ヒレの個体とかけ合わせることで次世代＝Ｆ１（子の世代）からＲＬＦ（リアルロングフィン）の特徴を持った子供が一定数産まれてきます"
+
+  # ---------------------------------------------------------------------------
+  # requires_allele -- the genotype a trait needs. Several edges on one trait are a
+  # conjunction. Copies needed follow from dominant_over, not from this edge.
+  # yellow, white and blue read Table 3 of sasano2012; the single-locus traits read the
+  # GWAS interval or variant genotyping that defines the allele.
+  # ---------------------------------------------------------------------------
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: GeneticVariant, name: "b locus: b"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading. b/b is what removes
+      the melanophores.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 classes the F2 siblings of genotype b/b R/r as showing
+          orange xanthophores only, without black melanophores.
+        quote: "orange"
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: yellow}
+    object: {label: GeneticVariant, name: "r locus: R (wild type)"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading. R, in at least one
+      copy, is what keeps the xanthophores.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 classes the F2 siblings of genotype b/b R/r as showing
+          orange xanthophores only, without black melanophores.
+        quote: "orange"
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: GeneticVariant, name: "b locus: b"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 gives the F2 siblings of genotype b/b r/r no pigment-cell
+          phenotype at all: neither black melanophores nor orange
+          xanthophores.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: white}
+    object: {label: GeneticVariant, name: "r locus: r"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 gives the F2 siblings of genotype b/b r/r no pigment-cell
+          phenotype at all: neither black melanophores nor orange
+          xanthophores.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: blue}
+    object: {label: GeneticVariant, name: "b locus: B (wild type)"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading. B, in at least one
+      copy, is what keeps the melanophores.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 classes the F2 siblings of genotype B/b r/r as showing black
+          melanophores without orange xanthophores.
+        quote: "black"
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: blue}
+    object: {label: GeneticVariant, name: "r locus: r"}
+    interpretation: >-
+      Table 3 reports the pigment cells of each genotype; matching those to
+      Kon et al.'s trait definitions (yellow: no normal melanophores; blue: no
+      normal xanthophores; white: neither) is our reading. r/r is what removes
+      the xanthophores.
+    evidence:
+      - paper: sasano2012
+        experiment_type: phenotype definition
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        section: Table 3
+        finding: >-
+          Table 3 classes the F2 siblings of genotype B/b r/r as showing black
+          melanophores without orange xanthophores.
+        quote: "black"
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: GeneticVariant, name: "i locus: i (albino)"}
+    interpretation: >-
+      Whether an ornamental albino carries i or another albino locus (oca2) is
+      not known; this is the assumption the cross query states.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 lists albino as Recessive and the seed identifies the trait
+          with the classic i mutant (tyrosinase, koga1995), so the trait is
+          the homozygote of the i allele.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: hikari}
+    object: {label: GeneticVariant, name: zic1/zic4 enhancer transposon insertion}
+    interpretation: >-
+      Concordance of the insertion with the trait in 35 fish, with Table 1's
+      Recessive for the mode. It is not a cross, and the identity of hikari
+      with the laboratory Da mutant remains the putatively_same_as claim, not
+      an assertion here.
+    evidence:
+      - paper: kon2026
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Results
+        finding: >-
+          The insertion was confirmed in all 35 hikari individuals.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: daruma}
+    object: {label: GeneticVariant, name: "daruma locus: d"}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 4, 775,070-6,879,644, from 6 daruma
+          individuals; best P = 9.61E-38; 211 genes in the interval and no
+          candidate gene nominated.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: panda}
+    object: {label: GeneticVariant, name: "panda locus: pd"}
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 3, 12,944,237-16,837,085, from 16 panda
+          individuals; best P = 1.12E-16; 113 genes in the interval. The
+          authors describe the chr3 peak as unexpected.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: nodorsalfin}
+    object: {label: GeneticVariant, name: "nodorsalfin locus: ndf"}
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Table 1 lists nodorsalfin as Recessive with lmbr1 (Letelier et al.
+          2018) as the reported locus, so the trait is the homozygote of one
+          allele at that locus.
+
+  - predicate: requires_allele
+    subject: {label: OrnamentalTrait, name: reallongfin}
+    object: {label: GeneticVariant, name: "reallongfin locus: RLF"}
+    interpretation: >-
+      One copy suffices: RLF is dominant (dominant_over).
+    evidence:
+      - paper: kon2026
+        experiment_type: GWAS
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Table 2
+        finding: >-
+          Association on chromosome 17, 26,828,411-31,743,217, from 8
+          reallongfin individuals; best P = 1.10E-33; 197 genes.
+
+  # ---------------------------------------------------------------------------
+  # masks -- phenotype-level epistasis, from JMA's own description of what an albino
+  # can and cannot show. Both are trade statements (BREEDER_OBSERVATION).
+  # ---------------------------------------------------------------------------
+
+  - predicate: masks
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: OrnamentalTrait, name: blue}
+    interpretation: >-
+      Blue is the colour of melanophores on a fish with no xanthophores (Table
+      3: B/b r/r is 'black'); an albino has no melanophores to show. The cross
+      query hides blue when albino is expressed.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.3.1 アルビノ
+        finding: >-
+          JMA states that albino body colour is limited to white, pink, yellow
+          and orange, and never one that contains melanophores such as blue or
+          brown.
+        quote: "体色は，白系，ピンク系，黄系，オレンジ系（朱赤系）のみに限定され，青系や茶系など黒色素胞の含む体色になることはありません"
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          Kon et al. define albino as lack of melanophores throughout the
+          body, and blue as colour from melanophores without xanthophores, so
+          an albino cannot show blue whatever its r genotype.
+
+  - predicate: masks
+    subject: {label: OrnamentalTrait, name: albino}
+    object: {label: OrnamentalTrait, name: panda}
+    interpretation: >-
+      The panda trait is read from the black iris and the eye; an albino has
+      none, so the panda genotype is not recognisable and the fish is named
+      seethrough instead. The cross query hides panda when albino is
+      expressed.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.8.10 シースルー
+        finding: >-
+          JMA states that an albino's iris has no melanin, so a fish with
+          strongly transparent scales is called seethrough rather than panda.
+        quote: "通常，アルビノでは虹彩に黒色素（メラニン）が入らないため強透明鱗の場合，パンダではなくシースルーと呼ばれる。"
+
+  # ---------------------------------------------------------------------------
+  # linked_to -- r and the sex-determining gene (stated), and two GWAS intervals on
+  # chr21 (inferred). No recombination fraction is recorded for either.
+  # ---------------------------------------------------------------------------
+
+  - predicate: linked_to
+    subject: {label: Locus, name: r locus}
+    object: {label: Gene, name: dmy}
+    interpretation: >-
+      R on the Y means R travels with dmy: the two are inherited together in
+      the paper's strain. No source gives a rate of recombination between r
+      and the sex-determining locus, so the cross query assumes none and
+      states it (spec 열린 결정).
+    evidence:
+      - paper: hayasaka2019
+        experiment_type: literature attribution
+        level: OBSERVATIONAL
+        species: Oryzias latipes
+        strain: Hd-rRII1
+        finding: >-
+          dmy / dmrt1bY, the sex-determining gene, is on the Y chromosome, and
+          so is the R allele of the r locus in the Hd-rRII1 strain.
+        quote: "A sex determining gene named dmy / dmrt1bY ( DM-domain gene on Y chromosome ) has been identified on the Y chromosome"
+
+  - predicate: linked_to
+    subject: {label: Locus, name: orochi chr21 interval}
+    object: {label: Locus, name: black chr21 interval}
+    interpretation: >-
+      Physical proximity, not a measured recombination. It is recorded because
+      Kon et al. map orochi and black (a darker form of the same colour) to
+      neighbouring intervals while calling orochi multilocus; nothing in the
+      cross query uses it yet.
+    evidence:
+      - paper: kon2026
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        finding: >-
+          The orochi interval (chr21, 4,494,031-7,110,016) and the black
+          interval (chr21, 7,325,809-8,858,152) are on one chromosome, about
+          216 kb apart.
+
+  # ---------------------------------------------------------------------------
+  # composed_of -- strains JMA names as combinations of traits already in the seed.
+  # ---------------------------------------------------------------------------
+
+  - predicate: composed_of
+    subject: {label: Strain, name: seethrough}
+    object: {label: OrnamentalTrait, name: albino}
+    interpretation: >-
+      Every part must be present, unlike `subsumes`. In the cross query an
+      expressed seethrough absorbs albino and panda: the parts are listed, not
+      counted as separate classes.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.8.10 シースルー
+        finding: >-
+          JMA describes seethrough as the albino's lack of melanophores
+          combined with panda's lack of iridophores in the eye, gills and
+          belly, so that the whole body is seen through.
+        quote: "アルビノの黒色素胞の欠如，パンダの目，エラ，腹部の虹色素胞の欠如する特徴が合わさり，全体が透けて見えます。"
+
+  - predicate: composed_of
+    subject: {label: Strain, name: seethrough}
+    object: {label: OrnamentalTrait, name: panda}
+    interpretation: >-
+      Every part must be present, unlike `subsumes`. In the cross query an
+      expressed seethrough absorbs albino and panda: the parts are listed, not
+      counted as separate classes.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.8.10 シースルー
+        finding: >-
+          JMA describes seethrough as the albino's lack of melanophores
+          combined with panda's lack of iridophores in the eye, gills and
+          belly, so that the whole body is seen through.
+        quote: "アルビノの黒色素胞の欠如，パンダの目，エラ，腹部の虹色素胞の欠如する特徴が合わさり，全体が透けて見えます。"
+
+  - predicate: composed_of
+    subject: {label: Strain, name: Hitomi}
+    object: {label: OrnamentalTrait, name: bigeye}
+    interpretation: >-
+      Neither part has an allele in the seed, so the cross query cannot
+      predict Hitomi; the composition is recorded because JMA states it.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.3.8
+        finding: >-
+          JMA names Hitomi as the representative strain that fixed suihougan,
+          on a big-eye (ビックアイ水泡眼) body.
+        quote: "水泡眼を固定化した代表的な品種がビックアイ水泡眼の「Hitomi（ひとみ）」です。"
+
+  - predicate: composed_of
+    subject: {label: Strain, name: Hitomi}
+    object: {label: OrnamentalTrait, name: suihougan}
+    interpretation: >-
+      Neither part has an allele in the seed, so the cross query cannot
+      predict Hitomi; the composition is recorded because JMA states it.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: 3.3.8
+        finding: >-
+          JMA names Hitomi as the representative strain that fixed suihougan,
+          on a big-eye (ビックアイ水泡眼) body.
+        quote: "水泡眼を固定化した代表的な品種がビックアイ水泡眼の「Hitomi（ひとみ）」です。"

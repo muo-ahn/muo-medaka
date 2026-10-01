@@ -4,9 +4,18 @@ BODY_COLOR
 
 Mild iridophore depletion; loss of opercular iridophores makes the red gills visible; scales shift green, red, blue or yellow.
 
+## Names
+
+- ja: オーロラ (おーろら) [jma5; bv:0052]
+- ja: 半透明鱗 (はんとうめいりん) [jma5; bv:0051]
+- ko: 오로라 [bv:0052]
+- ko: 반투명린 [bv:0051]
+
 ## Aliases
 
-- _none recorded_
+- 半透明鱗
+- 오로라
+- 반투명린
 
 ## Phenotypes
 

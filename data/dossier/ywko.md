@@ -19,6 +19,12 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
 | slc45a2 | associated_with_gene | QTL_GWAS_ASSOCIATION | chr12 |
 | YWKo chr12 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr12:9,523,726-11,920,633, n=100, P=2e-11, 61 genes in interval |
 
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | recessive | OBSERVATIONAL |
+
 ## Mechanism
 
 - melanogenesis — via slc45a2 (trait→gene link: QTL_GWAS_ASSOCIATION)
@@ -41,6 +47,11 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
   - _Table 1_
 
 • **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → recessive
+  - Table 1 gives the hereditary mode of YWKo as "Recessive"; reported loci slc45a2 (Fukamachi et al. 2001).
+  - _Table 1_
+
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
   - subsumes → kouhaku
   - YWKo covers yellow, white or kouhaku.
   - _Table 1_
@@ -59,4 +70,4 @@ Body colour without melanophores. An aggregated analysis class covering yellow, 
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 6 claim(s) awaiting human review.
+- 7 claim(s) awaiting human review.

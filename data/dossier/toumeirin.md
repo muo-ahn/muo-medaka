@@ -4,9 +4,14 @@ SCALE
 
 Decreased iridophore throughout the body EXCLUDING the iris and peritoneum; near-complete loss in the scales.
 
+## Names
+
+- ja: 透明鱗 (とうめいりん) [jma5; bv:0046]
+- ko: 투명린 [bv:0046]
+
 ## Aliases
 
-- _none recorded_
+- 투명린
 
 ## Phenotypes
 

@@ -4,9 +4,16 @@ BODY_COLOR
 
 Dense melanophores around the scales, appearing as a black mesh.
 
+## Names
+
+- ja: ブラックリム (ぶらっくりむ) [jma5; bv:0123]
+- ko: 블랙 림 [bv:0123]
+- en: Black-rim [bv:0123]
+
 ## Aliases
 
-- _none recorded_
+- 블랙 림
+- Black-rim
 
 ## Phenotypes
 

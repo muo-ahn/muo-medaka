@@ -4,9 +4,18 @@ FIN_MORPHOLOGY
 
 All fins longer than wild type; not only the fin rays but also the fin membranes are elongated.
 
+## Names
+
+- ja: リアルロングフィン (りあるろんぐふぃん) [jma5; bv:0201]
+- ko: 리얼롱핀 [bv:0201]
+- ko: 리얼 롱핀 [bv:0201]
+- en: RLF [himemedaka_rlf; bv:0201]
+
 ## Aliases
 
-- _none recorded_
+- 리얼롱핀
+- 리얼 롱핀
+- RLF
 
 ## Phenotypes
 
@@ -18,6 +27,13 @@ All fins longer than wild type; not only the fin rays but also the fin membranes
 |---|---|---|---|
 | and2 | associated_with_gene | QTL_GWAS_ASSOCIATION | chr17 |
 | reallongfin chr17 interval | associated_with_locus | QTL_GWAS_ASSOCIATION | chr17:26,828,411-31,743,217, n=8, P=1.1e-33, 197 genes in interval |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | dominant | BREEDER_OBSERVATION |
+| requires_allele | reallongfin locus: RLF | QTL_GWAS_ASSOCIATION |
 
 ## Mechanism
 
@@ -44,6 +60,11 @@ All fins longer than wild type; not only the fin rays but also the fin membranes
   - All fins longer; both fin rays and fin membranes are elongated.
   - _Table 1_
 
+• **BREEDER_OBSERVATION** — リアルロングフィンとロングフィンの違いについて — https://www.hime-medaka.com/medakanositumonn/tigauyo.html
+  - inherited_as → dominant
+  - The shop states RLF is inherited dominantly (the old term is also given), so that crossing it to a normal-finned fish gives RLF offspring in the F1.
+  - > ＲＬＦ（リアルロングフィン）顕性遺伝（旧：優性遺伝子）するため普通ヒレの個体とかけ合わせることで次世代＝Ｆ１（子の世代）からＲＬＦ（リアルロングフィン）の特徴を持った子供が一定数産まれてきます
+
 ## Related traits
 
 - _none recorded_
@@ -51,4 +72,4 @@ All fins longer than wild type; not only the fin rays but also the fin membranes
 ## Open questions
 
 - No causal or functionally validated variant. Every genetic link here is association-level — do not read the table above as cause.
-- 3 claim(s) awaiting human review.
+- 5 claim(s) awaiting human review.

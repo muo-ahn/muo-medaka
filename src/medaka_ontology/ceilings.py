@@ -134,6 +134,36 @@ PUTATIVELY_SAME_AS_CEILINGS: dict[str, EvidenceLevel] = {
     "mutant discovery": _L.OBSERVATIONAL,
 }
 
+#: ADR 0006, the genetic layer. One table serves every predicate there, because
+#: they all answer the same kind of question -- how a character passes from
+#: parents to offspring -- and the strongest answer to it is the same: counted
+#: segregation in the paper's own crosses. Nothing on this layer is a lesion, so
+#: CAUSAL_VARIANT, FUNCTIONAL_VALIDATION and FINE_MAPPING do not occur.
+#:
+#: `allele_of` is the exception and uses the gene-claim table: whether b is a
+#: variant of slc45a2 is a question about a lesion, answered by positional
+#: cloning.
+INHERITANCE_CEILINGS: dict[str, EvidenceLevel] = {
+    # Offspring of the paper's own crosses counted by class.
+    "segregation analysis": _L.QTL_GWAS_ASSOCIATION,
+    "linkage analysis": _L.QTL_GWAS_ASSOCIATION,
+    # An allele or genotype tied to a trait by an association scan or by genotyping
+    # fish that show it: concordance, not a cross.
+    "gwas": _L.QTL_GWAS_ASSOCIATION,
+    "variant genotyping": _L.QTL_GWAS_ASSOCIATION,
+    # The paper states the mode or writes genotypes, without its own cross data
+    # testing it: a table column citing earlier work, a strain description.
+    "literature attribution": _L.OBSERVATIONAL,
+    "genotype notation": _L.OBSERVATIONAL,
+    "strain description": _L.OBSERVATIONAL,
+    "phenotype definition": _L.OBSERVATIONAL,
+    "double mutant description": _L.OBSERVATIONAL,
+    "breeder description": _L.BREEDER_OBSERVATION,
+    # Ours. ADR 0006: the reasoning goes in the claim's interpretation and the
+    # evidence cites the finding it starts from.
+    "inference": _L.INFERRED,
+}
+
 #: Which table bounds which predicate. A predicate missing here has no ceiling.
 PREDICATE_CEILINGS: dict[Predicate, dict[str, EvidenceLevel]] = {
     **dict.fromkeys(GENE_CLAIM_PREDICATES, EXPERIMENT_CEILINGS),
@@ -141,6 +171,19 @@ PREDICATE_CEILINGS: dict[Predicate, dict[str, EvidenceLevel]] = {
     Predicate.HAS_PHENOTYPE: HAS_PHENOTYPE_CEILINGS,
     Predicate.AFFECTS_ANATOMY: AFFECTS_ANATOMY_CEILINGS,
     Predicate.PUTATIVELY_SAME_AS: PUTATIVELY_SAME_AS_CEILINGS,
+    Predicate.ALLELE_OF: {**EXPERIMENT_CEILINGS, "inference": _L.INFERRED},
+    **dict.fromkeys(
+        (
+            Predicate.INHERITED_AS,
+            Predicate.DOMINANT_OVER,
+            Predicate.INCOMPLETELY_DOMINANT_OVER,
+            Predicate.REQUIRES_ALLELE,
+            Predicate.LINKED_TO,
+            Predicate.MASKS,
+            Predicate.COMPOSED_OF,
+        ),
+        INHERITANCE_CEILINGS,
+    ),
 }
 
 CEILED_PREDICATES = frozenset(PREDICATE_CEILINGS)
@@ -152,6 +195,19 @@ _SOURCE: dict[Predicate, tuple[str, str]] = {
     Predicate.HAS_PHENOTYPE: ("ceilings.HAS_PHENOTYPE_CEILINGS", "ADR 0004"),
     Predicate.AFFECTS_ANATOMY: ("ceilings.AFFECTS_ANATOMY_CEILINGS", "ADR 0004"),
     Predicate.PUTATIVELY_SAME_AS: ("ceilings.PUTATIVELY_SAME_AS_CEILINGS", "ADR 0004"),
+    Predicate.ALLELE_OF: ("ceilings.EXPERIMENT_CEILINGS", "ADR 0006"),
+    **dict.fromkeys(
+        (
+            Predicate.INHERITED_AS,
+            Predicate.DOMINANT_OVER,
+            Predicate.INCOMPLETELY_DOMINANT_OVER,
+            Predicate.REQUIRES_ALLELE,
+            Predicate.LINKED_TO,
+            Predicate.MASKS,
+            Predicate.COMPOSED_OF,
+        ),
+        ("ceilings.INHERITANCE_CEILINGS", "ADR 0006"),
+    ),
 }
 
 #: Evidence that breaks its ceiling today and is being fixed in the data, not
@@ -235,6 +291,7 @@ __all__ = [
     "EXPERIMENT_CEILINGS",
     "GENE_CLAIM_PREDICATES",
     "HAS_PHENOTYPE_CEILINGS",
+    "INHERITANCE_CEILINGS",
     "KNOWN_CEILING_VIOLATIONS",
     "PARTICIPATES_IN_CEILINGS",
     "PREDICATE_CEILINGS",

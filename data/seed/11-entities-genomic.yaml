@@ -555,6 +555,7 @@ entities:
   - label: GeneticVariant
     name: zic1/zic4 enhancer transposon insertion
     variant_type: insertion
+    symbol: Da
     chromosome: "20"
     description: >-
       A large transposon inserted into the enhancer region shared by zic1 and zic4,

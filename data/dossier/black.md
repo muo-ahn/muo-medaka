@@ -4,9 +4,14 @@ BODY_COLOR
 
 Increased blackness relative to wild type; increased melanophores.
 
+## Names
+
+- ja: ブラック (ぶらっく) [jma5; bv:0014]
+- ko: 블랙 [bv:0014]
+
 ## Aliases
 
-- _none recorded_
+- 블랙
 
 ## Phenotypes
 

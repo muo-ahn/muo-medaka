@@ -314,6 +314,48 @@ papers:
     pmid: "17245975"
     notes: Founding classical-genetics paper; source of the r locus.
 
+  # --- Inheritance, ADR 0006 ---------------------------------------------------
+  # The two below are what the cross query rests on for b and r. Both were read
+  # in full (Europe PMC fullTextXML, 2026-10-01); the quotes on the claims in
+  # 24-claims-inheritance.yaml are from those texts. aida1921 above is the
+  # original r-locus paper but its full text could not be fetched (PMC PDF behind
+  # a bot wall), so nothing is claimed from it beyond its title.
+  - key: sasano2012
+    title: >-
+      Reassessment of the function of somatolactin alpha in lipid metabolism using
+      medaka mutant and transgenic strains
+    year: 2012
+    journal: BMC Genetics
+    authors: [Sasano Y, Yoshimura A, Fukamachi S]
+    doi: 10.1186/1471-2156-13-64
+    pmid: "22827540"
+    pmcid: PMC3467165
+    open_access: true
+    notes: >-
+      Not a pigmentation paper: it crosses colour strains to get F2 siblings of
+      mixed genotype at the ci, b, r and Y loci. Its Methods state the dominance
+      of every allele it uses and that the four loci are unlinked, its Table 3
+      lists which b/r genotype shows which pigment cells, and its Table 4 counts
+      a backcross by the presence of B and R. That makes it the one source here
+      with counted offspring of a b x r cross.
+
+  - key: hayasaka2019
+    title: >-
+      Green light irradiation during sex differentiation induces female-to-male
+      sex reversal in the medaka Oryzias latipes
+    year: 2019
+    journal: Scientific Reports
+    authors: [Hayasaka O, Takeuchi Y, Shiozaki K, Anraku K, Kotani T]
+    doi: 10.1038/s41598-019-38908-w
+    pmid: "30787482"
+    pmcid: PMC6382872
+    open_access: true
+    notes: >-
+      Uses the Hd-rRII1 strain because its body colour reads out genotypic sex:
+      the dominant R allele of the sex-linked r locus sits on the Y, so XrXr
+      females are white and XrYR males orange-red. States this as background
+      with a citation; the paper's own data are about sex reversal.
+
   # --- Fin morphology ----------------------------------------------------------
   - key: perathoner2014
     title: Bioelectric signaling regulates size in zebrafish fins

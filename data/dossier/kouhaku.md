@@ -4,9 +4,20 @@ BODY_COLOR
 
 Body surface partly white with orange spots.
 
+## Names
+
+- ja: 紅白 (こうはく) [jma5; bv:0124]
+- ja: 白朱赤 (しろしゅあか) [jma5; bv:0023]
+- ja: 更紗 (さらさ) [jma5; bv:0125]
+- ko: 홍백 [bv:0124]
+- ja-Latn: Kohaku [bv:0124]
+
 ## Aliases
 
-- _none recorded_
+- 白朱赤
+- 更紗
+- 홍백
+- Kohaku
 
 ## Phenotypes
 

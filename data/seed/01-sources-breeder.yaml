@@ -68,6 +68,21 @@ papers:
       explicitly distinguished from 腹膜光 (§3.8.3 area), which is the opposite
       condition (black tank only).
 
+  # --- Inheritance -------------------------------------------------------------
+  - key: himemedaka_rlf
+    title: リアルロングフィンとロングフィンの違いについて
+    journal: 媛めだか (breeder shop)
+    url: https://www.hime-medaka.com/medakanositumonn/tigauyo.html
+    notes: >-
+      Accessed 2026-10-01. A shop's explainer separating リアルロングフィン from
+      ロングフィン. It states RLF is 顕性遺伝 (dominant; "旧：優性遺伝子") so that
+      crossing to a normal-finned fish gives RLF offspring in the F1, and that
+      RLF lengthens the fins of females too. It also says the hobby's ロングフィン
+      lengthens only the male's dorsal and anal fins -- which is sex-limited
+      expression, not sex linkage, and is about the trade's ロングフィン, not Kon
+      et al.'s longfin (12-entities-breeder-traits.yaml NAMING HAZARD), so
+      nothing is claimed from that half. No cross counts are given.
+
   # --- Scale axis --------------------------------------------------------------
   - key: swampcreek_kagamirin
     title: カガミ鱗幹之ってどんなメダカ？大きな鱗が並ぶ不思議な魅力

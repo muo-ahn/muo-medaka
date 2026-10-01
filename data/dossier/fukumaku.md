@@ -4,6 +4,10 @@ BODY_COLOR
 
 Blue silver-coloured peritoneum.
 
+## Names
+
+- ja: 腹膜青 (ふくまくあお) [jma5; bv:0034]
+
 ## Aliases
 
 - _none recorded_

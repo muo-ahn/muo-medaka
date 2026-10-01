@@ -4,6 +4,10 @@ EYE_MORPHOLOGY
 
 Enlargement of the anterior segment of the eyeball; corneal cyst. Not GWAS-analysed.
 
+## Names
+
+- ja: 水泡眼 (すいほうがん) [jma5; bv:0237]
+
 ## Aliases
 
 - _none recorded_

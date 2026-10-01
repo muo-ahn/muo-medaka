@@ -38,9 +38,7 @@ def test_symmetric_predicates_have_matching_domain_and_range():
 
 
 def test_valid_claim_passes():
-    validate_claim_shape(
-        Predicate.ASSOCIATED_WITH_GENE, NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.GENE
-    )
+    validate_claim_shape(Predicate.ASSOCIATED_WITH_GENE, NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.GENE)
 
 
 def test_human_phenotype_cannot_hang_off_a_medaka_gene():
@@ -80,3 +78,66 @@ def test_unknown_ranks_below_every_classified_level():
 
 def test_every_evidence_level_is_ranked():
     assert set(EvidenceLevel) == set(EVIDENCE_RANK)
+
+
+# --- the genetic layer, ADR 0006 ----------------------------------------------
+
+GENETIC_PREDICATES = {
+    Predicate.INHERITED_AS,
+    Predicate.ALLELE_OF,
+    Predicate.DOMINANT_OVER,
+    Predicate.INCOMPLETELY_DOMINANT_OVER,
+    Predicate.REQUIRES_ALLELE,
+    Predicate.LINKED_TO,
+    Predicate.MASKS,
+    Predicate.COMPOSED_OF,
+}
+
+
+def test_the_genetic_predicates_are_a_closed_set_with_ceilings():
+    """AC-5: each new predicate has a shape (the first test above) and a ceiling
+    table, so a new experiment name cannot reach an unbounded level on it."""
+    from medaka_ontology.ceilings import PREDICATE_CEILINGS
+
+    assert GENETIC_PREDICATES <= set(Predicate)
+    assert GENETIC_PREDICATES <= set(PREDICATE_CEILINGS)
+
+
+def test_inferred_is_the_lowest_stated_level_and_above_unknown():
+    """ADR 0006. INFERRED is ours, not a source's, so it sits below even a
+    breeder's statement, and above UNKNOWN, which says nothing at all."""
+    stated = [
+        v
+        for k, v in EVIDENCE_RANK.items()
+        if k not in (EvidenceLevel.UNKNOWN, EvidenceLevel.INFERRED)
+    ]
+    assert (
+        EVIDENCE_RANK[EvidenceLevel.UNKNOWN] < EVIDENCE_RANK[EvidenceLevel.INFERRED] < min(stated)
+    )
+
+
+def test_allele_dominance_is_between_alleles_and_masking_between_traits():
+    validate_claim_shape(
+        Predicate.DOMINANT_OVER, NodeLabel.GENETIC_VARIANT, NodeLabel.GENETIC_VARIANT
+    )
+    validate_claim_shape(Predicate.MASKS, NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.ORNAMENTAL_TRAIT)
+    with pytest.raises(VocabularyError):
+        validate_claim_shape(Predicate.DOMINANT_OVER, NodeLabel.GENE, NodeLabel.GENE)
+    with pytest.raises(VocabularyError):
+        validate_claim_shape(Predicate.REQUIRES_ALLELE, NodeLabel.GENE, NodeLabel.GENETIC_VARIANT)
+
+
+def test_linked_to_is_symmetric_and_inheritance_modes_are_a_node_label():
+    assert Predicate.LINKED_TO in SYMMETRIC_PREDICATES
+    assert NodeLabel.INHERITANCE_MODE in ENTITY_LABELS
+    validate_claim_shape(
+        Predicate.INHERITED_AS, NodeLabel.ORNAMENTAL_TRAIT, NodeLabel.INHERITANCE_MODE
+    )
+
+
+def test_inheritance_mode_entities_are_exactly_the_closed_set():
+    from medaka_ontology.loader import load_dir
+    from medaka_ontology.vocabulary import InheritanceModeName
+
+    modes = {e.name for e in load_dir().entities if e.label is NodeLabel.INHERITANCE_MODE}
+    assert modes == {m.value for m in InheritanceModeName}

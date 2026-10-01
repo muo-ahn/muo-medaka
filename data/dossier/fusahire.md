@@ -4,9 +4,15 @@ FIN_MORPHOLOGY
 
 Elongated dorsal and anal fin rays that branch, with guanine collecting on the branches to give a white feathery fringe. A third mode on an axis the seed paper resolved into two: hirenaga elongates rays and membrane, swallow elongates rays and not membrane, and neither describes a ray that divides. The guanine deposition also makes this the one fin trait whose expression is partly pigmentary rather than purely morphological.
 
+## Names
+
+- ja: フサヒレ (ふさひれ) [jma5; bv:0217]
+- ja: 房ヒレ [no source] UNVERIFIED
+- ko: 후사히레 [bv:0217]
+
 ## Aliases
 
-- _none recorded_
+- 후사히레
 
 Unverified labels (no source; not usable as identifiers — PRD §2.4):
 - 房ヒレ

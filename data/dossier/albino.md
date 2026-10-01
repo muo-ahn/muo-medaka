@@ -4,9 +4,14 @@ BODY_COLOR
 
 Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-analysed by the seed paper. This is the classic medaka albino, the i mutant (the i locus, tyrosinase; koga1995), so the i-locus papers are this trait's own evidence (ADR 0003, own subject).
 
+## Names
+
+- ja: アルビノ (あるびの) [jma5; bv:0058]
+- ko: 알비노 [bv:0058]
+
 ## Aliases
 
-- _none recorded_
+- 알비노
 
 ## Phenotypes
 
@@ -19,6 +24,15 @@ Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-anal
 | oca2 | associated_with_gene | UNKNOWN | Gene |
 | tyr | associated_with_gene | CAUSAL_VARIANT | Gene |
 | tyr Tol-1 transposon insertion | caused_by_variant | CAUSAL_VARIANT | GeneticVariant |
+
+## Inheritance
+
+| Relation | Target | Strongest evidence |
+|---|---|---|
+| inherited_as | recessive | OBSERVATIONAL |
+| masks | blue | BREEDER_OBSERVATION |
+| masks | panda | BREEDER_OBSERVATION |
+| requires_allele | i locus: i (albino) | INFERRED |
 
 ## Mechanism
 
@@ -53,10 +67,35 @@ Lack of melanophores throughout the body; yellow body, pink pupil. Not GWAS-anal
   - Lack of melanophores throughout the body; yellow body, pink pupil.
   - _Table 1_
 
+• **OBSERVATIONAL** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - inherited_as → recessive
+  - Table 1 gives the hereditary mode of albino as "Recessive"; reported loci oca2 (Fukamachi et al. 2004).
+  - _Table 1_
+
+• **BREEDER_OBSERVATION** — 改良メダカ品種分類マニュアル 第５版 (2025) — https://jma-medaka.com/wp-content/uploads/2022/08/250901_【公式】品種分類マニュアル_第５版.pdf
+  - masks → blue
+  - JMA states that albino body colour is limited to white, pink, yellow and orange, and never one that contains melanophores such as blue or brown.
+  - > 体色は，白系，ピンク系，黄系，オレンジ系（朱赤系）のみに限定され，青系や茶系など黒色素胞の含む体色になることはありません
+  - _3.3.1 アルビノ_
+
+• **INFERRED** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - masks → blue
+  - Kon et al. define albino as lack of melanophores throughout the body, and blue as colour from melanophores without xanthophores, so an albino cannot show blue whatever its r genotype.
+
+• **BREEDER_OBSERVATION** — 改良メダカ品種分類マニュアル 第５版 (2025) — https://jma-medaka.com/wp-content/uploads/2022/08/250901_【公式】品種分類マニュアル_第５版.pdf
+  - masks → panda
+  - JMA states that an albino's iris has no melanin, so a fish with strongly transparent scales is called seethrough rather than panda.
+  - > 通常，アルビノでは虹彩に黒色素（メラニン）が入らないため強透明鱗の場合，パンダではなくシースルーと呼ばれる。
+  - _3.8.10 シースルー_
+
+• **INFERRED** — Genomic consequences of domestication and the diversification of body coloration and mo... (2026) — doi:10.1093/molbev/msag021
+  - requires_allele → i locus: i (albino)
+  - Table 1 lists albino as Recessive and the seed identifies the trait with the classic i mutant (tyrosinase, koga1995), so the trait is the homozygote of the i allele.
+
 ## Related traits
 
 - _none recorded_
 
 ## Open questions
 
-- 4 claim(s) awaiting human review (BROKEN_CITATION, EVIDENCE_LEVEL_UNCLEAR, NEW_CAUSAL_VARIANT).
+- 8 claim(s) awaiting human review (BROKEN_CITATION, EVIDENCE_LEVEL_UNCLEAR, NEW_CAUSAL_VARIANT).
