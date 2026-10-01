@@ -177,3 +177,81 @@ def test_evidence_id_is_shared_across_claims_it_bears_on():
     ev = _ev()
     assert ev.id_for("paper:doi:x") == _ev().id_for("paper:doi:x")
     assert ev.id_for("paper:doi:x") != ev.id_for("paper:doi:y")
+
+
+# --- labels, ADR 0005 ---------------------------------------------------------
+
+
+def _label(**kw):
+    from medaka_ontology.models import Label
+
+    return Label(**{"text": "オロチ", "lang": "ja", "vocab": ["bv:0137"], **kw})
+
+
+def test_a_label_names_its_language_and_a_source():
+    with pytest.raises(ValidationError, match="BCP 47"):
+        _label(lang="Japanese")
+    with pytest.raises(ValidationError, match="bv:0001"):
+        _label(vocab=["137"])
+    with pytest.raises(ValidationError, match="ATTESTED but names no source"):
+        _label(vocab=[])
+    assert _label(vocab=[], status="UNVERIFIED").status.value == "UNVERIFIED"
+    for tag in ("ja", "ja-Latn", "ko", "en", "zh-Hant"):
+        assert _label(lang=tag).lang == tag
+
+
+def test_names_are_derived_from_labels_and_unverified_ones_are_kept_apart():
+    entity = Entity(
+        label=NodeLabel.ORNAMENTAL_TRAIT,
+        name="x",
+        labels=[
+            _label(kind="PREFERRED"),
+            _label(text="orochi-jp", lang="ja-Latn", kind="ROMANIZATION"),
+            _label(text="大蛇", vocab=[], status="UNVERIFIED"),
+        ],
+    )
+    assert entity.japanese_name == "オロチ"
+    assert entity.aliases == ["orochi-jp"]
+    assert entity.unverified_labels == ["大蛇"]
+
+
+def test_an_unverified_preferred_label_does_not_become_the_japanese_name():
+    entity = Entity(
+        label=NodeLabel.ORNAMENTAL_TRAIT,
+        name="x",
+        labels=[_label(kind="PREFERRED", vocab=[], status="UNVERIFIED")],
+    )
+    assert entity.japanese_name is None
+    assert entity.unverified_labels == ["オロチ"]
+
+
+def test_labels_cannot_be_written_beside_the_fields_they_replace():
+    with pytest.raises(ValidationError, match="labels"):
+        Entity(
+            label=NodeLabel.ORNAMENTAL_TRAIT, name="x", japanese_name="オロチ", labels=[_label()]
+        )
+
+
+def test_two_preferred_labels_in_one_language_are_refused_but_two_languages_are_not():
+    with pytest.raises(ValidationError, match="PREFERRED"):
+        Entity(
+            label=NodeLabel.ORNAMENTAL_TRAIT,
+            name="x",
+            labels=[_label(kind="PREFERRED"), _label(text="別名", kind="PREFERRED")],
+        )
+    Entity(
+        label=NodeLabel.ORNAMENTAL_TRAIT,
+        name="x",
+        labels=[_label(kind="PREFERRED"), _label(text="오로치", lang="ko", kind="PREFERRED")],
+    )
+
+
+def test_deriving_names_is_idempotent_when_a_validated_entity_is_revalidated():
+    """Pydantic re-runs after-validators when an Entity instance is placed in a
+    SeedBundle. The first version of the fold read its own output as a
+    hand-written japanese_name and refused every entity with a label."""
+    from medaka_ontology.models import SeedBundle
+
+    entity = Entity(label=NodeLabel.ORNAMENTAL_TRAIT, name="x", labels=[_label(kind="PREFERRED")])
+    bundle = SeedBundle(entities=[entity])
+    assert bundle.entities[0].japanese_name == "オロチ"

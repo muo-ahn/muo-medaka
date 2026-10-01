@@ -5,7 +5,10 @@
 # on it no matter what the trade calls the same trait.
 #
 # What changed (2026-09, docs/research/breeder-vocabulary-2026-09.md and its two
-# CSVs) is what `japanese_name` means. It used to be empty by construction,
+# CSVs) is what `japanese_name` means. (2026-10: names are written as `labels`
+# now, ADR 0005, and `japanese_name`, `aliases` and `unverified_labels` are
+# derived from them; the paragraphs below describe the rule those labels follow.)
+# It used to be empty by construction,
 # because the seed paper romanizes throughout and gives no orthography of its
 # own. It now means: a trade source (JMA's 改良メダカ品種分類マニュアル 第5版,
 # hinsyu-zukan, etc -- see 01-sources-breeder.yaml and the CSV survey) prints
@@ -16,12 +19,12 @@
 # the academic trait is not. A comment beside each promotion names the CSV row
 # (`bv:NNNN`) and source it rests on.
 #
-# Everything that fails that bar stays in `unverified_labels` with
-# `UNVERIFIED_LABEL`: reconstructed spellings with no attesting source, strings a
+# Everything that fails that bar stays a label with `status: UNVERIFIED`, and the
+# entity keeps `UNVERIFIED_LABEL`: reconstructed spellings with no attesting source, strings a
 # source prints whose definition does not clearly match Kon's, or strings
 # ambiguous with a different trait/strain that reading alone does not resolve. A
-# trait can carry both at once -- a promoted `japanese_name` for the string that
-# clears the bar and `unverified_labels` for others that do not.
+# trait can carry both at once -- an attested preferred label for the string that
+# clears the bar and UNVERIFIED labels for others that do not.
 #
 # COMPOSITE CLASSES. YWKo, kurobuchi and akabuchi are declared by the paper as
 # unions of other traits. They are marked `is_composite` and linked with
@@ -36,7 +39,9 @@ entities:
     # bv:0137 (JMA 2020 PDF, practical-aqualabo, t-aquagarden, goldmoonaqua):
     # "no background-adaptation, deep black" medaka -- matches Kon's "blackness
     # greater than the black strain".
-    japanese_name: オロチ
+    labels:
+      - {text: オロチ, lang: ja, kind: PREFERRED, reading: おろち, sources: [jma5], vocab: [bv:0137]}
+      - {text: 오로치, lang: ko, kind: PREFERRED, vocab: [bv:0137]}
     description: >-
       Blackness greater than the black strain; increased melanophores. Table 1
       records the hereditary mode as multilocus.
@@ -49,7 +54,11 @@ entities:
     # as a trait it names the head-area haze and pale purple-pink cheek cast
     # (半透明鱗), which the survey reads as the same iridophore depletion Kon
     # describes.
-    japanese_name: オーロラ
+    labels:
+      - {text: オーロラ, lang: ja, kind: PREFERRED, reading: おーろら, sources: [jma5], vocab: [bv:0052], note: "JMA also uses the word for the strain (オーロラ系統, bv:0053); this label is the trait."}
+      - {text: 半透明鱗, lang: ja, kind: SYNONYM, reading: はんとうめいりん, sources: [jma5], vocab: [bv:0051], note: "JMA names the trait 半透明鱗; that it is Kon's aurora is our reading of the definition (the survey edge is inferred:)."}
+      - {text: 오로라, lang: ko, kind: PREFERRED, vocab: [bv:0052]}
+      - {text: 반투명린, lang: ko, kind: SYNONYM, vocab: [bv:0051]}
     description: >-
       Mild iridophore depletion; loss of opercular iridophores makes the red gills
       visible; scales shift green, red, blue or yellow.
@@ -60,7 +69,9 @@ entities:
     category: BODY_COLOR
     # bv:0128 (JMA): "vermilion, black and white 3-colour" medaka,品種名 白朱赤斑
     # or 朱赤透明鱗斑 -- matches Kon's definition directly.
-    japanese_name: 三色
+    labels:
+      - {text: 三色, lang: ja, kind: PREFERRED, reading: さんしょく, sources: [jma5], vocab: [bv:0128]}
+      - {text: 삼색, lang: ko, kind: PREFERRED, vocab: [bv:0128]}
     description: Body partly white with both orange and black spots.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -70,7 +81,10 @@ entities:
     is_composite: true
     # bv:0121 (JMA): furigana くろぶち confirms the romanization, not just the
     # kanji.
-    japanese_name: 黒斑
+    labels:
+      - {text: 黒斑, lang: ja, kind: PREFERRED, reading: くろぶち, sources: [jma5], vocab: [bv:0121]}
+      - {text: 斑, lang: ja, kind: SYNONYM, reading: ぶち, sources: [jma5], vocab: [bv:0118], note: "JMA's short form for a black-spot pattern; the survey edge to this trait is inferred:."}
+      - {text: 부치, lang: ko, kind: SYNONYM, vocab: [bv:0118]}
     description: >-
       Body colour pattern with black spots. Declared by the source as a superset
       including sanshoku and kuroaka.
@@ -85,7 +99,8 @@ entities:
     # is JMA's compound colour notation for sanshoku/kouhaku, not a synonym for
     # this composite; 朱赤斑 (bv:0133) is attested but names an unrelated strain
     # (nickname 錦秋). Criterion 1 fails for all three, so this stays unverified.
-    unverified_labels: ["赤斑"]
+    labels:
+      - {text: 赤斑, lang: ja, kind: SYNONYM, status: UNVERIFIED, note: "No source in the survey prints 赤斑; 白朱赤 (bv:0023) is kouhaku's notation and 朱赤斑 (bv:0133) is another strain (R-39)."}
     description: >-
       Body colour pattern with red spots. Declared by the source as a superset
       including sanshoku and kouhaku.
@@ -98,26 +113,33 @@ entities:
     # each scale's edge" -- matches Kon's "dense melanophores around the scales,
     # appearing as a black mesh" closely enough to promote (not in the spec's
     # explicit 20, but the same criteria apply -- R-17).
-    japanese_name: ブラックリム
+    labels:
+      - {text: ブラックリム, lang: ja, kind: PREFERRED, reading: ぶらっくりむ, sources: [jma5], vocab: [bv:0123]}
+      - {text: 블랙 림, lang: ko, kind: PREFERRED, vocab: [bv:0123]}
+      - {text: Black-rim, lang: en, kind: SYNONYM, vocab: [bv:0123]}
     description: Dense melanophores around the scales, appearing as a black mesh.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
   - label: OrnamentalTrait
     name: yellow
     category: BODY_COLOR
-    aliases: [himedaka]
     # bv:0003 黄 (JMA): the formal trait name, matches Kon's definition exactly.
-    # bv:0004 ヒメダカ is also attested (JMA) but names the strain/common usage,
-    # not the trait, and japanese_name holds one string -- kept unverified here
-    # rather than picked over 黄 arbitrarily.
-    japanese_name: 黄
-    unverified_labels: ["ヒメダカ"]
+    # bv:0004 ヒメダカ is also attested (JMA). It names the strain/common usage
+    # rather than the trait; it is a synonym label beside 黄 now that a trait can
+    # carry several (R-43). Before `labels` this one-string field forced it into
+    # the unverified list (R-26).
+    labels:
+      - {text: 黄, lang: ja, kind: PREFERRED, reading: き, sources: [jma5], vocab: [bv:0003]}
+      - {text: ヒメダカ, lang: ja, kind: SYNONYM, reading: ひめだか, sources: [jma5], vocab: [bv:0004], note: "bv:0004 is the strain/common name; the trait is 黄. Himedaka is the b mutant (fukamachi2001, see the description), so the string names this trait's fish (R-43; R-26 is reversed)."}
+      - {text: 緋目高, lang: ja, kind: VARIANT, reading: ひめだか, sources: [jma5], vocab: [bv:0624], note: "Kanji spelling of ヒメダカ that the source prints."}
+      - {text: 히메다카, lang: ko, kind: PREFERRED, vocab: [bv:0004]}
+      - {text: himedaka, lang: ja-Latn, kind: ROMANIZATION, vocab: [bv:0004]}
     description: >-
       Loss of normal melanophores from the body surface. The body colour of the
       traditional ornamental medaka, himedaka. Himedaka is the medaka b mutant
       (the b locus, now slc45a2; fukamachi2001), so the cloning of b is this
       trait's own evidence (ADR 0003, own subject).
-    review_reasons: [UNVERIFIED_LABEL, BREEDER_ACADEMIC_LINK]
+    review_reasons: [BREEDER_ACADEMIC_LINK]
 
   - label: OrnamentalTrait
     name: YWKo
@@ -135,7 +157,9 @@ entities:
     # collides_with bv:0014 in the survey, and JMA itself restricts kanji 黒 to
     # two-colour compounds (黄黒, 黒オレンジ). Katakana ブラック carries no such
     # ambiguity and is the form the sources actually print for this trait.
-    japanese_name: ブラック
+    labels:
+      - {text: ブラック, lang: ja, kind: PREFERRED, reading: ぶらっく, sources: [jma5], vocab: [bv:0014], note: "Bare 黒 is not attached: it is also 黒メダカ, the wild type (bv:0002, collides_with; R-19)."}
+      - {text: 블랙, lang: ko, kind: PREFERRED, vocab: [bv:0014]}
     description: Increased blackness relative to wild type; increased melanophores.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -147,7 +171,10 @@ entities:
     # inclusion. The only collides_with on record for this string is against
     # `panda (pa) lab mutant` below, which is already a separate entity per PRD
     # §8 (NAME_COLLISION kept), not a second breeder-trait meaning.
-    japanese_name: パンダ
+    labels:
+      - {text: パンダ, lang: ja, kind: PREFERRED, reading: ぱんだ, sources: [jma5], vocab: [bv:0060]}
+      - {text: 판다, lang: ko, kind: PREFERRED, vocab: [bv:0060]}
+      - {text: 팬더, lang: ko, kind: SYNONYM, vocab: [bv:0060]}
     description: >-
       Decreased iridophore throughout the body INCLUDING the iris and peritoneum.
       The inclusion of iris and peritoneum is what distinguishes panda from
@@ -159,7 +186,8 @@ entities:
     category: BODY_COLOR
     # bv:0006 (JMA): loss of both black and yellow chromatophores, white body
     # from the white chromatophores that remain -- matches Kon.
-    japanese_name: 白
+    labels:
+      - {text: 白, lang: ja, kind: PREFERRED, reading: しろ, sources: [jma5], vocab: [bv:0006]}
     description: White body; loss of both normal xanthophores and melanophores.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -168,7 +196,8 @@ entities:
     category: BODY_COLOR
     # bv:0009 (JMA): loses yellow chromatophores and reads bluish (nearer grey,
     # since there is no true blue chromatophore) -- matches Kon.
-    japanese_name: 青
+    labels:
+      - {text: 青, lang: ja, kind: PREFERRED, reading: あお, sources: [jma5], vocab: [bv:0009]}
     description: Loss of normal xanthophores from the body surface.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -180,7 +209,9 @@ entities:
     # AC-7: JMA files this under 体外光, a luster axis this ontology's
     # TraitCategory does not have. Whether to add one is an ADR question, raised
     # separately, not decided here.
-    japanese_name: 幹之
+    labels:
+      - {text: 幹之, lang: ja, kind: PREFERRED, reading: みゆき, sources: [jma5], vocab: [bv:0075], note: "A strain nickname (blue body + 体外光); Kon's miyuki trait is the ectopic dorsal iridophore. 体外光 (bv:0074) is not attached: that edge is inferred and the word is a luster-axis trait (R-36)."}
+      - {text: 미유키, lang: ko, kind: PREFERRED, vocab: [bv:0075]}
     description: >-
       Ectopic iridophore on the dorsal side; reduction of melanophores and
       xanthophores. Table 1 records the hereditary mode as multilocus.
@@ -192,7 +223,9 @@ entities:
     # bv:0062 (JMA): guanine-reflecting scales that shine individually, ~20+
     # visible from one angle; does not manifest on toumeirin-type fish -- matches
     # Kon.
-    japanese_name: ラメ
+    labels:
+      - {text: ラメ, lang: ja, kind: PREFERRED, reading: らめ, sources: [jma5], vocab: [bv:0062]}
+      - {text: 라메, lang: ko, kind: PREFERRED, vocab: [bv:0062]}
     description: Increased number of iridophore-expressing silver-coloured scales.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -202,7 +235,12 @@ entities:
     # bv:0124 (JMA): 朱赤+白 two-colour medaka -- matches Kon directly. JMA's
     # compound-notation string 白朱赤 (bv:0023) also resolves here (inferred),
     # but 紅白 is the source-printed trade name and the one in AC-2's list.
-    japanese_name: 紅白
+    labels:
+      - {text: 紅白, lang: ja, kind: PREFERRED, reading: こうはく, sources: [jma5], vocab: [bv:0124]}
+      - {text: 白朱赤, lang: ja, kind: SYNONYM, reading: しろしゅあか, sources: [jma5], vocab: [bv:0023], note: "JMA's compound-colour notation for the same fish (survey edge inferred:)."}
+      - {text: 更紗, lang: ja, kind: SYNONYM, reading: さらさ, sources: [jma5], vocab: [bv:0125], note: "JMA gives 更紗 as the other name of 紅白 (same_as, source:)."}
+      - {text: 홍백, lang: ko, kind: PREFERRED, vocab: [bv:0124]}
+      - {text: Kohaku, lang: ja-Latn, kind: ROMANIZATION, vocab: [bv:0124]}
     description: Body surface partly white with orange spots.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -218,7 +256,9 @@ entities:
     # ブラックリム의 적흑(赤黒) 체색". JMA's own two-colour notation for the same
     # fish is 黒オレンジ (bv:0025, 2020nixtukune-mu.pdf + medakazukan) -- reversed
     # word order, kept here only as a cross-reference, not promoted.
-    japanese_name: 赤黒
+    labels:
+      - {text: 赤黒, lang: ja, kind: PREFERRED, vocab: [bv:0154, bv:0383], note: "User decision (R-31). 赤黒 has no row of its own; bv:0154 and bv:0383 are the rows whose definitions print it, off hinsyu-zukan."}
+      - {text: 黒オレンジ, lang: ja, kind: SYNONYM, reading: くろおれんじ, vocab: [bv:0025], note: "JMA's two-colour notation for the same fish, in the reverse word order (survey edge inferred:)."}
     description: >-
       Body surface partly orange with some black spots formed by melanophores.
     review_reasons: [BREEDER_ACADEMIC_LINK]
@@ -231,7 +271,8 @@ entities:
     # classifies 腹膜光 (bv:0098) as a *different* trait (black-tank-only,
     # colour varies blue/orange/multi) precisely because the expression
     # condition is the opposite, so it is not a candidate here.
-    japanese_name: 腹膜青
+    labels:
+      - {text: 腹膜青, lang: ja, kind: PREFERRED, reading: ふくまくあお, sources: [jma5], vocab: [bv:0034], note: "腹膜光 (bv:0098) is a different JMA trait with the opposite expression condition and is not attached (R-21, R-40)."}
     description: Blue silver-coloured peritoneum.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -243,7 +284,12 @@ entities:
     # accumulates astaxanthin in the xanthophores"), which is the closer
     # wording-match to Kon's definition; 楊貴妃 is promoted because it is the
     # string AC-2 names and the two are the same fish under JMA's own account.
-    japanese_name: 楊貴妃
+    labels:
+      - {text: 楊貴妃, lang: ja, kind: PREFERRED, reading: ようきひ, sources: [jma5], vocab: [bv:0135]}
+      - {text: 朱赤, lang: ja, kind: SYNONYM, reading: しゅあか, sources: [jma5], vocab: [bv:0018], note: "JMA's formal trait name; 楊貴妃 is the nickname it glosses (R-25)."}
+      - {text: 양귀비, lang: ko, kind: PREFERRED, vocab: [bv:0135]}
+      - {text: Youkihi, lang: ja-Latn, kind: ROMANIZATION, vocab: [bv:0135]}
+      - {text: Yohkihi, lang: ja-Latn, kind: ROMANIZATION, vocab: [bv:0135]}
     description: >-
       Increased redness (orange) relative to yellow medaka; enhanced xanthophores,
       loss of normal melanophores.
@@ -254,10 +300,13 @@ entities:
     category: BODY_COLOR
     # bv:0016 黄金, read おうごん (JMA): whole-body golden colour, black-tank
     # background response distinguishes it from 黄 -- matches Kon. The reading is
-    # written out because 黄金 collides_with bv:0282, a GEX strain name read
-    # こがね; per the spec's criterion 3 this promotion is valid only with the
-    # reading attached to resolve that.
-    japanese_name: 黄金（おうごん）
+    # kept because 黄金 collides_with bv:0282, a GEX strain name read こがね; per
+    # the spec's criterion 3 this promotion is valid only with the reading
+    # attached to resolve that. It is the label's `reading` field, no longer
+    # written into the string.
+    labels:
+      - {text: 黄金, lang: ja, kind: PREFERRED, reading: おうごん, sources: [jma5], vocab: [bv:0016], note: "The reading is a field now (R-20 wrote it into the string): bv:0282 黄金 is a GEX strain read こがね and a different thing."}
+      - {text: 황금, lang: ko, kind: PREFERRED, vocab: [bv:0016]}
     description: >-
       Brown or wild-type-like; brighter than wild type, with decreased blackness.
     review_reasons: [BREEDER_ACADEMIC_LINK]
@@ -267,7 +316,9 @@ entities:
     category: SCALE
     # bv:0046 (JMA): opercular iridophore loss lets the red gill show through;
     # body reads slightly transparent -- matches Kon.
-    japanese_name: 透明鱗
+    labels:
+      - {text: 透明鱗, lang: ja, kind: PREFERRED, reading: とうめいりん, sources: [jma5], vocab: [bv:0046]}
+      - {text: 투명린, lang: ko, kind: PREFERRED, vocab: [bv:0046]}
     description: >-
       Decreased iridophore throughout the body EXCLUDING the iris and peritoneum;
       near-complete loss in the scales.
@@ -278,7 +329,9 @@ entities:
     category: BODY_COLOR
     # bv:0058 (JMA): no melanin synthesis, eyes read blood-red; body colour
     # limited to white/pink/yellow/orange -- matches Kon.
-    japanese_name: アルビノ
+    labels:
+      - {text: アルビノ, lang: ja, kind: PREFERRED, reading: あるびの, sources: [jma5], vocab: [bv:0058]}
+      - {text: 알비노, lang: ko, kind: PREFERRED, vocab: [bv:0058]}
     description: >-
       Lack of melanophores throughout the body; yellow body, pink pupil. Not
       GWAS-analysed by the seed paper. This is the classic medaka albino, the i
@@ -294,7 +347,8 @@ entities:
     # 全身体内光 was considered -- it names whole-body internal luster on
     # toumeirin-type fish specifically, which is not what Kon describes, so it is
     # not recorded as a match. Criterion 1 fails; stays unverified.
-    unverified_labels: ["虹金"]
+    labels:
+      - {text: 虹金, lang: ja, kind: SYNONYM, status: UNVERIFIED, note: "No source in the survey prints 虹金."}
     description: >-
       Ectopic iridophore expression throughout the muscle. Not GWAS-analysed.
     review_reasons: [UNVERIFIED_LABEL]
@@ -319,7 +373,12 @@ entities:
     # hinsyu-zukan directly, not just secondary sources. Recorded as a
     # source-vs-source disagreement, not corrected -- Kon's own wording is what
     # is transcribed here.
-    japanese_name: ヒカリ
+    labels:
+      - {text: ヒカリ, lang: ja, kind: PREFERRED, reading: ひかり, sources: [jma5], vocab: [bv:0178], note: "Kanji 光 is not attached: it is the luster-axis word (体外光, 体内光)."}
+      - {text: Daタイプ, lang: ja, kind: SYNONYM, vocab: [bv:0179], note: "hinsyu-zukan's glossary: ヒカリ体型（Daタイプ）. The trade's name for this body shape; it does not say the lab Da mutant and hikari share a locus, which stays a putatively_same_as (R-41, PRD §8)."}
+      - {text: ホタルメダカ, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0180], note: "Older name; JMA footnote."}
+      - {text: 光りメダカ, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0181], note: "Rare JMA spelling; the kanji collides with the luster axis."}
+      - {text: 히카리, lang: ko, kind: PREFERRED, vocab: [bv:0178]}
     description: >-
       The dorsal side takes on ventral character: the dorsal fin is shaped like a
       pelvic fin, the caudal fin is diamond-shaped, and ectopic iridophore on the
@@ -331,7 +390,13 @@ entities:
     category: BODY_SHAPE
     # bv:0183 (JMA): vertebrae partially fused, body length ~half of normal --
     # matches Kon.
-    japanese_name: ダルマ
+    labels:
+      - {text: ダルマ, lang: ja, kind: PREFERRED, reading: だるま, sources: [jma5], vocab: [bv:0183]}
+      - {text: ショートボディ, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0186]}
+      - {text: バルーンメダカ, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0187]}
+      - {text: 縮みメダカ, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0188]}
+      - {text: 다루마, lang: ko, kind: PREFERRED, vocab: [bv:0183]}
+      - {text: 달마, lang: ko, kind: SYNONYM, vocab: [bv:0183]}
     description: Short body axis.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -343,7 +408,9 @@ entities:
     # daruma, shorter than wild type". JMA files it as daruma's 形質補足
     # (sub-trait qualifier) rather than an independent trait; noted, not acted
     # on here.
-    japanese_name: 半ダルマ
+    labels:
+      - {text: 半ダルマ, lang: ja, kind: PREFERRED, reading: はんだるま, sources: [jma5], vocab: [bv:0184]}
+      - {text: 반달마, lang: ko, kind: PREFERRED, vocab: [bv:0184]}
     description: >-
       Mildly short body axis; longer than daruma, shorter than wild type. Not
       GWAS-analysed.
@@ -355,7 +422,10 @@ entities:
     category: FIN_MORPHOLOGY
     # bv:0193 (JMA): all fins, including membrane, elongated; tips tend to
     # split, unsplit individuals preferred -- matches Kon.
-    japanese_name: ヒレ長
+    labels:
+      - {text: ヒレ長, lang: ja, kind: PREFERRED, reading: ひれなが, sources: [jma5], vocab: [bv:0193]}
+      - {text: ヒレナガ, lang: ja, kind: VARIANT, reading: ひれなが, vocab: [bv:0625], note: "Katakana spelling a breeder source prints (R-10). ロングフィン is not attached: the hobby's longfin is another unit of thought (collides_with)."}
+      - {text: 히레나가, lang: ko, kind: PREFERRED, vocab: [bv:0193]}
     description: >-
       All five types of fin ray longer than wild type; fin membranes elongate
       partially.
@@ -366,7 +436,8 @@ entities:
     category: FIN_MORPHOLOGY
     # bv:0196 (JMA): some fin rays partially protrude (comb-like); membrane does
     # NOT elongate -- JMA's own notes cite Kon by name for this discriminator.
-    japanese_name: スワロー
+    labels:
+      - {text: スワロー, lang: ja, kind: PREFERRED, reading: すわろー, sources: [jma5], vocab: [bv:0196]}
     description: >-
       Some fin rays longer than wild type; fin membranes do NOT elongate. Membrane
       involvement is the discriminator from hirenaga.
@@ -386,7 +457,11 @@ entities:
     # the rays" in Kon's definition is our own reading of "shape preserved",
     # not something JMA states; recorded as inference, not as a source match.
     # Not in the spec's explicit 20, but the same criteria apply -- R-17.
-    japanese_name: リアルロングフィン
+    labels:
+      - {text: リアルロングフィン, lang: ja, kind: PREFERRED, reading: りあるろんぐふぃん, sources: [jma5], vocab: [bv:0201]}
+      - {text: 리얼롱핀, lang: ko, kind: PREFERRED, vocab: [bv:0201]}
+      - {text: 리얼 롱핀, lang: ko, kind: VARIANT, vocab: [bv:0201]}
+      - {text: RLF, lang: en, kind: SYNONYM, vocab: [bv:0201]}
     description: >-
       All fins longer than wild type; not only the fin rays but also the fin
       membranes are elongated.
@@ -399,7 +474,11 @@ entities:
     # text as "マルコ（背ビレ無し）"; 背ビレ無し (bv:0213) is the same referent
     # but マルコ is the house name JMA uses as the trait heading. Not in the
     # spec's explicit 20, but the same criteria apply -- R-17.
-    japanese_name: マルコ
+    labels:
+      - {text: マルコ, lang: ja, kind: PREFERRED, reading: まるこ, sources: [jma5], vocab: [bv:0212]}
+      - {text: 背ビレ無し, lang: ja, kind: SYNONYM, sources: [jma5], vocab: [bv:0213], note: "JMA's gloss: マルコ（背ビレ無し）."}
+      - {text: 背びれなし, lang: ja, kind: VARIANT, vocab: [bv:0626], note: "Hiragana spelling a breeder source prints (R-10)."}
+      - {text: 마르코, lang: ko, kind: PREFERRED, vocab: [bv:0212]}
     description: Dorsal fin loss. Not GWAS-analysed by the seed paper.
     review_reasons: [BREEDER_ACADEMIC_LINK]
 
@@ -410,7 +489,8 @@ entities:
     # bv:0234 (JMA): skull deformity shortens eye-to-mouth distance and both
     # eyes protrude; the eyeball itself does not enlarge -- JMA's own notes cite
     # Kon by name here too.
-    japanese_name: 出目
+    labels:
+      - {text: 出目, lang: ja, kind: PREFERRED, reading: でめ, sources: [jma5], vocab: [bv:0234]}
     description: >-
       Protrusion of the eyeballs from the skull caused by skeletal dysplasia of the
       head; the eyeballs themselves are not enlarged.
@@ -424,7 +504,9 @@ entities:
     # enlarged, unlike deme's protrusion without enlargement -- matches Kon
     # directly, including the same deme contrast. Not in the spec's explicit 20,
     # but the same criteria apply -- R-17.
-    japanese_name: ビッグアイ
+    labels:
+      - {text: ビッグアイ, lang: ja, kind: PREFERRED, reading: びっぐあい, sources: [jma5], vocab: [bv:0236]}
+      - {text: ビックアイ, lang: ja, kind: VARIANT, reading: びっぐあい, sources: [jma5], vocab: [bv:0627], note: "JMA's body-text spelling; its trait table says ビッグアイ."}
     description: >-
       Enlarged eyeballs that do NOT protrude from the skull. Clean contrast with
       deme, which is protrusion without enlargement.
@@ -440,17 +522,21 @@ entities:
     # as 点目, read てんめ -- an exact match to the romanization. Not promoted
     # to japanese_name: 点目 has only that single, lower-tier source and no
     # printed reading of its own (the てんめ reading is our inference from the
-    # kanji), so criterion 1/3 are not both cleanly met. Both candidates are
-    # kept unverified pending a stronger source.
-    unverified_labels: ["スモールアイ", "点目"]
+    # kanji), so criterion 1/3 are not both cleanly met. スモールアイ is the
+    # attested label (R-44: with `labels` it no longer has to wait for 点目);
+    # 点目 stays UNVERIFIED pending a stronger source.
+    labels:
+      - {text: スモールアイ, lang: ja, kind: PREFERRED, reading: すもーるあい, sources: [jma5], vocab: [bv:0239], note: "Attested by JMA; that it is Kon's tenme is our reading of the definition (survey edge inferred:)."}
+      - {text: 点目, lang: ja, kind: SYNONYM, reading: てんめ, status: UNVERIFIED, vocab: [bv:0240], note: "One breeder blog glosses スモールアイ as 点目; the reading is our inference from the kanji, no printed reading (R-23)."}
     description: Small pupil; small eyeballs in some cases.
-    review_reasons: [UNVERIFIED_LABEL]
+    review_reasons: [BREEDER_ACADEMIC_LINK, UNVERIFIED_LABEL]
 
   - label: OrnamentalTrait
     name: suihougan
     category: EYE_MORPHOLOGY
     # bv:0237 (JMA): cornea balloons into a fluid-filled cyst -- matches Kon.
-    japanese_name: 水泡眼
+    labels:
+      - {text: 水泡眼, lang: ja, kind: PREFERRED, reading: すいほうがん, sources: [jma5], vocab: [bv:0237]}
     description: >-
       Enlargement of the anterior segment of the eyeball; corneal cyst. Not
       GWAS-analysed.

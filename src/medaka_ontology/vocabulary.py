@@ -32,6 +32,8 @@ class NodeLabel(StrEnum):
     PAPER = "Paper"
     EVIDENCE = "Evidence"
     CLAIM = "Claim"
+    #: A name of an entity in one language, with its own provenance. ADR 0005.
+    LABEL = "Label"
 
 
 #: Labels that may appear as the subject or object of a :Claim.
@@ -65,6 +67,7 @@ LABEL_PREFIX: dict[NodeLabel, str] = {
     NodeLabel.PAPER: "paper",
     NodeLabel.EVIDENCE: "ev",
     NodeLabel.CLAIM: "claim",
+    NodeLabel.LABEL: "label",
 }
 
 
@@ -222,6 +225,27 @@ class TraitCategory(StrEnum):
     EYE_MORPHOLOGY = "EYE_MORPHOLOGY"
     SCALE = "SCALE"
     OTHER = "OTHER"
+
+
+class LabelKind(StrEnum):
+    """What a label is, relative to the entity it names. ADR 0005."""
+
+    #: The name to show in that language. At most one per language.
+    PREFERRED = "PREFERRED"
+    #: A different word for the same thing.
+    SYNONYM = "SYNONYM"
+    #: A Latin-script spelling of a word from another script (ja-Latn, ko-Latn).
+    ROMANIZATION = "ROMANIZATION"
+    #: The same word written differently: kana/kanji, width, a misspelling a
+    #: source prints, spacing.
+    VARIANT = "VARIANT"
+
+
+class LabelStatus(StrEnum):
+    """Whether a source prints this string for this referent. PRD §2.4."""
+
+    ATTESTED = "ATTESTED"
+    UNVERIFIED = "UNVERIFIED"
 
 
 class ReviewStatus(StrEnum):

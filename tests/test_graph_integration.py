@@ -63,6 +63,23 @@ def test_ingest_writes_the_whole_bundle(loaded):
     assert (loaded.papers, loaded.entities, loaded.claims) == (33, 169, 193)
 
 
+def test_a_label_is_a_node_attested_by_its_paper(session, loaded):
+    """ADR 0005. 'Which source prints this synonym' has to be a graph query."""
+    record = session.run(
+        """
+        MATCH (l:Label {text: 'ヒメダカ'})-[:LABEL_OF]->(t:OrnamentalTrait {name: 'yellow'})
+        OPTIONAL MATCH (l)-[:ATTESTED_BY]->(p:Paper) WHERE p.title STARTS WITH $title
+        RETURN l.lang AS lang, l.status AS status, count(p) AS papers,
+               t.labels_display AS display, t.japanese_name AS japanese_name
+        """,
+        title="改良メダカ品種分類マニュアル",
+    ).single()
+    assert record is not None, "the yellow trait has no ヒメダカ label node"
+    assert (record["lang"], record["status"], record["papers"]) == ("ja", "ATTESTED", 1)
+    assert record["japanese_name"] == "黄"
+    assert any("ヒメダカ" in d for d in record["display"])
+
+
 def test_evidence_is_deduplicated_across_claims(session, loaded):
     """A finding cited on two claims is one node with two edges, which is what
     makes 'what did this paper contribute?' answerable."""
