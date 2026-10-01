@@ -17,6 +17,9 @@ git archive origin/main | tar -x -C /tmp/base
 python scripts/vocab/audit_vocab.py /tmp/base              # 1차 직후 상태
 ```
 
+CSV 는 인자로 준 레포 루트 아래 `docs/research/vocabulary-audit-2026-10.csv` 에 쓴다(cwd 에 쓰지 않는다). 다른 경로는 두 번째 인자로 준다:
+`python scripts/vocab/audit_vocab.py . out.csv`. `/tmp/base` 로 돌리면 그 사본 안에 쓰이고 이 레포는 건드리지 않는다.
+
 세 종류를 본다.
 
 1. **흩어진 동의어** — 정규화하면 같은 문자열이거나 영어·한국어 표기를 공유하는데 서로 관계가 없는 행.
