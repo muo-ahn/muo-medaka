@@ -5,7 +5,7 @@ Build scripts and raw research data behind
 `docs/research/breeder-vocabulary-relations-2026-09.csv` — a term list and
 relation table mapping Japanese/Korean breeder vocabulary onto the ontology.
 See `docs/handoff-breeder-vocabulary.md` for the job that produced them and
-`.harness/rulings.md` (R-01..R-15) for the decisions baked into the code below.
+`.harness/rulings.md` (R-01..R-63) for the decisions baked into the code below.
 
 ## Files
 
@@ -16,6 +16,7 @@ See `docs/handoff-breeder-vocabulary.md` for the job that produced them and
 | `build_strain.py` | generates `strain.tsv` from transcribed source data (writes into this directory) |
 | `build_vocab.py` | merges `color.tsv` + `morph.tsv` + `strain.tsv` into the two output CSVs under `docs/research/`, plus the `fragments/` tables pasted into the write-up doc. Stable term/relation ids persist in `ids.json`. |
 | `check_vocab.py` | self-check (AC-1..AC-5, AC-7 structure) over the generated CSVs; exits 1 on failure |
+| `audit_vocab.py` | 1차 결과 감사(2026-10): 흩어진 동의어·잘못된 병합·표기 흔들림을 두 CSV 와 seed 에서 찾아 CSV 로 쓴다. 데이터는 안 바꾼다. `python scripts/vocab/audit_vocab.py <repo-root> [out.csv]`; 결과는 `docs/research/vocabulary-audit-2026-10.md` |
 | `ids.json` | persisted stable ids, read and rewritten by `build_vocab.py` on every run |
 | `color_sources.md`, `morph_sources.md`, `strain_sources.md` | per-lane source log: pages visited, what each one contributed, saturation notes |
 | `fragments/` | small `.md`/`.json` tables `build_vocab.py` regenerates each run, meant to be pasted into the research write-up |

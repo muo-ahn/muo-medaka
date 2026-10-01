@@ -450,6 +450,60 @@ for s, rel, o, basis, _ in MANUAL:
         continue
     add(sid, rel, oid, basis, "build:manual")
 
+# ---- second pass (2026-10): edges the first pass got wrong ------------------
+# docs/research/vocabulary-audit-2026-10.md found these by reading `same_as`
+# transitively and by cross-checking the table against the seed's own rulings.
+# Each fix names its ruling; the lane TSVs are left as collected, so what a
+# source said and what we concluded from it stay apart.
+REVISED = "revised:2026-10 2차 정제"
+FIX_RETYPE = [
+    # (subject, old relation, object, new relation or None to drop, ruling)
+    # JMA's 2020 nickname table glosses オロチ as ブラック + 背地反応なし: a
+    # narrower form, not another name. Kon maps them to different loci.
+    ("ブラック", "same_as", "オロチ", "narrower", "R-34"),
+    # 強透明鱗 is the JMA diagram term that resolves to パンダ on a normal eye and
+    # シースルー on an albino one; the manual edges above already say narrower.
+    ("パンダ", "same_as", "強透明鱗", None, "R-35"),
+    # 幹之 is the nickname of a strain (青 + 体外光); 体外光 is one of its traits.
+    ("幹之", "same_as", "体外光", None, "R-36"),
+    # R-27 read JMA's カガミ cell as unrelated to カガミ鱗; the edge contradicted it.
+    ("カガミ", "same_as", "カガミ鱗", None, "R-37"),
+]
+for s, old, o, new, ruling in FIX_RETYPE:
+    sid, oid = resolve(s), resolve(o)
+    key = next((k for k in ((sid, old, oid), (oid, old, sid)) if k in rels), None)
+    assert key, ("FIX target missing", s, old, o)
+    edge = rels.pop(key)
+    if new:
+        add(sid, new, oid, f"{edge['basis']} | {REVISED} {ruling}", edge["origin"] + "; build:revised")
+
+# A same_as that the table also records as a collision is a dispute between
+# sources, not a synonym. It stays, so the dispute is visible, but carries a
+# marker no transitive reading may cross (check_vocab enforces this).
+for (s, rel, o), edge in rels.items():
+    if rel != "same_as":
+        continue
+    if (s, "collides_with", o) in rels or (o, "collides_with", s) in rels:
+        edge["basis"] += f" | disputed:같은 쌍에 collides_with 기록 ({REVISED} R-38)"
+# The same holds one step out: 極光 is same_as both フルボディ and 鉄仮面, which
+# JASMA keeps apart, so either edge alone would carry the collision across.
+collisions = [(s, o) for (s, rel, o) in rels if rel == "collides_with" and not o.startswith("seed:")]
+same_edges = {(s, o): e for (s, rel, o), e in rels.items() if rel == "same_as" and o}
+for a, b in collisions:
+    nbr = collections.defaultdict(set)
+    for (s, o) in same_edges:
+        nbr[s].add(o)
+        nbr[o].add(s)
+    for c in nbr[a] & nbr[b]:
+        for x in (a, b):
+            e = same_edges.get((x, c)) or same_edges.get((c, x))
+            if "disputed:" not in e["basis"]:
+                e["basis"] += f" | disputed:{by_id[c]['term_ja']} 을 거쳐 collides_with 쌍을 잇는다 ({REVISED} R-38)"
+
+# Scattered synonym: a Korean shop's 시로부치 is the transliteration of 白斑
+# (しろぶち); the row itself says so in its notes, but nothing linked the two.
+add("bv:0132", "same_as", "bv:0555", f"inferred:bv:0555 notes — 白ブチ(しろぶち)의 음역 ({REVISED} R-42)", "build:revised")
+
 # ------------------------------------------------------------------ seed coverage
 import yaml  # noqa: E402
 seed = []
@@ -466,7 +520,9 @@ SEED = [
     ("aurora", "M", [("オーロラ", "seed_match", f"source:{JMA_MANUAL}"), ("半透明鱗", "seed_match", "inferred:Kon 정의(아가미뚜껑 홍색소포 소실)=JMA オーロラ 형질=半透明鱗")], "オーロラ", "オーロラ", "일치 (단 계통명·형질명 동음)"),
     ("sanshoku", "M", [("三色", "seed_match", f"source:{JMA_MANUAL}")], "三色", "三色 (JMA 품종명 白朱赤斑 / 朱赤透明鱗斑)", "일치"),
     ("kurobuchi", "M", [("黒斑", "seed_match", f"source:{JMA_MANUAL}"), ("斑", "seed_match", "inferred:JMA가 흑반 무늬 호칭을 斑(ぶち)로 통일")], "黒斑", "黒斑(くろぶち), 斑(ぶち)", "일치 — JMA 후리가나 くろぶち로 로마자 kurobuchi 확인"),
-    ("akabuchi", "M", [("白朱赤", "seed_match", "inferred:sanshoku(白朱赤斑)와 kouhaku(白朱赤)를 포괄하는 적색 반점 = JMA 2색 표기 白朱赤")], "赤斑", "白朱赤 / 紅白 계열. 赤斑 표기 미확인", "불일치 — 赤斑은 업계 표기로 확인 안 됨. 비슷한 朱赤斑(しゅあかぶち)은 朱赤 바탕에 흑반(斑)이라 뜻이 다름"),
+    # R-39: 白朱赤 is same_as 紅白 (JMA), so matching it here made akabuchi = kouhaku.
+    # Kon defines akabuchi as the union of sanshoku and kouhaku; no trade word names it.
+    ("akabuchi", "N", [], "赤斑", "업계 용어 없음 (白朱赤·紅白은 하위 형질 kouhaku 의 이름)", "불일치 — 赤斑은 업계 표기로 확인 안 됨. 비슷한 朱赤斑(しゅあかぶち)은 朱赤 바탕에 흑반(斑)이라 뜻이 다름"),
     ("blackrim", "M", [("ブラックリム", "seed_match", f"source:{JMA_MANUAL}")], "—", "ブラックリム", "라벨 없음"),
     ("yellow", "M", [("黄", "seed_match", f"source:{JMA_MANUAL}"), ("ヒメダカ", "seed_match", f"source:{JMA_MANUAL}")], "ヒメダカ, 黄", "黄 (JMA 형질), ヒメダカ (통칭)", "일치"),
     ("YWKo", "N", [], "—", "업계 용어 없음 (Kon의 분석용 합성 클래스: 黄·白·紅白)", "라벨 없음"),
@@ -478,13 +534,16 @@ SEED = [
     ("rame", "M", [("ラメ", "seed_match", f"source:{JMA_MANUAL}")], "ラメ", "ラメ", "일치"),
     ("kouhaku", "M", [("紅白", "seed_match", f"source:{JMA_MANUAL}"), ("白朱赤", "seed_match", "inferred:JMA 품종명 표기 白朱赤 = 紅白")], "紅白", "紅白 (JMA 표기 白朱赤)", "일치"),
     ("kuroaka", "M", [("黒オレンジ", "seed_match", "inferred:Kon 정의(오렌지 바탕+흑반)=JMA 2색 표기 ブラック+オレンジ; 번식장 표기는 赤黒(女雛·来光)")], "黒赤", "赤黒 (hinsyu-zukan), 黒オレンジ (JMA 2색 표기)", "불일치 — 黒赤 표기 미확인, 업계는 赤黒 순서"),
-    ("fukumaku", "M", [("腹膜青", "seed_match", "inferred:Kon 'blue silver-coloured peritoneum' = JMA 共通補足 腹膜青"), ("腹膜光", "seed_match", "inferred:복막 광택의 다른 JMA 형질(흑수조 발현); 구분 필요")], "腹膜", "腹膜青 / 腹膜光", "불일치 — 腹膜은 해부 부위명이고 형질명은 腹膜青 또는 腹膜光"),
+    ("fukumaku", "M", [("腹膜青", "seed_match", "inferred:Kon 'blue silver-coloured peritoneum' = JMA 共通補足 腹膜青"), ("腹膜光", "collides_with", "inferred:JMA §3.8.2/§3.8.3 이 발현 조건이 반대인 별개 형질로 구분(R-21, R-40)")], "腹膜", "腹膜青 / 腹膜光", "불일치 — 腹膜은 해부 부위명이고 형질명은 腹膜青 또는 腹膜光"),
     ("yokihi", "M", [("楊貴妃", "seed_match", f"source:{JMA_MANUAL}"), ("朱赤", "seed_match", "inferred:JMA 공식 형질명 朱赤(楊貴妃는 닉네임)")], "楊貴妃", "楊貴妃 (JMA 형질명 朱赤)", "일치"),
     ("gold", "M", [("黄金", "seed_match", "inferred:Kon 'gold'(갈색 기반·흑색 감소) ↔ 黄金(おうごん, en Gold); 黄金(こがね)과는 별개")], "—", "黄金(おうごん)", "라벨 없음 — 붙일 때 黄金(こがね) 품종과 충돌 주의"),
     ("toumeirin", "M", [("透明鱗", "seed_match", f"source:{JMA_MANUAL}")], "透明鱗", "透明鱗", "일치"),
     ("albino", "M", [("アルビノ", "seed_match", f"source:{JMA_MANUAL}")], "アルビノ", "アルビノ", "일치"),
     ("nijikin", "N", [], "虹金", "대응 용어 못 찾음 (가장 가까운 후보: 全身体内光, 추론·약함)", "불일치 — 虹金은 어떤 출처에도 없음"),
-    ("hikari", "M", [("ヒカリ", "seed_match", f"source:{JMA_MANUAL}")], "光", "ヒカリ (가타카나). 光りメダカ·光体型은 JMA 각주의 드문 표기", "불일치 — 업계는 ヒカリ. 한자 光는 광택 축(体外光 등)과 충돌"),
+    # R-41: Daタイプ is the trade's word for the ヒカリ body shape (hinsyu-zukan
+    # glossary: ヒカリ体型（Daタイプ）), so it maps to the breeder trait. The lab Da
+    # mutant is reached only through putatively_same_as in the seed (PRD §8).
+    ("hikari", "M", [("ヒカリ", "seed_match", f"source:{JMA_MANUAL}"), ("Daタイプ", "seed_match", "source:https://hinsyu-zukan.satumano-medakayasan.com/%E7%94%A8%E8%AA%9E%E9%9B%86/")], "光", "ヒカリ (가타카나). 光りメダカ·光体型은 JMA 각주의 드문 표기", "불일치 — 업계는 ヒカリ. 한자 光는 광택 축(体外光 등)과 충돌"),
     ("daruma", "M", [("ダルマ", "seed_match", f"source:{JMA_MANUAL}")], "ダルマ", "ダルマ", "일치"),
     ("handaruma", "M", [("半ダルマ", "seed_match", f"source:{JMA_MANUAL}")], "半ダルマ", "半ダルマ", "일치"),
     ("hirenaga", "M", [("ヒレ長", "seed_match", f"source:{JMA_MANUAL}")], "ヒレ長", "ヒレ長 (변형 ヒレナガ)", "일치"),
@@ -496,7 +555,7 @@ SEED = [
     ("bigeye", "M", [("ビッグアイ", "seed_match", f"source:{JMA_MANUAL}")], "—", "ビッグアイ (본문 ビックアイ)", "라벨 없음"),
     ("tenme", "M", [("スモールアイ", "seed_match", "inferred:Kon 'small pupil; small eyeballs in some cases' = JMA スモールアイ(동공 위축)"), ("点目", "seed_match", "inferred:点目(てんめ)은 スモールアイ 별칭이며 로마자 tenme와 읽기 일치")], "天眼", "点目 = スモールアイ", "불일치 — 天眼은 어떤 출처에도 없음. 天眼은 てんがん으로 읽혀 tenme가 안 됨. 頂点眼(위를 향한 눈)과도 다름"),
     ("suihougan", "M", [("水泡眼", "seed_match", f"source:{JMA_MANUAL}")], "水泡眼", "水泡眼", "일치"),
-    ("Da mutant", "M", [("Daタイプ", "seed_match", "source:https://hinsyu-zukan.satumano-medakayasan.com/%E7%94%A8%E8%AA%9E%E9%9B%86/"), ("ヒカリ", "seed_match", "inferred:Da=zic1/4 enhancer 변이, hikari와 같은 좌위")], "—", "Daタイプ (=ヒカリ体型)", "라벨 없음"),
+    ("Da mutant", "L", [], "—", "lab only (업계의 Daタイプ 는 hikari 의 표기; 둘의 관계는 seed 의 putatively_same_as)", "—"),
     ("guanineless", "L", [], "—", "lab only", "—"),
     ("few melanophore", "L", [], "—", "lab only", "—"),
     ("leucophore free", "L", [], "—", "lab only", "—"),
