@@ -1,56 +1,53 @@
-# Spec — 업계 용어 조사 결과를 seed 에 반영 (a)
+# Spec — 용어 2차 정제와 유전 관계 온톨로지 (2026-10)
 
 ## 목표
-`docs/research/breeder-vocabulary-2026-09.md` §seed에 대한 발견이 찾은 seed 의 일본어 표기·설명 오류를
-`data/seed/` 에 반영하고, 이제 읽은 JMA 改良メダカ品種分類マニュアル 第5版을 출처로 등록한다.
+1차 용어 통일(PR #10)을 검증해 남은 동의어 흩어짐·잘못된 병합·표기 흔들림을 고치고, 정제된 다국어 라벨을
+온톨로지에 결합한다. 그 위에 유전 양식·대립유전자·우열·성연관·상위성·연관·복합 형질을 표현하는 층을 더해,
+두 부모의 유전자형으로 자손 형질 분포를 내는 최소 질의가 가능함을 검증한다.
 
 ## 범위
-- `01-sources-breeder.yaml`: JMA 매뉴얼을 `:Paper` 로 추가하고, "NOT CITED, DELIBERATELY" 주석을 다시 쓴다.
-- `10-entities-traits.yaml`: Kon 형질의 일본어 표기 교정. 출처가 그대로 싣는 표기는 `japanese_name` 으로 승격한다
-  (사용자 결정 2026-09-29). 파일 머리 주석의 NAMING 원칙을 이에 맞게 다시 쓴다.
-- hikari description 의 "pelvic fin" 을 Kon 원문과 대조한다.
-- `12-entities-breeder-traits.yaml` / `23-claims-breeder.yaml`: JMA 매뉴얼이 カガミ鱗·フサヒレ 에 대해 말하는 것을 확인해 반영한다.
-- Da mutant 의 업계 이름 Daタイプ 처리.
+- 1차 결과 검증: `docs/research/breeder-vocabulary-*.csv`, `data/seed/1x-*.yaml`. 기계 감사 스크립트와 보고서.
+- 2차 정제: seed 라벨 교정, CSV 관계표의 잘못된 간선 교정(빌드 스크립트 경유), 근거를 rulings 에 기록.
+- 다국어 라벨 구조(`labels`): 언어 태그·읽기·출처·검증 상태를 라벨마다 둔다. 언어 제약 없음을 문서에 명시.
+- 유전 층: 새 노드 라벨 `InheritanceMode`, 새 predicate(유전 양식·대립·우열·형질의 대립유전자 요구·연관·가림·구성),
+  새 증거 수준 `INFERRED`, 각 predicate 의 증거 수준 정의(ADR), seed 데이터(출처 있는 것만).
+- 교배 질의: 순수 Python 모듈 + CLI 명령. Neo4j 없이 seed 에서 돈다.
 
 ## 비범위
-- `TraitCategory` 변경(miyuki → 광택 축), `vocabulary.py`·`models.py` 변경, 새 predicate, ADR.
-- 품종명 층, 조사 CSV 의 미수집 용어(シルバー 등 55종) 추가.
-- longfin 에 업계 라벨 부여.
-- native speaker 검토 자체.
-
-## 승격 기준 (japanese_name)
-다음을 모두 만족할 때만 `japanese_name` 에 넣는다. 하나라도 빠지면 `unverified_labels` + `UNVERIFIED_LABEL` 로 둔다.
-1. 조사 CSV 의 출처(JMA, hinsyu-zukan 등) 가운데 하나 이상이 그 문자열을 그대로 싣는다.
-2. 그 출처의 정의가 Kon Table 1 의 해당 형질 정의와 맞는다(문자열만 같은 것은 불충분).
-3. 같은 문자열이 다른 형질을 뜻하는 충돌이 조사에 기록되어 있지 않다. 있으면 읽기(かな)를 함께 적어 해소될 때만 승격.
-
-승격한 형질은 `UNVERIFIED_LABEL` 을 떼고 `BREEDER_ACADEMIC_LINK` 를 단다 — 'Kon 의 X = 업계의 X' 동일성은
-출처가 말한 것이 아니라 우리가 이은 것이기 때문이다. 각 승격 옆 주석에 근거 출처 key 를 적는다.
+- 품종명 층 전체 편입(328개 품종). JMA 가 구성을 명시하고 구성 형질이 모두 seed 에 있는 소수만 넣는다.
+- 교배 추천·최적 교배 전략·개체 관리(PRD §14 의 나머지 비목표는 유지).
+- 출처 없는 유전 양식 기입. 모르는 것은 모른다고 둔다.
+- `TraitCategory` 에 LUSTER 축 추가(miyuki 문제, 별도 ADR 후보로 남김).
 
 ## 수용 기준
-- AC-1: JMA 매뉴얼이 `01-sources-breeder.yaml` 에 `:Paper` 로 있다. URL, 접근일, 무엇을 말하고 무엇을 말하지 않는지가
-  notes 에 있다. "NOT CITED, DELIBERATELY" 주석이 '읽었다'는 현재 상태로 다시 쓰여 있다.
-- AC-2: Kon 형질 가운데 승격 기준을 만족하는 것은 `japanese_name` 을 갖고, 만족하지 않는 것은 그 이유가 주석에 있다.
-  최소한 다음이 반영된다: hikari → ヒカリ, kuroaka → 赤黒, kurobuchi 黒斑 확인. 조사가 "일치"로 확인한 20개 표기
-  (オロチ, オーロラ, 三色, ヒメダカ·黄, パンダ, 白, 青, 幹之, ラメ, 紅白, 楊貴妃, 透明鱗, アルビノ, ダルマ, 半ダルマ, ヒレ長,
-  スワロー, 出目, 水泡眼, カガミ鱗) 각각이 승격 또는 사유 주석을 갖는다.
-- AC-3: 근거가 약한 것은 승격하지 않는다. tenme 는 天眼 을 빼고 スモールアイ·点目 를 `unverified_labels` 에 둔다(点目 는 단일 출처).
-  akabuchi·nijikin 은 "업계 표기 없음" 주석, fusahire 의 房ヒレ 는 그대로, longfin 은 무라벨 유지.
-  fukumaku(腹膜青)·black(ブラック)·gold(黄金 おうごん) 는 승격 기준 2·3 을 따져 결정하고 판정을 주석과 rulings 에 남긴다.
-- AC-4: hikari description 을 Kon 2026 Table 1 원문(PMC12915790)과 대조하고 해당 셀을 보고에 인용한다.
-  Kon 이 anal 이면 seed 의 전사 오류로 고친다. Kon 이 pelvic 이면 description 은 그대로 두고 JMA·hinsyu-zukan 과의
-  불일치를 주석으로 남긴다.
-- AC-5: Da mutant 의 `aliases` 는 바꾸지 않는다. Daタイプ 는 업계가 ヒカリ体型 을 부르는 말이지 lab mutant 의 이름 변형이
-  아니므로(PRD §8) hikari 쪽 주석에만 기록한다.
-- AC-6: kagamirin·fusahire 에 대해 JMA 매뉴얼의 해당 서술을 확인한다. 뒷받침하면 JMA 를 evidence 로 추가하고,
-  다르게 말하면 불일치를 기록하고, 언급이 없으면 notes 에 그렇게 적는다.
-- AC-7: miyuki 의 category 는 바꾸지 않는다. BODY_COLOR vs JMA 体外光 불일치를 ADR 후보로 보고에 올린다.
-- AC-8: `python -m medaka_ontology.cli validate` 와 `pytest` 가 통과한다. 건너뛴 테스트가 있으면 이름과 사유를 적는다.
-  seed 에서 생성되어 커밋되는 산출물(`data/dossier/` 등)이 이번 변경으로 달라져야 하면 재생성하거나, 못 하면 사유를 보고한다.
+- AC-1: 1차 결과 검증 보고서가 있다(`docs/research/vocabulary-audit-2026-10.md`). 검사 종류별 발견 수와 대표 사례,
+  각 발견의 판정(고침/의도된 것/남김)이 있다. 감사는 스크립트로 재현된다.
+- AC-2: 감사가 "고침"으로 판정한 것은 모두 고쳐졌고, 병합·분리·이름 변경마다 rulings 에 근거(출처·판단 이유) 한 줄이 있다.
+  최소한 다음이 반영된다: ブラック≠オロチ(same_as 제거), akabuchi↛白朱赤(seed_match 교정), Daタイプ 는 hikari 의 라벨,
+  yellow 의 ヒメダカ 는 출처 있는 라벨, tenme 의 スモールアイ 는 JMA 출처 라벨, 다툼 있는 same_as 2건 표시.
+- AC-3: Entity 에 다국어 `labels` 가 있다. 라벨은 언어 태그(BCP 47)·종류·읽기·출처(paper key 또는 `bv:` id)·상태를 갖는다.
+  기존 `japanese_name`/`aliases`/`unverified_labels` 를 읽는 경로(dossier·query·lexicon·resolution)가 계속 동작한다.
+  출처 없는 라벨은 `UNVERIFIED_LABEL` 을 끌고 다닌다(테스트로 강제).
+- AC-4: README 와 설계 문서(ADR)에 "온톨로지 언어에는 제약이 없다(영어·일본어·한국어 등 혼용 가능), 품종명은
+  일본어 원어 표기를 기준으로 다른 언어 표기를 동의어로 둔다"가 명시되어 있다.
+- AC-5: 새 predicate 와 `InheritanceMode`·`INFERRED` 가 vocabulary 에 닫힌 집합으로 있고, 각각 domain/range 가 선언되어
+  있으며, 증거 수준 정의와 experiment_type 상한이 ADR 과 `ceilings.py` 에 있다.
+- AC-6: seed 에 출처 있는 유전 데이터가 있다. 최소: Kon 2026 Table 1 의 유전 양식 11건(원문 대조), b·r·i 좌위의 대립유전자와
+  우열(Sasano 2012), r 좌위의 성연관(Hayasaka 2019), 연관 1건 이상, 가림(상위성) 1건 이상, 복합 형질 1건 이상.
+  추론은 `INFERRED` 로 표시한다.
+- AC-7: 교배 질의가 두 부모 유전자형 → 자손 유전자형·형질 분포(성별 구분)를 낸다. 예측에 쓴 claim 중 가장 약한 증거 수준을
+  함께 낸다. 모델에 없는 형질은 "예측 불가(사유)"로 명시한다.
+- AC-8: 교배 질의 검증: (a) Hayasaka 2019 의 Hd-rRII1 계통 유지 교배(딸 전부 白, 아들 전부 주황) 재현,
+  (b) Sasano 2012 Cross I 역교배 관찰 수와 예측 비율의 적합도 보고, (c) 성연관 때문에 9:3:3:1 이 깨지는 예시. 테스트로 고정.
+- AC-9: `python -m medaka_ontology.cli validate` 와 `pytest` 가 통과한다. skip 은 이름과 사유를 적는다.
+  seed 에서 생성되는 커밋 산출물(dossier)이 달라져야 하면 재생성하거나 사유를 보고한다.
+- AC-10: 작업 브랜치 `genetics-ontology` 에 커밋한다. main 에 push·merge 하지 않는다.
 
 ## 열린 결정
-- 권위 순서(JMA > 도감 > 번식장 > 블로그)는 잠정. 이번 작업은 이 순서를 승격 기준 1 의 출처 선택에만 쓴다.
-- miyuki 의 광택 축 도입 여부(ADR).
+- PRD §14 는 "Mendelian cross simulator", "offspring phenotype prediction" 을 비목표로 둔다. 이번 지시는 그 질의를
+  검증용으로 요구한다. 검증용 최소 질의로 한정하고, 비목표 해제 여부는 사용자 결정으로 남긴다.
+- 권위 순서(JMA > 도감 > 번식장 > 블로그)는 여전히 잠정.
+- r 좌위와 성결정 좌위 사이 재조합률은 출처가 없어 0 으로 둔다(가정 명시).
 
 ## 변경 이력
-- 2026-09-29 이전 spec(브리딩 용어 전수 목록, AC-1..AC-7 전부 통과)은 `.harness/archive/spec-breeder-vocabulary-2026-09.md` 로 옮겼다.
+- 2026-10-01 이전 spec(용어 조사 결과의 seed 반영, AC-1..AC-8)은 `.harness/archive/spec-breeder-labels-to-seed-2026-09.md` 로 옮겼다.
