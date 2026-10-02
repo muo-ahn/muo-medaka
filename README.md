@@ -8,11 +8,12 @@ and their genetic background. Built to answer, with sources attached:
 - which traits share a gene, pathway or developmental mechanism
 - how breeder terminology maps onto laboratory mutant names
 
-It is a knowledge layer, not a breeding tool. Mating recommendation, cross
-simulation, pedigree management and phenotype prediction are explicit non-goals
+It is a knowledge layer, not a breeding tool. Mating recommendation, pedigree
+management, individual stock management and cross strategy are explicit non-goals
 (see [the PRD](Medaka%20Ornamental%20Trait%20Ontology%20%E2%80%94%20Rough%20PRD.md), §14).
-The one exception is a validation query over the genetic layer, described
-[below](#the-genetic-layer), which exists to test the data and lifts nothing.
+Predicting the offspring of a cross you chose is in scope (owner's decision,
+2026-10-02, [ADR 0007](docs/decisions/0007-offspring-prediction-in-scope.md)):
+[Predicting offspring](#predicting-offspring). Prediction is not recommendation.
 
 **The ontology has no language restriction.** Names may be English, Japanese,
 Korean or any other language, mixed freely in one graph and on one entity. For
@@ -90,7 +91,7 @@ cp .env.example .env
 | `candidates` | Staged proposals awaiting a decision. |
 | `accept <id> --level X` / `reject <id>` | Decide one candidate. |
 | `proposed-genes` | Gene symbols seen but not in the ontology. |
-| `cross --mother "b/b r/r" --father "b/b r/R"` | Offspring of a cross from the genetic layer, by sex, with the weakest evidence under each trait. No database needed. |
+| `cross --mother "b/b r/r" --father "b/b r/R"` | Predict a cross's offspring from the genetic layer: classes by sex as exact fractions, the evidence and assumptions behind them, what is refused. `--json` for the contract. No database needed. See [Predicting offspring](#predicting-offspring). |
 
 The Neo4j browser is at <http://localhost:7474> (user `neo4j`, password from
 `.env`).
@@ -240,24 +241,197 @@ sex-linked, what masks what, and which strains are combinations of which traits.
 Each claim carries its paper and level. A conclusion we drew ourselves is marked
 `INFERRED`, the lowest level, with the reasoning on the claim.
 
-`cross` reads those claims and computes the offspring of two genotypes, or of two
-parents known only by what they show (a range over the genotypes consistent with
-it):
+On top of it, `cross` predicts the offspring of a cross
+([ADR 0007](docs/decisions/0007-offspring-prediction-in-scope.md)). It reads those
+claims and nothing else, so it needs no database.
+
+## Predicting offspring
+
+Offspring trait prediction is in scope; **prediction is not recommendation**. The
+command says what the seed's claims imply for a cross you chose, how well each
+prediction is established, what it assumes and what it will not predict. It does not
+suggest, rank or plan crosses and it keeps no stock.
+
+### Input
 
 ```bash
-.venv/Scripts/python -m medaka_ontology.cli cross --symbols
-.venv/Scripts/python -m medaka_ontology.cli cross --mother "b/b r/r" --father "b/b r/R"
-.venv/Scripts/python -m medaka_ontology.cli cross --mother-shows yellow --father-shows blue
+cross --symbols                                  # the alleles you can write, and the traits you can name
+cross --mother "b/b r/r" --father "b/b r/R"      # genotypes
+cross --mother-shows yellow --father-shows blue  # what the parents show
+cross ... --true-breeding                        # with --*-shows: homozygotes only, a fixed strain
+cross ... --json                                 # the machine-readable output below
 ```
 
-At the sex-linked r locus a male's two alleles are written X first, so `r/R` is
-X^r Y^R. The output is exact fractions per sex, the weakest-evidence claim under
-each predicted trait, every assumption made, and what it refuses to predict
-(`orochi`: multilocus). **This is a validation query, not a breeding tool**: it
-reproduces published crosses to show the layer is honest enough
-([docs/research/cross-validation-2026-10.md](docs/research/cross-validation-2026-10.md)).
-It recommends nothing, and whether to lift the PRD §14 non-goal is the owner's
-decision.
+(Prefix with `.venv/Scripts/python -m medaka_ontology.cli`.)
+
+- A genotype is one `a/b` token per locus, separated by spaces, commas or semicolons.
+  Both alleles must belong to the same locus.
+- **A locus you do not give is homozygous wild type.** `--symbols` marks the wild-type
+  allele of every locus.
+- **At the sex-linked r locus a male's token is `X allele / Y allele`.** `r/R` is
+  X^r Y^R (the Hd-rRII1 father); `R/r` is X^R Y^r. A female's two alleles are both X
+  and their order means nothing. A male's order is the point, and one allele alone
+  (`r`) is refused.
+- `--mother` is the female, `--father` the male. Genotypes and `--*-shows` are not
+  mixed, and `--true-breeding` goes with `--*-shows` only.
+- With `--*-shows` the parent is every genotype that shows exactly those traits
+  (comma-separated names), over the loci that can change them (the traits' loci, every
+  trait on those loci, whatever masks them). Each output class is then a
+  `min`–`max` range over all crosses of all such hypotheses. Other loci are wild type.
+- Errors say what to change: an unknown allele symbol (with the known ones), alleles of
+  two loci in one token, a locus given twice, the wrong sexes, an unknown trait name (with
+  the nameable ones), a set of traits no genotype can show. Exit status 1.
+
+### Worked examples
+
+**The Hd-rRII1 maintenance cross** (Hayasaka 2019): every daughter white, every son
+orange (Kon's yellow).
+
+```
+$ cross --mother "b/b r/r" --father "b/b r/R"
+mother  X^r X^r b/b
+father  X^r Y^R b/b
+
+female offspring (within sex)
+      1 (100.0%)  white
+male offspring (within sex)
+      1 (100.0%)  yellow
+
+evidence (weakest claim under each predicted trait)
+  white: OBSERVATIONAL <- requires_allele white -> b locus: b (5 claims)
+  yellow: OBSERVATIONAL <- requires_allele yellow -> b locus: b (5 claims)
+```
+
+**A sex-linked F2.** A yellow female (b/b, X^R X^R) times a blue male (B/B, X^r Y^r)
+gives an all-wild-type F1. Intercross its daughters and sons: with r on the sex
+chromosomes the F2 daughters cannot be blue or white, and the sons split 3:3:1:1,
+not 9:3:3:1.
+
+```
+$ cross --mother "B/b R/r" --father "B/b R/r"
+female offspring (within sex)
+     3/4 (75.0%)  none of the modelled traits
+     1/4 (25.0%)  yellow
+male offspring (within sex)
+     3/8 (37.5%)  blue [BREEDER_OBSERVATION]
+     3/8 (37.5%)  none of the modelled traits
+     1/8 (12.5%)  white
+     1/8 (12.5%)  yellow
+```
+
+`blue [BREEDER_OBSERVATION]` is the display rule at work: the weakest claim on blue's
+list is the `masks albino -> blue` edge, a trade description, and it is counted even
+when no albino is in the cross (the list errs toward the weaker side).
+
+**Phenotype input.** A yellow mother and a blue father, genotypes unknown: four
+hypotheses each, so every class is a range.
+
+```
+$ cross --mother-shows yellow --father-shows blue
+mother shows yellow (4 genotype hypotheses)
+father shows blue (4 genotype hypotheses)
+
+male offspring (min - max over hypotheses)
+  3/16 - 1  none of the modelled traits
+  0 - 1/2  blue [BREEDER_OBSERVATION]
+  0 - 1/4  albino [INFERRED]
+      may hide blue (masked by albino)
+  ...
+```
+
+With `--true-breeding` each parent is one genotype and the range collapses to a point.
+
+**A refusal.** Orochi is recorded as multilocus; the query will not guess.
+
+```
+$ cross --mother-shows orochi --father-shows blue
+orochi: not predictable (multilocus, kon2026)          (exit status 1)
+```
+
+### What is refused, and why
+
+| code | when | what happens |
+|---|---|---|
+| `multilocus` | a source records the trait as multilocus (orochi, miyuki) | an error if you name it; otherwise listed under "not predictable" |
+| `no_allele_model` | a mode is recorded but no allele model exists (YWKo), or a composite's parts have none (Hitomi) | same |
+| `no_inheritance_data` | no source says how the trait is inherited (most traits) | same |
+| `disputed` | a claim the prediction rests on has contradicting evidence | the trait is not predicted; same |
+| `linked_loci_no_recombination_fraction` | two loci in the cross are joined by `linked_to` and no rate is recorded | the cross is refused: independent assortment would be a guess |
+
+A heterozygote whose two alleles have no dominance claim is not refused: it is a class
+marked `T?` with a warning. The seed has no disputed claim and no linked pair of loci
+today, so the last two rows are exercised by tests on small synthetic seeds.
+
+### What is always printed
+
+- **Evidence.** For every predicted trait: the weakest level among the claims the
+  prediction can rest on, the claim that sets it, how many claims there are (all of
+  them in `--json`). A weakest level below `OBSERVATIONAL` (`BREEDER_OBSERVATION`,
+  `INFERRED`, `UNKNOWN`) is a *weak basis*: the trait carries `[LEVEL]` wherever a
+  class names it and the evidence line starts with `!`.
+- **Assumptions**, always: sex ratio 1:1; independent assortment of unlinked loci; a
+  locus not given is wild type; the reasoning behind every `INFERRED` claim used; and
+  four decisions the owner has not made, marked `[open decision]` on every result
+  whether or not the cross touches them: only two composite strains are modelled (the
+  356 trade strain names are not incorporated), the source authority order is
+  provisional and unused, the r locus is completely linked to the sex-determining
+  locus (recombination 0), and albino is assumed to be one allele (`tyr`, not `oca2`).
+  A result missing any of the four is not rendered.
+- **Masking and composites.** A class that hides a trait says which trait, which
+  masker, and in what share of the class (`may hide` for a range). A composite strain
+  (seethrough) absorbs its parts and is not reported as hiding them.
+
+### JSON (`--json`), schema version 1
+
+Fractions are strings `"n/d"` (`"1/1"` for one). The shape is pinned by
+`tests/test_cross_feature.py`; adding a key is not a version bump, removing,
+renaming or re-meaning one is.
+
+```
+{
+  "schema_version": 1,
+  "kind": "genotype_cross" | "phenotype_cross",
+  "loci_in_play": ["r locus", "slc45a2"],                  # genotype_cross
+  "true_breeding": false,                                   # phenotype_cross
+  "parents": {                                              # genotype_cross:
+    "mother": {"genotype": "X^r X^r b/b",                   #   as displayed, and
+               "alleles": {"r locus": ["r","r"], ...}},     #   per locus (male: [X, Y])
+    "father": {...}                                         # phenotype_cross:
+  },                                                        #   {"shows": [...], "hypothesis_count": n,
+                                                            #    "hypotheses": ["b/b", ...]}
+  "offspring": {
+    "female": {"classes": [CLASS, ...]},
+    "male":   {"classes": [CLASS, ...]},
+    "overall": {"classes": [CLASS, ...]},                   # sex 1:1
+    "genotypes": {"female": [{"genotype": "...", "probability": "1/2"}], "male": [...]}   # genotype_cross only
+  },
+  "evidence": [{"trait": "white", "weakest_level": "OBSERVATIONAL",
+                "weakest_claim": "requires_allele white -> b locus: b", "weak_basis": false,
+                "claims_used": [{"id": "...", "statement": "...", "level": "...",
+                                 "papers": ["sasano2012"], "disputed": false}]}],
+  "inferred_steps": ["dominant_over ..."],                  # INFERRED claims used ([] for phenotype_cross)
+  "assumptions": [{"id": "sex_ratio", "text": "...", "open_decision": false}, ...],
+  "not_predictable": [{"trait": "orochi", "code": "multilocus", "reason": "..."}],
+  "warnings": [{"code": "weak_basis" | "dominance_unrecorded", "text": "..."}]
+}
+
+CLASS = {"label": "albino + white",                       # "none of the modelled traits" if none
+         "traits": [{"trait": "albino", "state": "expressed" | "partial" | "unresolved",
+                     "weakest_level": "INFERRED", "weak_basis": true}],
+         "probability": "3/8"                               # phenotype_cross: {"min": "0/1", "max": "1/2"}
+         "hidden": [{"trait": "blue", "hidden_by": ["albino"],
+                     "fraction_of_class": "1/2"}]}          # per sex only; no fraction in overall or ranges
+```
+
+A refusal or an input error with `--json` prints
+`{"schema_version": 1, "error": {"code": "...", "message": "..."}}` and exits 1. Codes:
+`invalid_input`, `not_predictable` (a trait you named is refused; the per-trait codes in
+the table are in `not_predictable` lists), `linked_loci_no_recombination_fraction`,
+`seed_inconsistent` (the seed's own genetic layer is broken).
+
+The query reproduces published crosses
+([docs/research/cross-validation-2026-10.md](docs/research/cross-validation-2026-10.md)),
+and a test holds each of them.
 
 ## Layout
 
