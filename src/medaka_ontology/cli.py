@@ -26,7 +26,16 @@ from .convergence import gene_claim_violations
 from .db import Neo4jUnavailableError, graph_counts, install_schema, session_scope
 from .discovery import EuropePmcBackend, all_queries
 from .dossier import render_trait
-from .genetics import GeneticModel, ModelError, format_cross, format_range
+from .genetics import (
+    GeneticModel,
+    InputError,
+    ModelError,
+    cross_to_json,
+    error_to_json,
+    format_cross,
+    format_range,
+    range_to_json,
+)
 from .ingest import ingest_bundle, unprocessed_papers
 from .loader import SeedValidationError, load_dir
 from .models import slugify
@@ -726,14 +735,27 @@ def cross(
     true_breeding: bool = typer.Option(
         False, "--true-breeding", help="With --*-shows: homozygotes only, as a fixed strain"
     ),
-    symbols: bool = typer.Option(False, "--symbols", help="List the alleles a genotype can use"),
+    symbols: bool = typer.Option(
+        False, "--symbols", help="List the alleles a genotype can use and the traits you can name"
+    ),
+    as_json: bool = typer.Option(
+        False, "--json", help="Print the documented JSON (README, Predicting offspring)"
+    ),
     seed_dir: Path = typer.Option(SEED_DIR, help="Directory of seed YAML files"),
 ) -> None:
-    """Offspring of a cross from the genetic layer. Touches no database. ADR 0006.
+    """Predict the offspring of a cross from the genetic layer. Touches no database.
 
-    A validation query, not a breeding tool (PRD §14): it shows what the seed's
-    claims imply and which claim is the weakest link under each trait.
+    Prediction is in scope, recommendation is not (ADR 0007): it shows what the
+    seed's claims imply for a cross you chose, the weakest claim under each
+    trait, what it assumes, and what it refuses to predict.
     """
+
+    def refuse(exc: ModelError) -> None:
+        if as_json:
+            typer.echo(json.dumps(error_to_json(exc), indent=2))
+            raise typer.Exit(code=1)
+        _fail(str(exc))
+
     try:
         model = GeneticModel(load_dir(seed_dir))
     except (SeedValidationError, ModelError) as exc:
@@ -746,25 +768,39 @@ def cross(
                 f"{a.symbol}{' [wild type]' if a.wild_type else ''}" for a in locus.alleles.values()
             )
             console.print(f"{name}{tag}: {alleles}", markup=False, highlight=False)
+        nameable = ", ".join(sorted(t for t in model.known_traits() if model.predictable(t)))
+        console.print(f"traits for --*-shows: {nameable}", markup=False, highlight=False)
         return
+    genotypes = bool(mother or father)
+    phenotypes = bool(mother_shows or father_shows)
     try:
-        if mother and father and not (mother_shows or father_shows):
-            text = format_cross(model.cross(mother, father))
-        elif mother_shows and father_shows and not (mother or father):
-            text = format_range(
-                model.cross_from_phenotypes(
-                    [t.strip() for t in mother_shows.split(",") if t.strip()],
-                    [t.strip() for t in father_shows.split(",") if t.strip()],
-                    true_breeding=true_breeding,
-                )
+        if genotypes and phenotypes:
+            raise InputError("give genotypes or what the parents show, not a mix of both")
+        if genotypes:
+            if not (mother and father):
+                raise InputError("give both --mother and --father")
+            if true_breeding:
+                raise InputError("--true-breeding applies only to --mother-shows/--father-shows")
+            result = model.cross(mother, father)
+            text = cross_to_json(result) if as_json else format_cross(result)
+        elif phenotypes:
+            if not (mother_shows and father_shows):
+                raise InputError("give both --mother-shows and --father-shows")
+            ranged = model.cross_from_phenotypes(
+                [t.strip() for t in mother_shows.split(",") if t.strip()],
+                [t.strip() for t in father_shows.split(",") if t.strip()],
+                true_breeding=true_breeding,
             )
+            text = range_to_json(ranged) if as_json else format_range(ranged)
         else:
-            _fail("give --mother and --father, or --mother-shows and --father-shows")
-            return
+            raise InputError("give --mother and --father, or --mother-shows and --father-shows")
     except ModelError as exc:
-        _fail(str(exc))
+        refuse(exc)
         return
-    console.print(text, markup=False, highlight=False)
+    if as_json:
+        typer.echo(json.dumps(text, indent=2))
+    else:
+        console.print(text, markup=False, highlight=False)
 
 
 if __name__ == "__main__":
