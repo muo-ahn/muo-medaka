@@ -313,15 +313,16 @@ female offspring (within sex)
      3/4 (75.0%)  none of the modelled traits
      1/4 (25.0%)  yellow
 male offspring (within sex)
-     3/8 (37.5%)  blue [BREEDER_OBSERVATION]
+     3/8 (37.5%)  blue
      3/8 (37.5%)  none of the modelled traits
      1/8 (12.5%)  white
      1/8 (12.5%)  yellow
 ```
 
-`blue [BREEDER_OBSERVATION]` is the display rule at work: the weakest claim on blue's
-list is the `masks albino -> blue` edge, a trade description, and it is counted even
-when no albino is in the cross (the list errs toward the weaker side).
+No fish in this cross can be albino, so the `masks albino -> blue` edge, a trade
+description, is not among the claims blue rests on and blue carries no mark. Add an
+`i/i` parent and some blue fish are hidden, the edge counts, and the same trait reads
+`blue [BREEDER_OBSERVATION]`.
 
 **Phenotype input.** A yellow mother and a blue father, genotypes unknown: four
 hypotheses each, so every class is a range.
@@ -366,7 +367,8 @@ today, so the last two rows are exercised by tests on small synthetic seeds.
 
 - **Evidence.** For every predicted trait: the weakest level among the claims the
   prediction can rest on, the claim that sets it, how many claims there are (all of
-  them in `--json`). A weakest level below `OBSERVATIONAL` (`BREEDER_OBSERVATION`,
+  them in `--json`). A `masks` claim counts toward a trait only when the result hides
+  that trait in some class; a cross that cannot hide it leaves the claim out. A weakest level below `OBSERVATIONAL` (`BREEDER_OBSERVATION`,
   `INFERRED`, `UNKNOWN`) is a *weak basis*: the trait carries `[LEVEL]` wherever a
   class names it and the evidence line starts with `!`.
 - **Assumptions**, always: sex ratio 1:1; independent assortment of unlinked loci; a

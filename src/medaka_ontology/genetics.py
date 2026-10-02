@@ -625,10 +625,17 @@ class GeneticModel:
 
     # ----------------------------------------------------------------- evidence
 
-    def support_claims(self, trait: str, _seen: frozenset[str] = frozenset()) -> list[Claim]:
+    def support_claims(
+        self,
+        trait: str,
+        masked: frozenset[str] | None = None,
+        _seen: frozenset[str] = frozenset(),
+    ) -> list[Claim]:
         """Every claim a prediction for this trait can rest on. Static, so it errs
         toward the weaker side: a dominance edge counts even when the particular
-        cross never reads it."""
+        cross never reads it. A `masks` claim is the exception (R-78): with `masked`
+        given, it counts only for a trait in it, the traits the result actually hides
+        in some class. `None` counts every masks claim (the refusal check)."""
         claims: list[Claim] = []
         if trait in self.requires:
             for allele, claim in self.requires[trait]:
@@ -641,13 +648,13 @@ class GeneticModel:
         elif trait in self.parts and trait not in _seen:
             for part, claim in self.parts[trait]:
                 claims.append(claim)
-                claims.extend(self.support_claims(part, _seen | {trait}))
-        for _, claim in self.masked_by.get(trait, []):
-            claims.append(claim)
+                claims.extend(self.support_claims(part, masked, _seen | {trait}))
+        if masked is None or trait in masked:
+            claims.extend(claim for _, claim in self.masked_by.get(trait, []))
         return list({c.id: c for c in claims}.values())
 
-    def support(self, trait: str) -> TraitSupport:
-        claims = self.support_claims(trait)
+    def support(self, trait: str, masked: frozenset[str] | None = None) -> TraitSupport:
+        claims = self.support_claims(trait, masked)
         weak = _weakest(claims)
         if weak is None:
             return TraitSupport(trait, EvidenceLevel.UNKNOWN, "no claims", 0)
@@ -713,7 +720,9 @@ class GeneticModel:
                     "is recorded, so the query will not assume they assort independently"
                 )
 
-    def _assumptions(self, genotypes: list[Genotype], traits_shown: set[str]) -> list[Assumption]:
+    def _assumptions(
+        self, genotypes: list[Genotype], traits_shown: set[str], masked: frozenset[str]
+    ) -> list[Assumption]:
         in_play = {name for g in genotypes for name, pair in g.pairs if not self._is_wild(pair)}
         notes = [Assumption("sex_ratio", "Offspring sex is 1:1 (XY; dmy on the Y).")]
         autosomal = sorted(n for n in in_play if not self.loci[n].sex_linked)
@@ -729,7 +738,7 @@ class GeneticModel:
         notes.append(Assumption("wild_type_default", "A locus not given is homozygous wild type."))
         seen: set[str] = set()
         for trait in sorted(traits_shown):
-            for claim in self.support_claims(trait):
+            for claim in self.support_claims(trait, masked):
                 if claim.strongest_support is EvidenceLevel.INFERRED and claim.interpretation:
                     text = " ".join(claim.interpretation.split())
                     if text not in seen:
@@ -751,10 +760,10 @@ class GeneticModel:
                         )
         return [*notes, *OPEN_DECISIONS]
 
-    def _inferred_steps(self, traits: Iterable[str]) -> list[str]:
+    def _inferred_steps(self, traits: Iterable[str], masked: frozenset[str]) -> list[str]:
         steps: dict[str, None] = {}
         for trait in sorted(traits):
-            for claim in self.support_claims(trait):
+            for claim in self.support_claims(trait, masked):
                 if claim.strongest_support is EvidenceLevel.INFERRED:
                     steps[_describe(claim)] = None
         return list(steps)
@@ -783,6 +792,7 @@ class GeneticModel:
                 dist[self.show(g, in_play)] += p
             genotypes[sex] = dict(dist)
         traits = self._traits_in(by_sex.values())
+        masked = self._hidden_traits(hidden)
         refusals = self.refusals()
         refused, none = self.unpredictable_traits()
         return CrossResult(
@@ -792,15 +802,25 @@ class GeneticModel:
             by_sex,
             dict(overall),
             genotypes,
-            {t: self.support(t) for t in sorted(traits)},
-            self._inferred_steps(traits),
-            self._assumptions([m, f], traits),
+            {t: self.support(t, masked) for t in sorted(traits)},
+            self._inferred_steps(traits, masked),
+            self._assumptions([m, f], traits, masked),
             refused,
             none,
             refusals,
             {n: m.at(n) for n in in_play},
             {n: f.at(n) for n in in_play},
             hidden,
+        )
+
+    @staticmethod
+    def _hidden_traits(hidden: dict) -> frozenset[str]:
+        """The traits some class of the result hides (R-78)."""
+        return frozenset(
+            victim
+            for by_class in hidden.values()
+            for victims in by_class.values()
+            for victim in victims
         )
 
     @staticmethod
@@ -925,6 +945,7 @@ class GeneticModel:
             ]
         )
         traits = self._traits_in([*by_sex.values()])
+        masked = self._hidden_traits(hidden)
         refused, none = self.unpredictable_traits()
         return RangeResult(
             sorted(mother_shows),
@@ -933,9 +954,9 @@ class GeneticModel:
             len(fathers),
             by_sex,
             overall,
-            {t: self.support(t) for t in sorted(traits)},
+            {t: self.support(t, masked) for t in sorted(traits)},
             [
-                *self._assumptions([*mothers[:1], *fathers[:1]], traits),
+                *self._assumptions([*mothers[:1], *fathers[:1]], traits, masked),
                 Assumption(
                     "phenotype_hypotheses",
                     "The parents' genotypes are not known: every genotype that shows exactly "
