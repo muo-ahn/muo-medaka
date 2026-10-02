@@ -1,6 +1,6 @@
 # ADR 0006 — The genetic layer
 
-- **Status**: Accepted
+- **Status**: Accepted; the PRD §14 part is superseded in part by [ADR 0007](0007-offspring-prediction-in-scope.md)
 - **Date**: 2026-10-01
 - **Context**: The ontology said which gene a trait maps to and how well. It did
   not say how a trait is *inherited*: recessive or dominant, which allele of which
@@ -92,6 +92,12 @@ Not recorded, on purpose:
   linkage, and not Kon et al.'s longfin.
 
 ### The cross query, and why PRD §14 is only touched by a validation query
+
+> **Superseded in part by [ADR 0007](0007-offspring-prediction-in-scope.md) (2026-10-02).**
+> The owner lifted the §14 non-goals for offspring prediction and cross simulation;
+> where this section says the non-goal is only touched by a validation query, and
+> that lifting it is left open, ADR 0007 is the later word. The rest of the section
+> (what the query reads, what it reports) still holds.
 
 `genetics.py` reads the loaded seed and, from two genotypes (or from what the
 parents show), returns offspring genotypes and traits by sex, with exact fractions.
