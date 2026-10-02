@@ -320,9 +320,10 @@ male offspring (within sex)
 ```
 
 No fish in this cross can be albino, so the `masks albino -> blue` edge, a trade
-description, is not among the claims blue rests on and blue carries no mark. Add an
-`i/i` parent and some blue fish are hidden, the edge counts, and the same trait reads
-`blue [BREEDER_OBSERVATION]`.
+description, is not among the claims blue rests on and blue carries no mark. albino is
+recessive, so one `i/i` parent is not enough: both parents must carry `i` (say `i/i`
+and `I/i`) before some offspring are `i/i`. Then some blue fish are hidden, the edge
+counts, and the same trait reads `blue [BREEDER_OBSERVATION]`.
 
 **Phenotype input.** A yellow mother and a blue father, genotypes unknown: four
 hypotheses each, so every class is a range.
