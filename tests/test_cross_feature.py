@@ -465,6 +465,52 @@ def test_a_stated_level_is_not_marked_and_a_trade_level_is(model):
         assert weak_basis(level)
 
 
+def _masks_claims(support):
+    return [c for c in support.used if c.predicate is Predicate.MASKS]
+
+
+@pytest.mark.parametrize(
+    ("mother", "father"),
+    [("b/b r/r", "b/b r/R"), ("B/b R/r", "B/b R/r"), ("B/B r/r", "B/B r/r")],
+)
+def test_a_masks_claim_is_not_blue_s_basis_when_no_class_hides_blue(model, mother, father):
+    """R-78. No i allele in the cross, so nothing can be albino and nothing hides blue:
+    the `masks albino -> blue` trade description is not a claim blue rests on."""
+    result = model.cross(mother, father)
+    assert all(not victims for by_class in result.hidden.values() for victims in by_class.values())
+    for support in result.support.values():
+        assert not _masks_claims(support)
+    if "blue" in result.support:
+        assert result.support["blue"].level is EvidenceLevel.OBSERVATIONAL
+        assert "blue [" not in format_cross(result)
+        evidence = {e["trait"]: e for e in cross_to_json(result)["evidence"]}["blue"]
+        assert evidence["weak_basis"] is False
+        assert "masks" not in " ".join(c["statement"] for c in evidence["claims_used"])
+
+
+def test_a_masks_claim_is_blue_s_basis_when_a_class_hides_blue(model):
+    """R-78. i/i x I/i hides blue in the albino class: the masks claim is used and it
+    is the weakest link, so blue is a weak basis."""
+    result = model.cross("i/i B/b r/r", "I/i B/b r/r")
+    assert any(
+        "blue" in victims for by_class in result.hidden.values() for victims in by_class.values()
+    )
+    blue = result.support["blue"]
+    assert [c.subject.name for c in _masks_claims(blue)] == ["albino"]
+    assert blue.level is EvidenceLevel.BREEDER_OBSERVATION
+    assert "blue [BREEDER_OBSERVATION]" in format_cross(result)
+    evidence = {e["trait"]: e for e in cross_to_json(result)["evidence"]}["blue"]
+    assert evidence["weak_basis"] is True
+    assert any("masks albino" in c["statement"] for c in evidence["claims_used"])
+
+
+def test_a_range_result_counts_the_masks_claim_when_any_hypothesis_hides_blue(model):
+    """R-78. A yellow x blue range includes i/i hypotheses that hide blue."""
+    result = model.cross_from_phenotypes(["yellow"], ["blue"])
+    assert _masks_claims(result.support["blue"])
+    assert result.support["blue"].level is EvidenceLevel.BREEDER_OBSERVATION
+
+
 def test_every_inferred_claim_a_prediction_leans_on_prints_its_reasoning(model):
     result = model.cross("I/i pd/pd+", "I/i pd/pd+")
     texts = {a.id: a.text for a in result.assumptions}

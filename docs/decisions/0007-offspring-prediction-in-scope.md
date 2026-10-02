@@ -73,7 +73,9 @@ version bump, a key removed, renamed or re-meant bumps it.
 **Display rules**, enforced in `genetics.py` and shared by the text and JSON renderers:
 
 - R1. Every predicted trait carries its weakest evidence level, the claim that sets it,
-  and the claims used.
+  and the claims used. A `masks` claim is one of them only when the result hides that
+  trait in some class (it appears under `hidden`); the other claims are counted
+  statically.
 - R2. A weakest level below `OBSERVATIONAL` (`BREEDER_OBSERVATION`, `INFERRED`,
   `UNKNOWN`) is a *weak basis*: the trait is marked `[LEVEL]` wherever a class names it,
   the evidence line is flagged, and the JSON says `weak_basis: true`.
@@ -121,9 +123,10 @@ the second-pass spec left them and are **stated on every result** as open decisi
   the JSON is now a breaking change for whoever parses it.
 - Every prediction is as weak as its weakest claim, and says so. Today most predictions
   that involve dominance of a recessive trait's allele are `INFERRED` (ADR 0006), and a
-  prediction for `blue` is `BREEDER_OBSERVATION` because the `masks` claim is counted
-  statically even when no albino is in the cross. Both are deliberate and visible
-  (R2); making the second precise is a refinement, not a decision.
+  prediction for `blue` is `BREEDER_OBSERVATION` when some class hides blue behind an
+  albino (the `masks` claim, a trade description, then bears on it) and not otherwise.
+  Both are deliberate and visible (R2). The `masks` claim was first counted statically
+  even when no albino was in the cross; that over-marked every blue prediction.
 - A disputed claim now silences the traits under it. That is a loss of output and a gain
   in honesty; the seed has none today (a test says so).
 - If the owner later wants recommendation or strategy, that is a new ADR and a new
