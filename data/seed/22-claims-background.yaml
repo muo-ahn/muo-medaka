@@ -14,13 +14,18 @@ claims:
     subject: {label: OrnamentalTrait, name: albino}
     object: {label: Gene, name: tyr}
     interpretation: >-
-      This, not oca2, is the documented medaka albino gene. Insertion, somatic
-      excision reversion and transgenic rescue all converge, which is about as
-      complete as a causal case gets for a classical mutant.
+      This is the gene of the i mutant, which is what this ontology calls albino
+      (ADR 0003, own subject). It is not the only albino gene in medaka: oca2 is
+      the gene of i-3, a different albino locus (fukamachi2004, see the i-3
+      alleles). The case for tyr at the i locus rests on reversion of the Tol-1
+      insertion (tsutsumi2006) and on rescue of the i(l) albino by a tyrosinase
+      transgene (inagaki1998). koga1995 found the insertion; its abstract reads
+      as Southern blot and sequencing of a candidate, so it is recorded as
+      variant genotyping, not positional cloning.
     evidence:
       - paper: koga1995
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           Insertion of a novel transposable element into the tyrosinase gene is
@@ -32,14 +37,24 @@ claims:
         finding: >-
           Colour reversion of albino medaka is associated with spontaneous somatic
           excision of the Tol-1 element from the tyrosinase gene.
+      - paper: inagaki1998
+        experiment_type: transgenic rescue
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        finding: >-
+          the i locus of the medaka genome can be concluded to encode the
+          tyrosinase gene.
 
   - predicate: caused_by_variant
     subject: {label: OrnamentalTrait, name: albino}
     object: {label: GeneticVariant, name: tyr Tol-1 transposon insertion}
+    interpretation: >-
+      The insertion is the lesion on reversion evidence (tsutsumi2006).
+      koga1995 found it by Southern blot and sequencing, per its abstract.
     evidence:
       - paper: koga1995
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           The Tol-1 transposable element insertion in tyrosinase causes the medaka
@@ -424,14 +439,28 @@ claims:
   - predicate: participates_in
     subject: {label: Gene, name: tyr}
     object: {label: BiologicalMechanism, name: melanogenesis}
+    interpretation: >-
+      koga1995 is recorded as variant genotyping (QTL_GWAS_ASSOCIATION) because
+      its abstract reads as Southern blot and sequencing of the insertion. The
+      step from "the gene is disrupted" to "the gene makes melanin" is what
+      inagaki1998's rescue shows: a tyrosinase transgene restores melanin in
+      the albino.
     evidence:
       - paper: koga1995
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           Disruption of tyrosinase, the rate-limiting enzyme of melanin synthesis,
           causes the medaka albino mutation.
+      - paper: inagaki1998
+        experiment_type: transgenic rescue
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        finding: >-
+          transgenic expression rescued from the albino-i(l) mutation, and the i
+          locus of the medaka genome can be concluded to encode the tyrosinase
+          gene.
 
   - predicate: participates_in
     subject: {label: Gene, name: oca2}

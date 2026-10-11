@@ -159,10 +159,10 @@ entities:
     variant_type: loss of function
     description: >-
       An albino allele of tyrosinase, the classical medaka i locus. Medaka has
-      more than one albino locus -- oca2 is another (see the oca2 entity) -- and
-      no ornamental albino strain here has been genotyped, so two albino strains
-      crossed together may complement each other. The cross query assumes both
-      parents carry this allele and says so.
+      more than one albino locus -- i-3, which is oca2, is another (fukamachi2004;
+      see the oca2 entity) -- and no ornamental albino strain here has been
+      genotyped, so two albino strains crossed together may complement each
+      other. The cross query assumes both parents carry this allele and says so.
 
   - label: GeneticVariant
     name: "Da locus: Da+ (wild type)"

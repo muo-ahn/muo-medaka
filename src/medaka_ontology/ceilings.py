@@ -220,14 +220,12 @@ _SOURCE: dict[Predicate, tuple[str, str]] = {
 #: kawanishi2013 on Da mutant -> zic1 became EXPRESSION_ASSOCIATION, and the
 #: orochi exon-8 edit became FUNCTIONAL_VALIDATION.
 #:
-#: ADR 0004 leaves one. koga1995 on tyr -> melanogenesis is CAUSAL_VARIANT, which
-#: participates_in cannot carry. The full text is unavailable, and the abstract
-#: reads as a Southern blot on a candidate gene rather than positional cloning,
-#: so the right level may be FUNCTIONAL_VALIDATION or well below it. It stays
-#: pinned until the paper is read, rather than moved to a level nobody checked.
-KNOWN_CEILING_VIOLATIONS: frozenset[tuple[str, str, str, str, str]] = frozenset(
-    {("participates_in", "tyr", "melanogenesis", "koga1995", "positional cloning")}
-)
+#: ADR 0004 left one, koga1995 on tyr -> melanogenesis, pinned because its
+#: abstract reads as a Southern blot on a candidate gene rather than positional
+#: cloning. It is now recorded as `variant genotyping` at QTL_GWAS_ASSOCIATION on
+#: every claim it supports (albino-alleles-2026-10.md), which this predicate can
+#: carry, and the list is empty.
+KNOWN_CEILING_VIOLATIONS: frozenset[tuple[str, str, str, str, str]] = frozenset()
 
 
 def experiment_parts(experiment_type: str) -> list[str]:

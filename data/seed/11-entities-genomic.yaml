@@ -269,10 +269,14 @@ entities:
       "Fukamachi et al. 2004" - a paper that does not appear in its own reference
       list. Kept as an entity so the broken attribution stays visible and
       checkable rather than being silently dropped; see the claim carrying
-      BROKEN_CITATION. The well-established medaka albino gene is tyr.
-      lischik2019 edited oca2 in wild-type medaka, and cites Fukamachi et al.
-      2004 as cloning it from i-3, a different albino mutant from the i
-      (tyrosinase) mutant this ontology calls albino.
+      BROKEN_CITATION. The medaka gene of the i mutant this ontology calls albino
+      is tyr. oca2 is the gene of i-3, a different albino mutant: fukamachi2004
+      (now a paper here) cloned it from i-3, and lischik2019 cites that paper
+      and edited oca2 in wild-type medaka. No i-3 allele entity is recorded
+      yet (see the note in 24-claims-inheritance.yaml). Table 1's "Fukamachi et
+      al. 2004" is probably that paper, but kon2026's own reference list does
+      not hold it, so the attribution is still the seed paper's and still
+      unresolved there.
     review_reasons: [BROKEN_CITATION]
 
   # --- Comparative genes. PRD §10 ----------------------------------------------

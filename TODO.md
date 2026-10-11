@@ -141,9 +141,15 @@ Measure before building:
 
 ### Left over from ADR 0004
 
-- [ ] Read koga1995 in full and confirm its PMID. Then set the level on
+- [x] Read koga1995 in full and confirm its PMID. Then set the level on
       tyr -> melanogenesis and drop its `KNOWN_CEILING_VIOLATIONS` entry. The
       abstract reads as a Southern blot, not cloning.
+      → 2026-10-11: the full text is still unread, but the entry is gone.
+      koga1995 is recorded as `variant genotyping` (QTL_GWAS_ASSOCIATION) on all
+      four claims it supports, which the abstract supports, and inagaki1998
+      (transgenic rescue) now carries tyr -> melanogenesis, albino -> tyr and
+      i -> tyr at FUNCTIONAL_VALIDATION. The list is empty. Read the paper if
+      its level should rise again.
       → PMID 8552044 confirmed and added (Europe PMC `DOI:"10.1007/BF00287101"`).
       Full text still unread, so the level stays pinned. Tried: doi.org →
       Springer (abstract and "preview of subscription content" only), Europe PMC
@@ -231,6 +237,15 @@ are questions for the literature, not for the owner:
       they differ, albino × albino can give wild type and the prediction is
       wrong. Start from the note above that "Fukamachi et al. 2004" is an i-3,
       not i, cloning. Use `trait-literature-search`.
+      → Researched 2026-10-11 (`docs/research/albino-alleles-2026-10.md`): two
+      non-allelic albino loci are documented (i = tyr, i-3 = oca2), no complementation
+      cross has been published, and which one a trade line carries is unpublished.
+      fukamachi2004 and inagaki1998 are in the seed. Still open: the i-3 allele
+      entities are written (section 8 of that note) but held back until
+      `genetics.py` can treat albino as i/i or i3/i3, because they would make
+      `i3/i3 × i3/i3` predict no albino. yamamoto1969 (Genetics 62:797, PMID
+      17248459) is the first paper to read; its text could not be retrieved.
+      Owner's own crosses: `docs/research/albino-complementation-protocol.md`.
 
 The other two (folding in the 356 strain names, the source authority order) and
 the blog README's "no cross prediction" line (R-76) are the owner's calls.

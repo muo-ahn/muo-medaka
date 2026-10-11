@@ -31,9 +31,13 @@
 #   - pnp4a is not made the panda locus. Table 1's Recessive for panda sits on the
 #     row that cites pnp4a, which Kon et al. then reject in their own data. The
 #     mode is recorded as the earlier literature's, on the trait.
-#   - albino heterogeneity is not resolved. Table 1 cites oca2 for albino, the seed
-#     (and koga1995) say tyr; two albino parents may carry different loci. The i
-#     allele is tyr's, and the query reports the assumption.
+#   - albino heterogeneity is not resolved. Two non-allelic albino loci are
+#     documented, i (tyr) and i-3 (oca2, fukamachi2004), and which one an
+#     ornamental albino carries is unpublished; two albino parents may carry
+#     different loci. Only the i allele is tied to the trait (requires_allele),
+#     and the query reports the assumption. The i-3 alleles are NOT here on
+#     purpose: an allele_of claim makes its symbol parseable, and the query
+#     cannot yet say that i3/i3 is albino (R-83, albino-alleles-2026-10.md).
 #   - Nothing from the trade's ロングフィン: himemedaka_rlf says it lengthens only
 #     the male's dorsal and anal fins, which is sex-limited expression, not
 #     sex linkage, and it is not Kon et al.'s longfin.
@@ -356,17 +360,27 @@ claims:
     object: {label: Gene, name: tyr}
     interpretation: >-
       The albino of the i locus is the tyrosinase Tol-1 insertion mutant
-      (koga1995). Medaka has other albino loci (oca2); a strain called albino
-      here has not been genotyped, which is why the cross query lists the
-      assumption.
+      (koga1995). Medaka has another albino locus, i-3, which is oca2
+      (fukamachi2004); a strain called albino here has not been genotyped, which
+      is why the cross query lists the assumption.
+      koga1995 is recorded as variant genotyping because its abstract reads as
+      Southern blot and sequencing; inagaki1998's transgenic rescue of the i(l)
+      albino is what shows the locus is tyr.
     evidence:
       - paper: koga1995
-        experiment_type: positional cloning
-        level: CAUSAL_VARIANT
+        experiment_type: variant genotyping
+        level: QTL_GWAS_ASSOCIATION
         species: Oryzias latipes
         finding: >-
           Insertion of a novel transposable element into the tyrosinase gene
           is responsible for an albino mutation in medaka.
+      - paper: inagaki1998
+        experiment_type: transgenic rescue
+        level: FUNCTIONAL_VALIDATION
+        species: Oryzias latipes
+        finding: >-
+          the i locus of the medaka genome can be concluded to encode the
+          tyrosinase gene.
 
   - predicate: allele_of
     subject: {label: GeneticVariant, name: "i locus: I (wild type)"}
@@ -808,8 +822,11 @@ claims:
     subject: {label: OrnamentalTrait, name: albino}
     object: {label: GeneticVariant, name: "i locus: i (albino)"}
     interpretation: >-
-      Whether an ornamental albino carries i or another albino locus (oca2) is
-      not known; this is the assumption the cross query states.
+      Two non-allelic albino loci are documented in medaka: i (tyr) and i-3
+      (oca2; fukamachi2004). Which one an ornamental albino carries has not
+      been published, and no ornamental line has a published genotype at
+      either. The claim takes the i allele, the one this ontology defines
+      albino by; the cross query states that as its assumption.
     evidence:
       - paper: kon2026
         experiment_type: inference

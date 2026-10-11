@@ -1004,6 +1004,11 @@ claims:
       the defect stated, rather than either repeated as fact or silently dropped -
       PRD §5 prefers preserved uncertainty to false confidence, and a reader who
       meets albino->oca2 elsewhere needs to find the reason it failed here.
+      The probable source is fukamachi2004, which cloned oca2 from i-3 (a
+      different albino locus from the i mutant that defines albino here), so
+      it is not evidence for this claim by the own-subject rule (ADR 0003).
+      Whether an ornamental albino carries oca2 is a genotyping question nobody
+      has published.
     review_reasons: [BROKEN_CITATION, EVIDENCE_LEVEL_UNCLEAR]
     evidence:
       - paper: kon2026
