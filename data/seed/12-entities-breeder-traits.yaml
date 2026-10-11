@@ -1,9 +1,10 @@
 # Traits attested only in the trade, not in the literature. PRD §3, §8.
 #
-# Both axes these open were already declared in `TraitCategory` and left empty of
-# anything the hobby has produced since 2017. Kon et al. 2026 Table 1 froze the
-# vocabulary at the strains its 181 fish happened to cover; the hobby did not stop
-# there.
+# Two of the axes these open were already declared in `TraitCategory` and left
+# empty of anything the hobby has produced since 2017. Kon et al. 2026 Table 1
+# froze the vocabulary at the strains its 181 fish happened to cover; the hobby did
+# not stop there. The third, LUSTER, did not exist until ADR 0008 (2026-10-11): it
+# holds 体外光 and its 形質補足 鱗光, both defined by the JMA manual §3.4.2.
 #
 # NAMES. The sources here are Japanese and print カガミ鱗 and フサヒレ directly,
 # while the romanisation is ours: the Japanese is the attested PREFERRED label and
@@ -20,6 +21,52 @@
 # asserts a relation to `longfin`, `hirenaga` or `swallow`.
 
 entities:
+  # --- Luster ------------------------------------------------------------------
+  - label: OrnamentalTrait
+    name: taigaikou
+    category: LUSTER
+    # bv:0074 (JMA §3.4.2). The category is ADR 0008. NOT miyuki: 幹之 is the
+    # 2007 strain nickname (blue body + this trait) and Kon's miyuki also includes
+    # melanophore and xanthophore reduction, while JMA says 体外光 now occurs on
+    # yellow bodies too (R-36, R-80). No trait-to-trait claim joins the two; they
+    # meet only through the shared phenotype `ectopic dorsal iridophore`.
+    # Not ヒカリ体型 either: JMA says that fish's dorsal light is ventral
+    # iridophores moved dorsally, silver only, reaching no further than the
+    # pectoral fin, and is a different trait (see 23-claims-breeder.yaml).
+    labels:
+      - {text: 体外光, lang: ja, kind: PREFERRED, reading: たいがいこう, sources: [jma5], vocab: [bv:0074]}
+      - {text: 체외광, lang: ko, kind: PREFERRED, vocab: [bv:0074]}
+    description: >-
+      Blue-white light on the back, found in 2007 by 菅高志 and known by the
+      strain name 幹之. It normally starts near the dorsal fin and extends toward
+      the head; fish whose light reaches the mouth tip are the prized ones. Once
+      seen only on blue and white bodies, it is now also bred on yellow bodies.
+      JMA reads it as iridophores expressed ectopically on the back, which is why
+      it appears on any body shape, with a thick light layer and iridophores on
+      the fins as well. The colour of the light varies with the chromatophores
+      the fish carries.
+    review_reasons: [NEW_ORNAMENTAL_TRAIT, BREEDER_ACADEMIC_LINK]
+
+  - label: OrnamentalTrait
+    name: rinkou
+    category: LUSTER
+    # bv:0087 (JMA §3.4.2). A 形質補足 (光の形) of 体外光, made in 2019 by
+    # 垂水政治. 鱗光 is also the name of one of that breeder's strains (with
+    # ブロンズ and 王妃, which carry the trait and are called 鱗血統), so the string
+    # names a trait and a strain: NAME_COLLISION, the same flag `panda` carries.
+    # The survey row has no Korean rendering; 린광 is our reading of the kanji, not
+    # a printed term, hence UNVERIFIED and no `vocab`.
+    labels:
+      - {text: 鱗光, lang: ja, kind: PREFERRED, reading: りんこう, sources: [jma5], vocab: [bv:0087],
+         note: "Also the name of a 垂水政治 strain (2019), which carries the trait; the string names both."}
+      - {text: 린광, lang: ko, kind: PREFERRED, status: UNVERIFIED,
+         note: "Hangul reading of the kanji; no collected source prints a Korean term."}
+    description: >-
+      体外光 that shows in a scale pattern (鱗目状). Made in 2019 by 垂水政治;
+      JMA reports it in that breeder's strains 鱗光, ブロンズ and 王妃. JMA files
+      it as a 形質補足 (光の形) of 体外光, so every fish with it also has 体外光.
+    review_reasons: [NEW_ORNAMENTAL_TRAIT, BREEDER_ACADEMIC_LINK, UNVERIFIED_LABEL, NAME_COLLISION]
+
   # --- Scale -------------------------------------------------------------------
   - label: OrnamentalTrait
     name: kagamirin
@@ -61,6 +108,12 @@ entities:
     review_reasons: [NEW_ORNAMENTAL_TRAIT, BREEDER_ACADEMIC_LINK, UNVERIFIED_LABEL]
 
   # --- Phenotypes --------------------------------------------------------------
+  - label: Phenotype
+    name: scale-margin dorsal luster
+    description: >-
+      Dorsal luster that follows the outlines of individual scales, so that it
+      reads as a net or mesh over the scales instead of an unbroken sheet.
+
   - label: Phenotype
     name: enlarged scale
     description: Individual scales larger in area than wild type.

@@ -205,12 +205,12 @@ entities:
     name: miyuki
     category: BODY_COLOR
     # bv:0075 (JMA): 2007 house name for the blue-body + 体外光 (ectopic dorsal
-    # luster) fish -- matches Kon's definition. category is left BODY_COLOR per
-    # AC-7: JMA files this under 体外光, a luster axis this ontology's
-    # TraitCategory does not have. Whether to add one is an ADR question, raised
-    # separately, not decided here.
+    # luster) fish -- matches Kon's definition. category stays BODY_COLOR per
+    # AC-7: JMA files this under 体外光, a luster axis. ADR 0008 added LUSTER
+    # but a Kon trait keeps Kon Table 1's category, so miyuki is not moved.
+    # 体外光 itself is the separate entity `taigaikou` (12-entities-breeder-traits).
     labels:
-      - {text: 幹之, lang: ja, kind: PREFERRED, reading: みゆき, sources: [jma5], vocab: [bv:0075], note: "A strain nickname (blue body + 体外光); Kon's miyuki trait is the ectopic dorsal iridophore. 体外光 (bv:0074) is not attached: that edge is inferred and the word is a luster-axis trait (R-36)."}
+      - {text: 幹之, lang: ja, kind: PREFERRED, reading: みゆき, sources: [jma5], vocab: [bv:0075], note: "A strain nickname (blue body + 体外光); Kon's miyuki trait is the ectopic dorsal iridophore. 体外光 (bv:0074) is not attached: that edge is inferred and the word is a luster-axis trait, entity `taigaikou` (R-36, R-80, ADR 0008)."}
       - {text: 미유키, lang: ko, kind: PREFERRED, vocab: [bv:0075]}
     description: >-
       Ectopic iridophore on the dorsal side; reduction of melanophores and
