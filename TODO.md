@@ -180,6 +180,11 @@ Measure before building:
       `ruff`). The repo has no workflows, so PRs show no checks.
       → `.github/workflows/ci.yml`. It runs `ruff check` only: 21 files fail
       `ruff format --check`.
+- [x] Run the Neo4j integration tests in CI against a real server.
+      → #13. An `integration` job with a neo4j:5-community service;
+      `MEDAKA_REQUIRE_NEO4J` turns the no-server skip into a failure. 30 passed,
+      0 skipped. The September "hang" did not reproduce: a cold container is
+      slow on its first reload, nothing more.
 - [x] Check `content/blog/README.md:58`, which says zebrafish lack
       leucophores. It may be outdated.
       → It was. Adult zebrafish have two leucophore populations (Lewis 2019, PNAS,
@@ -191,3 +196,58 @@ Measure before building:
       only. Normalise it or add a `.gitattributes`.
       → `.gitattributes` with `* text=auto eol=lf`. The blob already matches the
       index; `git update-index --refresh` clears the stale flag.
+
+## Next (2026-10-11)
+
+Weekly collection is running. The Claude scheduled task `medaka-weekly-citations`
+(Mondays 07:00) checks out origin/main in a detached worktree
+(`C:\Dev\muo-medaka-weekly`), runs `load`, then
+`pipeline --from-citations --direction forward --limit 30` against the dev graph,
+and writes a triage report to that worktree's `data/runs/weekly-YYYY-MM-DD.md`.
+It never accepts.
+
+- [ ] Run the weekly task once by hand ("Run now") so its docker, git and pip
+      permissions are approved before the first unattended run. Backlog from the
+      2026-10-10 dry run over 27 seed papers: raw 2184 → deduped 1845 → not yet
+      known 1829 → medaka 241, so about eight weeks at 30 a week.
+- [ ] Clear the review queue before weekly candidates pile on: 3 papers
+      REVIEW_REQUIRED, 2 EXTRACTED, and the 5 claims `validate` reports as
+      carrying contradicting evidence.
+- [ ] Merging needs a ruleset bypass: `required_signatures` rejected #13 even
+      with `--squash`. Either sign commits (SSH signing key + `commit.gpgsign`)
+      or drop that rule; `deletion` and `non_fast_forward` still protect main.
+- [ ] Delete merged branches and their worktrees: cross-formal-scope,
+      genetics-ontology, enrich, breeder-vocabulary, trait-skill-enforcement,
+      phenotype-backfill, breeder-scale-and-fin-axes, ci-neo4j.
+
+### Turn cross-prediction assumptions into data
+
+Every cross result carries the four open decisions as assumptions (R-70). Two
+are questions for the literature, not for the owner:
+
+- [ ] r locus – sex-determining locus recombination, assumed 0 (R-54). Classic
+      sex-linked inheritance papers may report a crossover rate.
+- [ ] Albino allele heterogeneity: tyr and oca2 are treated as one allele. If
+      they differ, albino × albino can give wild type and the prediction is
+      wrong. Start from the note above that "Fukamachi et al. 2004" is an i-3,
+      not i, cloning. Use `trait-literature-search`.
+
+The other two (folding in the 356 strain names, the source authority order) and
+the blog README's "no cross prediction" line (R-76) are the owner's calls.
+
+### Build
+
+- [ ] Contradiction detection on newly accepted evidence (PRD Phase 4). Weekly
+      collection makes `accept` routine, so this is the first refinement it needs.
+- [ ] Fill the human ortholog layer (PRD §10). One HumanGene today; orthology
+      from Ensembl or ZFIN is mechanical.
+- [ ] A breeder-facing cross page on top of `cross --json` (`schema_version`):
+      pick the parents' phenotypes, see offspring fractions with their weakest
+      evidence and assumptions.
+
+### Later
+
+- [ ] Add keyword discovery to the weekly run once the citation backlog is drained.
+- [ ] Update the blog for the genetic layer and cross prediction (editorial
+      decision first).
+- [ ] Enforce `ruff format --check` in CI (21 files predate it).
