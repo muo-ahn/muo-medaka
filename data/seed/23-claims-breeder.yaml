@@ -5,7 +5,7 @@
 # on, so `dossier` will print these under any literature finding that ever arrives
 # and `shared-genes` cannot be moved by them. The level is the containment.
 #
-# WHAT IS NOT CLAIMED HERE, AND WHY. Three links are visible and all three are
+# WHAT IS NOT CLAIMED HERE, AND WHY. Six links are visible and all six are
 # absent on purpose:
 #
 #   - fusahire -> pnp4a. The trade explanation of the feathery white is guanine on
@@ -20,6 +20,21 @@
 #     asserted.
 #   - kagamirin -> toumeirin. Both are SCALE and they are not the same thing; no
 #     source compares them, so nothing here says they resemble each other.
+#   - taigaikou -> miyuki (composed_of, putatively_same_as, any trait-to-trait
+#     claim). Kon's miyuki also includes reduced melanophores and xanthophores,
+#     and JMA says 体外光 now occurs on yellow bodies too; 幹之 is the strain
+#     nickname for blue + 体外光. No source states a relation, so none is made
+#     (R-36, R-80). The two meet only through the shared phenotype
+#     `ectopic dorsal iridophore`.
+#   - taigaikou / rinkou -> any gene, locus or inheritance mode. JMA gives
+#     neither; the iridophore reading is a description of the phenotype, not a
+#     gene. Nothing was sequenced or crossed in the sources held here.
+#   - taigaikou vs hikari. Kon gives hikari `ectopic dorsal iridophore`; JMA
+#     says the hikari body's dorsal light is ventral iridophores moved dorsally
+#     (silver only, reaching no further than the pectoral fin) and is a different
+#     trait from 体外光. That is a tension between two sources over one
+#     phenotype, and whether to record it (a CONTRADICTS on hikari's claim) is an
+#     open decision in .harness/spec.md, not something decided here.
 
 claims:
   # --- kagamirin ---------------------------------------------------------------
@@ -200,4 +215,77 @@ claims:
           Guanine, referred to as hire-hikari, collects at the branch points of
           the elongated rays, and the source attributes the white feathery
           appearance to that accumulation.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  # --- taigaikou and rinkou ----------------------------------------------------
+  # Both from JMA 5th ed. §3.4.2 体外光. All evidence is BREEDER_OBSERVATION: the
+  # manual is a trade association's, and the iridophore reading is its own
+  # ("考えられています"), not a measurement.
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: taigaikou}
+    object: {label: Phenotype, name: ectopic dorsal iridophore}
+    interpretation: >-
+      The same phenotype Kon et al. 2026 give miyuki and hikari. Reaching it is a
+      reading by JMA ("considered to be"), and our placing it on the Kon phenotype
+      node is a further step of ours, hence BREEDER_ACADEMIC_LINK. It does not make
+      taigaikou the same trait as either.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.4.2 体外光"
+        finding: >-
+          体外光の光は虹色素胞が背中に異所的に発現した特徴と考えられています
+          (the light is considered to be iridophores expressed ectopically on
+          the back); it therefore appears on any body shape, with a thick light
+          layer and iridophores also visible on the fins.
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: subsumes
+    subject: {label: OrnamentalTrait, name: taigaikou}
+    object: {label: OrnamentalTrait, name: rinkou}
+    interpretation: >-
+      JMA classifies 鱗光 as a 形質補足 (光の形) of 体外光, so every fish with
+      rinkou has taigaikou. Recorded as subsumes so that the two fall in one
+      component and the convergence rule does not count what their definitions
+      already share as independent evidence (R-81).
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.4.2 体外光"
+        finding: >-
+          Under ◆形質補足（光の形）of 体外光 the manual lists 体外光（鱗光）:
+          2019年に垂水政治氏が作出された、鱗目状に体外光が発現する形質
+          (a trait in which 体外光 appears in a scale-mesh pattern).
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: has_phenotype
+    subject: {label: OrnamentalTrait, name: rinkou}
+    object: {label: Phenotype, name: scale-margin dorsal luster}
+    interpretation: >-
+      The discriminator from plain 体外光: the light is laid out per scale.
+      "鱗目状" is the manual's word for it; reading that as following the scale
+      margins is ours. The section's reference note (鱗一枚一枚を輝かせた) also
+      describes per-scale light, but it does not name 鱗光, so attributing it to
+      this trait is likewise our inference and it is not cited as the finding.
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.4.2 体外光"
+        finding: >-
+          鱗目状に体外光が発現する (体外光 appears in a scale-mesh pattern).
+        review_reasons: [BREEDER_ACADEMIC_LINK]
+
+  - predicate: affects_anatomy
+    subject: {label: Phenotype, name: scale-margin dorsal luster}
+    object: {label: Anatomy, name: scale}
+    evidence:
+      - paper: jma5
+        experiment_type: breeder description
+        level: BREEDER_OBSERVATION
+        section: "3.4.2 体外光"
+        finding: >-
+          The pattern of the light is set by the scales (鱗目状).
         review_reasons: [BREEDER_ACADEMIC_LINK]

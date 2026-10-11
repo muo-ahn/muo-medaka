@@ -281,6 +281,9 @@ class TraitCategory(StrEnum):
     FIN_MORPHOLOGY = "FIN_MORPHOLOGY"
     EYE_MORPHOLOGY = "EYE_MORPHOLOGY"
     SCALE = "SCALE"
+    # Reflective light on the body surface that is not a body colour (体外光).
+    # Added 2026-10; the rule for which category a trait takes is ADR 0008.
+    LUSTER = "LUSTER"
     OTHER = "OTHER"
 
 
