@@ -11,6 +11,8 @@ seed files first. Point it at a scratch instance if that is not what you want.
 
 from __future__ import annotations
 
+import os
+
 import pytest
 
 from medaka_ontology.acquisition import AcquisitionFailure
@@ -86,6 +88,10 @@ def session():
         with session_scope() as s:
             yield s
     except Neo4jUnavailableError as exc:
+        # CI sets this, so an unreachable service fails the run instead of
+        # passing it by skipping every test that needed the database.
+        if os.environ.get("MEDAKA_REQUIRE_NEO4J"):
+            pytest.fail(f"MEDAKA_REQUIRE_NEO4J is set but Neo4j is unreachable: {exc}")
         pytest.skip(f"no Neo4j: {exc}")
 
 
