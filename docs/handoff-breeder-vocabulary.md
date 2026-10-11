@@ -61,7 +61,7 @@ and the comment there should be updated.
 | black | 黒 | ブラック; bare 黒 reads as wild-type 黒メダカ | partial |
 | nijikin | 虹金 | no page, no matching hobby trait | note "no hobby term found" |
 | fusahire | unverified 房ヒレ | only フサヒレ is attested | already flagged in the seed comment |
-| miyuki | category BODY_COLOR | JMA treats 幹之 as 体外光, a luster trait | category decision; there is no LUSTER in `TraitCategory`, so this is a vocabulary change → ADR territory. Raise it, don't do it inside (a) |
+| miyuki | category BODY_COLOR | JMA treats 幹之 as 体外光, a luster trait | resolved by [ADR 0008](decisions/0008-luster-category.md): LUSTER was added, but a Kon trait keeps Kon's category, so miyuki stays BODY_COLOR; 体外光 is its own entity `taigaikou` |
 | Da mutant | lab-only aliases | hobby name Daタイプ (= ヒカリ体型) exists | alias? Check PRD §8: aliases are naming variants, not biological identity |
 | gold | no label | 黄金 is two things: おうごん (body colour) vs こがね (a GEX strain) | label only with the reading |
 | longfin | — | **do not** attach ロングフィン. The hobby term has ≥4 definitions, none equal to Kon's | confirms the existing warning in `12-entities-breeder-traits.yaml` |

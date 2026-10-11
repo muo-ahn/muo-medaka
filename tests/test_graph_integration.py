@@ -68,8 +68,10 @@ def _counts(session) -> tuple[int, int]:
 def test_ingest_writes_the_whole_bundle(loaded):
     # 2026-10: +3 papers (sasano2012, hayasaka2019, himemedaka_rlf), +26 entities
     # (5 inheritance modes, dmy, 3 loci, 15 alleles, 2 strains) and +58 claims of the
-    # genetic layer (ADR 0006).
-    assert (loaded.papers, loaded.entities, loaded.claims) == (36, 195, 251)
+    # genetic layer (ADR 0006). 2026-10-11: +3 entities (taigaikou, rinkou and the
+    # scale-margin dorsal luster phenotype) and +4 claims of the LUSTER traits
+    # (ADR 0008).
+    assert (loaded.papers, loaded.entities, loaded.claims) == (36, 198, 255)
 
 
 def test_a_label_is_a_node_attested_by_its_paper(session, loaded):

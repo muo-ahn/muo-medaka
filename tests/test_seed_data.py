@@ -359,3 +359,35 @@ def test_every_gwas_locus_records_what_the_hit_rests_on(bundle):
         assert entity.n_cases, entity.name
         assert entity.best_p_value, entity.name
         assert entity.n_genes_in_interval, entity.name
+
+
+def test_luster_traits_come_from_the_jma_manual_and_nothing_stronger(bundle):
+    """ADR 0008. taigaikou and rinkou are LUSTER traits defined by jma5 §3.4.2;
+    rinkou sits under taigaikou, and every claim about either is JMA's word at
+    BREEDER_OBSERVATION. No gene claim and no trait-to-trait claim to miyuki or
+    hikari (R-36, R-80)."""
+    by_name = {e.name: e for e in bundle.entities}
+    luster = {"taigaikou", "rinkou"}
+    for name in luster:
+        assert by_name[name].category == "LUSTER", name
+
+    assert any(
+        c.predicate is Predicate.SUBSUMES
+        and c.subject.name == "taigaikou"
+        and c.object.name == "rinkou"
+        for c in bundle.claims
+    )
+
+    touching = [c for c in bundle.claims if {c.subject.name, c.object.name} & luster]
+    assert touching
+    for claim in touching:
+        assert claim.predicate not in {
+            Predicate.ASSOCIATED_WITH_GENE,
+            Predicate.ASSOCIATED_WITH_LOCUS,
+            Predicate.CAUSED_BY_VARIANT,
+            Predicate.INHERITED_AS,
+        }
+        assert not ({claim.subject.name, claim.object.name} & {"miyuki", "hikari"})
+        for ev in claim.evidence:
+            assert ev.paper == "jma5", (claim.predicate.value, ev.paper)
+            assert ev.level is EvidenceLevel.BREEDER_OBSERVATION

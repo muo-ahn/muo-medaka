@@ -1,50 +1,33 @@
-# Spec — 교배 예측을 정식 기능으로 (2026-10)
+# Spec — 체외광·린광을 관상 형질로 (2026-10)
 
 ## 목표
-2026-10-02 사용자 결정으로 자손 형질 예측(교배 예측)이 프로젝트의 공식 범위가 되었다(PRD §14 비목표에서 제외).
-검증용이던 `medaka cross` 를 입력·출력 계약, 증거 수준·가정 표시 규칙, 명시적 거부 조건을 가진 정식 기능으로 올린다.
-예측은 추천이 아니다.
+JMA 매뉴얼 제5판 §3.4.2 가 정의하는 체외광(体外光)과 그 形質補足 린광(鱗光)을 `OrnamentalTrait` 로 seed 에 넣는다.
+광택 축이 없던 `TraitCategory` 에 LUSTER 를 신설한다(2026-10-11 사용자 결정, ADR 0008).
 
 ## 범위
-- 문서: PRD §1·§14 갱신과 결정 기록, ADR 0007 신설, ADR 0006 에 "일부 대체" 포인터, spec 교체와 rulings 이어쓰기.
-- 입력 계약: 유전자형·표현형 입력 형식, 수컷 성연관 좌위의 X·Y 순서, 기본 야생형, 고정 계통 옵션, 입력 오류.
-- 출력 계약: 성별별·전체 분수 분포, 증거 근거(가장 약한 수준과 쓴 claim), 가정 목록, 가려진 형질과 복합 품종,
-  예측 불가 형질과 사유. 사람용 출력과 `--json`(버전이 있는 문서화된 계약).
-- 표시 규칙: 약한 근거(BREEDER_OBSERVATION·INFERRED·UNKNOWN) 위의 예측 표시, 가정의 필수 표시. 코드로 강제한다.
-- 거부 조건: multilocus, 유전 데이터 없음, 대립유전자 모형 없음, 다툼 있는 claim, 재조합률 없는 연관 좌위.
-- 테스트와 README 사용 절.
+- 어휘: `TraitCategory.LUSTER` 추가. ADR 0008 신설.
+- seed: `12-entities-breeder-traits.yaml` 에 형질 2개와 필요한 Phenotype, `23-claims-breeder.yaml` 에 claim.
+- miyuki 라벨 note 의 포인터 갱신(体外光 을 miyuki 라벨로 붙이지 않는 R-36 은 유지).
+- 테스트, README·문서에서 형질 수·범주 목록을 말하는 곳.
 
 ## 비범위
-- 교배 추천·최적 교배 전략·짝짓기 제안, 혈통·개체 관리, 이미지 분류(PRD §14 의 나머지 비목표는 유지).
-- 사용자가 아직 정하지 않은 네 가지의 해결: 품종명 356개 편입(복합 2개만 유지), 출처 권위 순서, r–성결정 좌위
-  재조합률(0), 알비노 대립유전자 이질성(tyr/oca2 를 같은 대립유전자로 가정). 출력이 가정으로 밝힌다.
-- seed 생물학 claim 의 추가·변경(기능이 엄격히 요구하는 경우만, 그때도 ruling 과 증거 규칙을 따른다).
-- 콘텐츠(블로그) 편집 규칙의 변경.
+- Kon 형질(miyuki, rame 등)의 category 이동.
+- 체외광의 다른 形質補足(光の色 5종, 頭光·横光, スポットラメ)과 체외광 등급어(点光~極光)를 엔티티로 올리는 것.
+- 체외광·린광의 유전자 claim, 유전 양식 claim.
+- miyuki 와 taigaikou 를 잇는 형질-형질 claim.
+- hikari 의 `ectopic dorsal iridophore` claim 에 대한 JMA 반박(CONTRADICTS) 기록.
 
 ## 수용 기준
-- AC-1: 입력 계약이 README 와 ADR 0007 에 문서화되고 코드가 검증한다. 수컷 성연관 좌위의 순서(X 먼저), 지정하지 않은
-  좌위의 야생형 기본값, 표현형 입력과 `--true-breeding`, 알 수 없는 기호·섞인 좌위·한 좌위 중복·성연관 좌위의 대립유전자
-  하나만 쓴 경우·부모 성별 뒤바뀜·알 수 없는 형질명·불가능한 형질 조합이 각각 원인을 말하는 오류(종료 코드 1)를 낸다.
-- AC-2: 출력 계약: 성별별·전체 정확한 분수, 형질마다 가장 약한 증거 수준과 쓴 claim 목록, 가정 목록, 가려진 형질(가린 형질과
-  비율), 복합 품종, 예측 불가 형질(코드와 사유)이 구조로 있다. `--json` 이 같은 내용을 `schema_version` 과 함께 내고, 모양이
-  테스트로 고정된다. 거부·오류도 JSON 이다.
-- AC-3: 표시 규칙이 코드에서 강제된다. 가장 약한 수준이 OBSERVATIONAL 아래인 형질은 사람용·JSON 모두에서 표시되고, INFERRED
-  claim 의 이유가 가정으로 나온다. 네 개의 미결 결정이 모든 결과에 가정으로 나오고, 빠진 결과는 렌더링되지 않는다.
-- AC-4: 거부 조건이 명시적이고 각각 테스트된다: multilocus, 유전 데이터 없음, 대립유전자 모형 없음, 다툼 있는 claim,
-  재조합률 없는 연관 좌위(거부로 정하고 ruling 에 적는다). 우열 미기재는 `?` 분류와 경고로 둔다.
-- AC-5: 기존 발표 교배 재현(Hayasaka Hd-rRII1, Sasano Cross I, 성연관 F2)과 `docs/research/cross-validation-2026-10.md` 의
-  수치가 바뀌지 않는다. 표현형→유전자형 범위 출력이 테스트된다.
-- AC-6: PRD §1·§14, ADR 0007, ADR 0006 포인터, README 사용 절(Hd-rRII1 교배, 성연관 F2, 표현형 입력, 거부 예시, 출력 계약)이 있다.
-- AC-7: `pytest -q`, `cli validate`, `ruff check src tests`, `python scripts/vocab/check_vocab.py .` 가 통과한다. 기준선과 최종을 비교한다.
-- AC-8: 작업 branch `cross-formal-scope` 에 논리 단위로 커밋하고 push 한다. PR 생성·merge·main push 는 하지 않는다.
+- AC-1: `TraitCategory` 에 `LUSTER = "LUSTER"` 가 있고, ADR 0008 이 "형질의 category 는 그 형질을 정의한 출처의 분류를 따른다; Kon 형질은 Kon Table 1 분류를 유지한다"를 결정으로 기록한다.
+- AC-2: `OrnamentalTrait` `taigaikou` 가 category LUSTER 로 있다. 라벨은 体外光(ja, PREFERRED, reading たいがいこう, sources [jma5], vocab [bv:0074])과 체외광(ko, PREFERRED, vocab [bv:0074])이다. description 은 jma5 §3.4.2 에 근거한다.
+- AC-3: `OrnamentalTrait` `rinkou` 가 category LUSTER 로 있다. 라벨 鱗光(ja, PREFERRED, reading りんこう, sources [jma5], vocab [bv:0087])에는 같은 문자열이 垂水政治 2019 품종명이기도 하다는 note 가 붙는다. 출처가 없는 한국어 표기는 UNVERIFIED 로만 둔다.
+- AC-4: 두 형질의 모든 claim 은 근거가 jma5 §3.4.2 이고 수준은 BREEDER_OBSERVATION 이다. 최소한 다음 claim 이 있다: `taigaikou has_phenotype ectopic dorsal iridophore`, `taigaikou subsumes rinkou`, rinkou 를 체외광과 구분하는 has_phenotype 1개 이상.
+- AC-5: seed 에 taigaikou·rinkou 의 유전자·좌위·유전 양식 claim 이 없고, miyuki 나 hikari 와 잇는 형질-형질 claim 도 없다. 그렇게 둔 이유가 파일 주석에 있다.
+- AC-6: `pytest` 가 통과하고(Neo4j 없이 skip 되는 통합 테스트는 skip), 새 형질과 LUSTER 를 확인하는 seed 테스트가 1개 이상 추가된다.
+- AC-7: `.claude/skills/trait-literature-search/scripts/validate_rule.py` 결과가 baseline 과 같다. 다르면 차이를 보고한다.
 
 ## 열린 결정
-- 품종명 356개 편입 여부(현재 복합 2개만).
-- 출처 권위 순서(JMA > 도감 > 번식장 > 블로그)는 잠정. 질의는 쓰지 않는다.
-- r 좌위–성결정 좌위 재조합률(현재 0).
-- 알비노 대립유전자 이질성(tyr vs oca2, 현재 같은 대립유전자로 가정).
-- `content/blog/ko/README.md` 의 "이 저장소는 교배 예측을 하지 않는다(PRD §14)" 문구를 고칠지(편집 규칙이라 사용자 몫).
-- `masks` claim 을 교배에 쓰이지 않을 때도 형질의 근거로 세는 정적 계산(R-62)을 정밀하게 할지.
+- hikari 의 `ectopic dorsal iridophore` (Kon) 와 JMA 의 "ヒカリ의 등 빛은 배 쪽 홍색소포의 전이, 체외광과 다르다" 사이의 긴장 기록 여부.
+- 체외광 形質補足(색·위치·스폿라메)을 엔티티로 올릴지.
 
 ## 변경 이력
-- 2026-10-02 이전 spec(용어 2차 정제와 유전 관계 온톨로지, AC-1..AC-10)은 `.harness/archive/spec-genetics-ontology-2026-10.md` 로 옮겼다.
