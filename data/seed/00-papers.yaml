@@ -100,7 +100,11 @@ papers:
       2026-09-27. Full text not found open: Springer shows the abstract only, and
       Europe PMC and PMC hold no copy. The abstract describes a Southern blot of
       mutant DNA with a tyrosinase probe and sequencing of the 1.9-kb insertion
-      in exon 1; no mapping or rescue is mentioned.
+      in exon 1; no mapping or rescue is mentioned. So the evidence on it is
+      recorded as `variant genotyping` (QTL_GWAS_ASSOCIATION), not `positional
+      cloning`, until someone reads the full text (albino-alleles-2026-10.md).
+      The albino -> tyr case does not rest on it: tsutsumi2006 (reversion) and
+      inagaki1998 (transgenic rescue) carry it.
 
   - key: tsutsumi2006
     title: >-
@@ -111,6 +115,50 @@ papers:
     doi: 10.1111/j.1600-0749.2006.00300.x
     review_reasons: [FULLTEXT_UNAVAILABLE]
     notes: Somatic excision restores colour - strong causal confirmation for tyr.
+
+  - key: inagaki1998
+    title: >-
+      The tyrosinase gene from medakafish: transgenic expression rescues albino
+      mutation
+    year: 1998
+    journal: Pigment Cell Research
+    doi: 10.1111/j.1600-0749.1998.tb00737.x
+    pmid: "9877099"
+    review_reasons: [FULLTEXT_UNAVAILABLE]
+    notes: >-
+      Identifiers confirmed on Europe PMC (EXT_ID 9877099), 2026-10-11. Abstract
+      only. A tyrosinase genomic clone and a cDNA clone were each injected into
+      eggs of the albino i(l) mutant, and mosaic melanin pigmentation followed:
+      transgenic rescue of the i mutant, which is what moves albino -> tyr from
+      a candidate to a gene shown to be the i locus. i(l) is an i-locus albino
+      (an i allele), not i-3.
+
+  - key: fukamachi2004
+    title: >-
+      Conserved function of medaka pink-eyed dilution in melanin synthesis and
+      its divergent transcriptional regulation in gonads among vertebrates
+    year: 2004
+    journal: Genetics
+    doi: 10.1534/genetics.104.030494
+    pmid: "15579703"
+    pmcid: PMC1448775
+    open_access: true
+    notes: >-
+      Full text read (PMC HTML page; Europe PMC will not serve the XML for this
+      publisher), 2026-10-11. THIS IS THE i-3 PAPER, NOT AN i PAPER. It cloned oca2
+      (pink-eyed dilution, P) from the i-3 albino mutant, a different albino
+      locus from the i (tyrosinase) mutant this ontology calls albino. The
+      mapping: i-3 on linkage group 4, 17 recombinations in 1686 meioses against
+      the nearest EST, one BAC (129C11, about 220 kb) holding the whole candidate
+      region and six human-homolog genes (CYFIP1, NIPA2, GABRG3, OCA2, HERC2,
+      PEG10). oca2 was picked from those six because the phenotype suggested it
+      ("a very likely candidate gene"); the four-base deletion was found by
+      sequencing it. The paper reports no genotyping of the F2 for the deletion
+      and no rescue. It is also where tyrosinase staining tells i from i-3:
+      i-1 fry stain not at all, i-3 fry stain weakly. Almost certainly the
+      "Fukamachi et al. 2004" that kon2026 Table 1 cites for albino -> oca2
+      (kon2026's own reference list does not hold it); lischik2019 cites it as
+      its reference 27.
 
   - key: kimura2017
     title: Pnp4a is the causal gene of the medaka iridophore mutant guanineless

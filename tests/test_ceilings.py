@@ -63,13 +63,11 @@ def test_known_ceiling_violations_are_exactly_the_real_ones(bundle):
     assert set(ceiling_violations(bundle)) == set(KNOWN_CEILING_VIOLATIONS)
 
 
-def test_the_known_list_is_the_one_adr_0004_signed_off():
-    """ADR 0003's eleven items were fixed in the data. ADR 0004 pins one:
-    koga1995's full text is unavailable, so its level waits for the paper.
+def test_the_known_list_is_empty():
+    """ADR 0003's eleven items were fixed in the data, and so was ADR 0004's one:
+    koga1995 is recorded as `variant genotyping`, which its abstract reads as.
     Growing this list is a decision, not a way to make validate pass."""
-    assert KNOWN_CEILING_VIOLATIONS == frozenset(
-        {("participates_in", "tyr", "melanogenesis", "koga1995", "positional cloning")}
-    )
+    assert KNOWN_CEILING_VIOLATIONS == frozenset()
 
 
 def test_every_type_the_seed_uses_has_a_ceiling(bundle):

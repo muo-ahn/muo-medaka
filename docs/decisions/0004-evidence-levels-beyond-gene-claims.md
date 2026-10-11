@@ -204,6 +204,12 @@ Item verdicts. All are data fixes, done alongside this ADR:
   `tests/test_ceilings.py` holds that list to exactly this entry. tsutsumi2006
   (somatic reversion) would give the claim real FV evidence if added.
 
+  *Resolved 2026-10-11.* koga1995 is recorded as `variant genotyping`
+  (QTL_GWAS_ASSOCIATION) on this claim, which the abstract supports and the
+  predicate can carry, and inagaki1998's transgenic rescue is added as
+  FUNCTIONAL_VALIDATION. `KNOWN_CEILING_VIOLATIONS` is empty and
+  `tests/test_ceilings.py` pins it empty.
+
 Follow-ups, not done here:
 
 - `zic1 participates_in dorsoventral patterning` now sits below zic4's, at

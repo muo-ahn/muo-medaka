@@ -1,7 +1,8 @@
 # Albino alleles: is "albino" one allele (`i`)?
 
-**Status: research note and proposal. Nothing here is in the seed, the code or
-the tests.** Date: 2026-10-11. Method: `trait-literature-search` (Europe PMC
+**Status: research note. Section 8 records what was applied to the seed on
+2026-10-11 and what was held back; sections 1 to 7 are the findings and the
+original proposal.** Date: 2026-10-11. Method: `trait-literature-search` (Europe PMC
 REST, full text where open). Breeder material is `BREEDER_OBSERVATION` only
 (ADR 0003).
 
@@ -315,3 +316,128 @@ melanophore pigment, so they do not change.
   given line" into a fact for that line.
 - A reported albino x albino cross from the hobby with a stated parentage.
 - The koga1995 and fukamachi2004 supplementary material, which I did not read.
+
+## 8. Applied to the seed, and held back (2026-10-11)
+
+**Applied** (proposal items 1, 3, 4; rulings R-79 to R-86 in `.harness/rulings.md`):
+
+- Papers `fukamachi2004` (PMID 15579703, the i-3 paper, full text read) and
+  `inagaki1998` (PMID 9877099, abstract only) added to `00-papers.yaml`. Both
+  identifiers were checked against Europe PMC on 2026-10-11.
+- inagaki1998 added as `transgenic rescue`, FUNCTIONAL_VALIDATION, on `albino ->
+  tyr`, on `i locus: i (albino) allele_of tyr`, and on `tyr participates_in
+  melanogenesis`.
+- koga1995 is now `variant genotyping`, QTL_GWAS_ASSOCIATION, on all four claims
+  it supports (the abstract reads as Southern blot and sequencing). The
+  `KNOWN_CEILING_VIOLATIONS` entry for `tyr participates_in melanogenesis` is
+  gone and `tests/test_ceilings.py` now pins the list empty.
+- The `albino requires_allele i` interpretation now names the two documented loci
+  and says which one an ornamental albino carries is unpublished.
+- `albino -> oca2` keeps its UNKNOWN level and `BROKEN_CITATION`. fukamachi2004 is
+  *not* attached to it: the fish are the i-3 mutant, and ADR 0003's own-subject
+  rule defines albino here as the i mutant. The claim's interpretation and the
+  oca2 entity now say what the citation probably is.
+
+**Held back: the i-3 alleles (proposal item 2).** Adding `i-3 locus: i3 (albino)`
+and `I3 (wild type)` as `allele_of oca2` claims makes `genetics.py` read oca2 as
+a locus whose symbols `i3` and `I3` a genotype can use. Nothing requires them,
+so the query then answers a same-locus cross wrongly and silently. Measured on a
+copy of the seed with the block below added:
+
+    cross --mother "i3/i3" --father "i3/i3"   ->   "none of the modelled traits"
+
+Both parents are albino (i-3 is a whole-body albino) and every offspring is
+albino, so the query would say the opposite of the truth, with no assumption
+raised for it. `cross --symbols` would also grow `oca2: i3, I3`. Before the alleles
+go in, `genetics.py` has to treat albino as `i/i` **or** `i3/i3` (section 6,
+options 3 or 4), which is the owner's work in progress. With that in place the
+block below is ready; it passes `validate` (38 papers, 197 entities, 253 claims)
+and needs `tests/test_graph_integration.py` bumped to 197 and 253.
+
+**The level, as decided (R-79).** `allele_of i3 -> oca2` is `positional cloning` at
+**QTL_GWAS_ASSOCIATION**. The paper's own text, read in full: 17 recombinations in
+1686 meioses (843 F2) between i-3 and the nearest EST; chromosome walking to BAC
+129C11 (about 220 kb), which holds the entire candidate region because both
+ends recombined with the locus; six human-homolog genes in it (CYFIP1, NIPA2,
+GABRG3, OCA2, HERC2, PEG10), over the five FINE_MAPPING allows; oca2 chosen as
+"a very likely candidate gene" from the phenotype; the deletion found by
+sequencing the candidate's cDNA from i-3, Hd-rR and HNI. No F2 fish are
+genotyped for the deletion and nothing is rescued. A candidate variant found in
+an interval that was never narrowed stays at QTL_GWAS_ASSOCIATION (ADR 0003), and
+the authors' "concluded" is wording, not data (rule 2). CAUSAL_VARIANT would
+need the deletion mapped in the crosses or reverted; FUNCTIONAL_VALIDATION would
+need an i-3 rescue. Lowering to OBSERVATIONAL was considered and rejected: the
+paper did map the locus by recombination to the interval.
+
+Ready-to-apply block, appended to `13-entities-genetics.yaml`:
+
+```yaml
+  - label: GeneticVariant
+    name: "i-3 locus: I3 (wild type)"
+    symbol: I3
+    variant_type: wild type
+    description: >-
+      Wild-type allele at i-3 (oca2). The symbol I3 is ours, a handle for the
+      wild type of the literature's i-3; no source writes it.
+
+  - label: GeneticVariant
+    name: "i-3 locus: i3 (albino)"
+    symbol: i3
+    variant_type: loss of function
+    description: >-
+      The albino allele of the i-3 mutant, a four-base deletion in exon 13 of
+      oca2 that frameshifts and truncates the protein (fukamachi2004). i-3 is on
+      linkage group 4 and is a different locus from i (tyrosinase). The symbol
+      i3 is ours for the literature's i-3.
+```
+
+and to `24-claims-inheritance.yaml`:
+
+```yaml
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "i-3 locus: i3 (albino)"}
+    object: {label: Gene, name: oca2}
+    interpretation: >-
+      QTL_GWAS_ASSOCIATION, not CAUSAL_VARIANT, under ADR 0003 (R-79). The paper
+      mapped i-3 by 17 recombinations in 1686 meioses to one BAC of about 220 kb
+      that holds six human-homolog genes, more than the five FINE_MAPPING
+      allows. It chose oca2 from those six because the phenotype suggested it
+      and found the four-base deletion by sequencing it. It reports no
+      genotyping of the F2 for the deletion and no rescue, so the deletion is a
+      candidate variant inside an interval that was never narrowed, which ADR
+      0003 keeps at QTL_GWAS_ASSOCIATION. The authors' word is "concluded"; the
+      level follows the data, not the wording (ADR 0003 rule 2).
+    evidence:
+      - paper: fukamachi2004
+        experiment_type: positional cloning
+        level: QTL_GWAS_ASSOCIATION
+        species: Oryzias latipes
+        section: Abstract
+        finding: >-
+          The i-3 mutation is a four-base deletion in exon 13, which causes a
+          frameshift and truncation of the protein.
+
+  - predicate: allele_of
+    subject: {label: GeneticVariant, name: "i-3 locus: I3 (wild type)"}
+    object: {label: Gene, name: oca2}
+    interpretation: >-
+      A wild-type allele belongs to its locus by definition; no source writes
+      the sentence, so it is ours. fukamachi2004 shows i3 is a mutant allele of
+      oca2, so the wild-type allele it is a mutant of, I3, is an allele of the
+      same gene.
+    evidence:
+      - paper: fukamachi2004
+        experiment_type: inference
+        level: INFERRED
+        species: Oryzias latipes
+        section: Abstract
+        finding: >-
+          The i-3 mutation is a four-base deletion in exon 13, which causes a
+          frameshift and truncation of the protein.
+```
+
+**Not done: dossiers.** `data/dossier/albino.md` is rendered from the graph
+(`cli dossier`, `dossier-all`), which needs Neo4j; the repo has no database-free
+path for it. The seed edits change the albino dossier's tyr evidence (koga1995
+lowered, inagaki1998 added) and its `requires_allele` text. Regenerate after
+the next `cli load`.
