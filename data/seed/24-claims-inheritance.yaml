@@ -37,7 +37,7 @@
 #     different loci. Only the i allele is tied to the trait (requires_allele),
 #     and the query reports the assumption. The i-3 alleles are NOT here on
 #     purpose: an allele_of claim makes its symbol parseable, and the query
-#     cannot yet say that i3/i3 is albino (R-80, albino-alleles-2026-10.md).
+#     cannot yet say that i3/i3 is albino (R-83, albino-alleles-2026-10.md).
 #   - Nothing from the trade's ロングフィン: himemedaka_rlf says it lengthens only
 #     the male's dorsal and anal fins, which is sex-limited expression, not
 #     sex linkage, and it is not Kon et al.'s longfin.

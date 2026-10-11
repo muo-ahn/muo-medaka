@@ -319,7 +319,7 @@ melanophore pigment, so they do not change.
 
 ## 8. Applied to the seed, and held back (2026-10-11)
 
-**Applied** (proposal items 1, 3, 4; rulings R-79 to R-86 in `.harness/rulings.md`):
+**Applied** (proposal items 1, 3, 4; rulings R-82 to R-89 in `.harness/rulings.md`):
 
 - Papers `fukamachi2004` (PMID 15579703, the i-3 paper, full text read) and
   `inagaki1998` (PMID 9877099, abstract only) added to `00-papers.yaml`. Both
@@ -354,7 +354,7 @@ options 3 or 4), which is the owner's work in progress. With that in place the
 block below is ready; it passes `validate` (38 papers, 197 entities, 253 claims)
 and needs `tests/test_graph_integration.py` bumped to 197 and 253.
 
-**The level, as decided (R-79).** `allele_of i3 -> oca2` is `positional cloning` at
+**The level, as decided (R-82).** `allele_of i3 -> oca2` is `positional cloning` at
 **QTL_GWAS_ASSOCIATION**. The paper's own text, read in full: 17 recombinations in
 1686 meioses (843 F2) between i-3 and the nearest EST; chromosome walking to BAC
 129C11 (about 220 kb), which holds the entire candidate region because both
@@ -398,7 +398,7 @@ and to `24-claims-inheritance.yaml`:
     subject: {label: GeneticVariant, name: "i-3 locus: i3 (albino)"}
     object: {label: Gene, name: oca2}
     interpretation: >-
-      QTL_GWAS_ASSOCIATION, not CAUSAL_VARIANT, under ADR 0003 (R-79). The paper
+      QTL_GWAS_ASSOCIATION, not CAUSAL_VARIANT, under ADR 0003 (R-82). The paper
       mapped i-3 by 17 recombinations in 1686 meioses to one BAC of about 220 kb
       that holds six human-homolog genes, more than the five FINE_MAPPING
       allows. It chose oca2 from those six because the phenotype suggested it
